@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 const AuthBackground = require('../../assets/auth-background.png');
-const Logo = require('../../assets/777Logo.png');
+const Logo = require('../../assets/Logo2.png');
 
 
 class LoginScreen extends Component {
