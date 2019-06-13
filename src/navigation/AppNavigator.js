@@ -6,8 +6,8 @@ import AuthNavigator from './AuthNavigator';
 import OnboardingNavigator from './OnboardingNavigator';
 
 const TopLevelNavigator = createSwitchNavigator({
-  Main: MainNavigator,
   Auth: AuthNavigator,
+  Main: MainNavigator,
   Onboard:OnboardingNavigator
 });
 
