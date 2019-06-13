@@ -27,56 +27,56 @@ class LoginScreen extends Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <ImageBackground style={styles.container} source={AuthBackground}>
-        <StatusBar hidden={true} />
+        <ImageBackground style={styles.container} source={AuthBackground}>
+          <StatusBar hidden={true} />
 
-        <View style={styles.containImage}>
-          <Image
-            source={Logo}
-            style={styles.logo}
-          />
-        </View>
-        <View style={styles.containWelcomeText}>
-          <Text style={styles.welcomeText}>Welcome Back!</Text>
-        </View>
-        <View style={styles.containLoginText}>
-          <Text style={styles.loginText}>Please login to continue.</Text>
-        </View>
-        <View elevation={5} style={styles.containLoginForm}>
-          <View style={styles.containTextInput}>
-            <TextInput
-              placeholder='Email'
-              placeholderTextColor='#6c6d6c'
-              underlineColorAndroid='#a1a5a0'
-              onChangeText={(text) => { }}
-              value={this.state.email}
-              style={styles.textInput} />
+          <View style={styles.containImage}>
+            <Image
+              source={Logo}
+              style={styles.logo}
+            />
           </View>
-          <View style={styles.containTextInput}>
-            <TextInput
-              placeholder='Password'
-              placeholderTextColor='#6c6d6c'
-              underlineColorAndroid='#a1a5a0'
-              secureTextEntry={true}
-              onChangeText={(text) => { }}
-              value={this.state.password}
-              style={styles.textInput} />
+          <View style={styles.containWelcomeText}>
+            <Text style={styles.welcomeText}>Welcome Back!</Text>
           </View>
-          <View style={styles.containPasswordText}>
-            <Text style={styles.passwordText}>Forgot Password?</Text>
+          <View style={styles.containLoginText}>
+            <Text style={styles.loginText}>Please login to continue.</Text>
           </View>
-          <View style={styles.containButton}>
-            <TouchableOpacity onPress={(text) => { }}>
-              <Text style={styles.loginButton}>
-                Login
-            </Text>
-            </TouchableOpacity>
+          <View elevation={5} style={styles.containLoginForm}>
+            <View style={styles.containTextInput}>
+              <TextInput
+                placeholder='Email'
+                placeholderTextColor='#6c6d6c'
+                underlineColorAndroid='#a1a5a0'
+                onChangeText={(text) => { }}
+                value={this.state.email}
+                style={styles.textInput} />
+            </View>
+            <View style={styles.containTextInput}>
+              <TextInput
+                placeholder='Password'
+                placeholderTextColor='#6c6d6c'
+                underlineColorAndroid='#a1a5a0'
+                secureTextEntry={true}
+                onChangeText={(text) => { }}
+                value={this.state.password}
+                style={styles.textInput} />
+            </View>
+            <View style={styles.containPasswordText}>
+              <Text style={styles.passwordText}>Forgot Password?</Text>
+            </View>
+            <View style={styles.containButton}>
+              <TouchableOpacity onPress={(text) => { }}>
+                <Text style={styles.loginButton}>
+                  Login
+              </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.containRegisterText}>
+              <Text style={styles.registerText}>Register Here</Text>
+            </View>
           </View>
-          <View style={styles.containRegisterText}>
-            <Text style={styles.registerText}>Register Here</Text>
-          </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
     );
   }
 };
@@ -84,7 +84,7 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: '8%',
+    paddingTop: '3%',
     paddingLeft: '5%',
     paddingRight: '5%',
     top: 0,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   containWelcomeText: {
-    marginTop: '5%',
+    marginTop: '4%',
   },
   welcomeText: {
     color: '#777f7c',
@@ -106,17 +106,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   containLoginText: {
-    marginTop: '20%',
+    marginTop: '24%',
   },
   loginText: {
     color: '#777f7c',
   },
   containLoginForm: {
-    // borderColor: '#eee',
-    // shadowOffset: { width: 5, height: 5, },
-    // shadowColor: '#eee',
-    // shadowOpacity: 0.2,
-    // shadowRadius: 10,
     paddingLeft: '3%',
     paddingRight: '3%',
     paddingBottom: '10%',
