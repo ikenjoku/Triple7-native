@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input, CheckBox } from 'react-native-elements';
 
 const AuthBackground = require('../../assets/auth-background.png');
 const Logo = require('../../assets/Logo2.png');
@@ -18,6 +20,7 @@ class LoginScreen extends Component {
   state = {
     email: '',
     password: '',
+    remember: false,
   }
 
   static navigationOptions = {
@@ -44,24 +47,49 @@ class LoginScreen extends Component {
           </View>
           <View elevation={5} style={styles.containLoginForm}>
             <View style={styles.containTextInput}>
-              <TextInput
-                placeholder='Email'
-                placeholderTextColor='#6c6d6c'
-                underlineColorAndroid='#a1a5a0'
-                onChangeText={(text) => { }}
-                value={this.state.email}
-                style={styles.textInput} />
+            <Input
+              placeholder='Email'
+              placeholderTextColor='#6c6d6c'
+              onChangeText={(email) => this.setState({ email })}
+              value={this.state.email}
+              style={styles.textInput}
+              leftIcon={
+                <Icon
+                  name='envelope-open-o'
+                  size={24}
+                  color='#6c6d6c'
+                  shake={true}
+                  style={{ marginRight: 10, }}
+                />
+              }
+            />
             </View>
             <View style={styles.containTextInput}>
-              <TextInput
+              <Input
                 placeholder='Password'
-                placeholderTextColor='#6c6d6c'
-                underlineColorAndroid='#a1a5a0'
                 secureTextEntry={true}
-                onChangeText={(text) => { }}
+                placeholderTextColor='#6c6d6c'
+                onChangeText={(password) => this.setState({ password })}
                 value={this.state.password}
-                style={styles.textInput} />
+                style={styles.textInput}
+                leftIcon={
+                  <Icon
+                    name='eye'
+                    size={24}
+                    color='#6c6d6c'
+                    shake={true}
+                    style={{ marginRight: 10, }}
+                  />
+                }
+              />
             </View>
+            <CheckBox title="Remember me"
+              left
+              checked={this.state.remember}
+              onPress={() => this.setState({ remember: !this.state.remember })}
+              containerStyle={styles.formCheckbox}
+              checkedColor="#2FBE74"
+            />
             <View style={styles.containPasswordText}>
               <Text style={styles.passwordText}>Forgot Password?</Text>
             </View>
@@ -87,8 +115,6 @@ const styles = StyleSheet.create({
     paddingTop: '3%',
     paddingLeft: '5%',
     paddingRight: '5%',
-    top: 0,
-    left: 0
   },
   containImage: {
     width: '35%',
@@ -116,13 +142,13 @@ const styles = StyleSheet.create({
     paddingRight: '3%',
     paddingBottom: '10%',
     paddingTop: '5%',
-    marginTop: '15%',
+    marginTop: '10%',
   },
   containTextInput: {
 
   },
   loginButton: {
-    backgroundColor: '#47B351',
+    backgroundColor: '#2FBE74',
     color: '#f9f9f9',
     borderRadius: 5,
     paddingTop: 7,
@@ -153,7 +179,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
     color: '#777f7c',
-  }
+  },
+  formCheckbox: {
+    marginTop: 10,
+    backgroundColor: null,
+  },
 });
 
 export default LoginScreen;
