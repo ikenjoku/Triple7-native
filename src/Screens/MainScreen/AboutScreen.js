@@ -40,22 +40,18 @@ class AboutScreen extends Component {
     const { navigation } = this.props;
 
     return (
-      <View style={[{ backgroundColor: '#FFFFFF' }, styles.container]}>
+      <View style={styles.container}>
       <Animatable.View animation="fadeInRightBig" duration={400}>
       <Header
         statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
-        containerStyle={{
-          backgroundColor: '#2FBE74',
-          paddingLeft: 20,
-          paddingRight: 20,
-        }}
+        containerStyle={styles.header}
         leftComponent={this.renderMenuIcon(navigation)}
-        centerComponent={{ text: 'About Triple 7', style: { color: '#fff', fontSize: 20, fontWeight: '600' } }}
+        centerComponent={{ text: 'About Triple 7', style: styles.titleStyle }}
         rightComponent={this.renderRightHeaderIcon(navigation)}
       />
           <Card>
-            <Text style={{ textAlign: 'center', fontWeight:'500', borderBottomColor: '#aba8a8', borderBottomWidth: 1, paddingBottom: 10,fontSize: 15 }}>Our History</Text>
-            <Text style={{ marginTop: 10, fontWeight:'400'}}>
+          <Text style={styles.cardTitle}>Our History</Text>
+          <Text style={styles.spaceTop}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse in diam et nisl faucibus varius non non velit.
               Nunc sodales varius vulputate. Vivamus sed vulputate est,
@@ -63,7 +59,7 @@ class AboutScreen extends Component {
               accumsan non sed tortor. Donec quis turpis sem. Nunc rutrum
               venenatis cursus.
             </Text>
-            <Text style={{ marginTop: 10, fontWeight:'400' }}>Suspendisse potenti. Aliquam erat volutpat.
+            <Text style={styles.spaceTop}>Suspendisse potenti. Aliquam erat volutpat.
             Aliquam pharetra tempor blandit. In at neque faucibus, sagittis
             leo ac, tincidunt nisi. Quisque congue placerat metus a gravida.</Text>
             <View>
@@ -71,10 +67,10 @@ class AboutScreen extends Component {
             raised
               icon={
                 <Icon
-                  name="local-pizza"
-                  size={15}
+                  name="food"
+                  size={25}
                   color="white"
-                  type='material-icons'
+                  type='material-community'
                   />
               }
               iconLeft
@@ -103,7 +99,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: '#F9F9F9',
   },
+  header: {
+    backgroundColor: '#2FBE74',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  titleStyle: {
+    color: '#f9f9f9',
+    fontSize: 20,
+    fontWeight: '600'
+  },
+  cardTitle: {
+    textAlign: 'center',
+    fontWeight: '500',
+    borderBottomColor: '#aba8a8',
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    fontSize: 15
+  },
+  spaceTop: { marginTop: 10 }
 });
 
 export default AboutScreen;

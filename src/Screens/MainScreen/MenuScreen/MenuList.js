@@ -19,11 +19,11 @@ class MenuList extends Component {
         />
         <Button
           title="Onboarding"
-          onPress={() => navigate('Onboarding')}
+          onPress={() => navigate('About')}
         />
         <Button
           title="Auth"
-          onPress={() => navigate('Auth')}
+          onPress={() => navigate('Contact')}
         />
       </View>
     );
