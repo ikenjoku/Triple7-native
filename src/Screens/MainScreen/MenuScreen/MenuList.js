@@ -1,42 +1,85 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { createStackNavigator } from "react-navigation";
+import { connect } from 'react-redux';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Card, Icon, Button, Badge } from 'react-native-elements';
+
+import { fetchMenu } from "../../../redux/actions/mealActions";
 
 
 class MenuList extends Component {
 
   static navigationOptions = {
+    header: null
+  }
+
+  componentDidMount() {
+    this.props.fetchMenu();
+  }
+
+  renderDish = (meal) => {
+    if (meal.category !== 'Drikns'){
+      return (<Card
+        key={meal._id}
+        image={{uri:meal.imgurl}}
+        imageStyle={{
+          height: 200,
+        }}
+        containerStyle={{
+          borderRadius: 5,
+          marginBottom: '3%',
+          marginTop: '3%'
+        }}
+        imageWrapperStyle={{
+          width: '100%',
+        }}
+        >
+        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+        <Text style={{marginBottom: 10, fontWeight:'700'}}>
+          {meal.name}
+        </Text>
+        <Badge value={meal.category} textStyle={{color: '#2FBE74'}} badgeStyle={{ backgroundColor:'#fff', padding: 5, borderColor:'#2FBE74' }} />
+        <Badge value="+ Add to Cart" badgeStyle={{ backgroundColor:'#B32F20', padding: 15 }} />
+        </View>
+        <Text style={{marginBottom: 10}}>
+          {meal.description}
+        </Text>
+        <Button
+          type ='outline'
+          title='VIEW'
+          buttonStyle={{borderColor: "#2FBE74", backgroundColor: "#f9f9f9"}}
+          titleStyle={{color: "#2FBE74"}}
+          />
+      </Card>);
+    }
   }
 
   render() {
+    const { menu } = this.props;
+    const meal = menu[4];
     const { navigate } = this.props.navigation;
     return (
-      <View style={[{ backgroundColor: '#F6511D' }, styles.container]}>
-        <Text>MENU-LIST-SCREEN</Text>
-        <Button
-          title="Menu Details"
-          onPress={() => navigate('MealDetail')}
-        />
-        <Button
-          title="Onboarding"
-          onPress={() => navigate('About')}
-        />
-        <Button
-          title="Auth"
-          onPress={() => navigate('Contact')}
-        />
-      </View>
+      <ScrollView style={[{ backgroundColor: '#f9f9f9' }, styles.container]}>
+      {
+        menu && menu.map(this.renderDish)
+      }
+      </ScrollView>
     );
   }
 };
 
-export default MenuList;
+const mapStateToProps = ({ mealReducer }) => ({
+  menu: mealReducer.menu,
+  isLoading: mealReducer.isLoading,
+  error: mealReducer.error,
+});
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
+
+
+export default connect(mapStateToProps, { fetchMenu })(MenuList);
