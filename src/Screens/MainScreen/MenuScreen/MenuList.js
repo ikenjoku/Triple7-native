@@ -38,6 +38,7 @@ class MenuList extends Component {
   }
 
   renderDish = (meal) => {
+    const { navigation } =  this.props;
     if (meal.category !== 'Drikns') {
       return (
         <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
@@ -70,6 +71,7 @@ class MenuList extends Component {
               title='VIEW'
               buttonStyle={{ borderColor: "#2FBE74", backgroundColor: "#f9f9f9" }}
               titleStyle={{ color: "#2FBE74" }}
+              onPress={() => navigation.navigate('MealDetail', { meal })}
             />
           </Card>
         </Animatable.View>

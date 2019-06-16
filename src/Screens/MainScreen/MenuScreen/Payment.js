@@ -16,6 +16,18 @@ class Payment extends Component {
           title="Back to menu"
           onPress={() => navigate('MenuList')}
         />
+        <Button
+          title="Menu Details"
+          onPress={() => navigate('MealDetail')}
+        />
+        <Button
+          title="Onboarding"
+          onPress={() => navigate('About')}
+        />
+        <Button
+          title="Auth"
+          onPress={() => navigate('Contact')}
+        />
       </View>
     );
   }
