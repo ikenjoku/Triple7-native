@@ -27,11 +27,11 @@ const MainStack = createDrawerNavigator({
   Reservation: {
     screen: Reservation,
   },
-  Favorites: {
-    screen: Favorites,
-  },
   Orders: {
     screen: Orders,
+  },
+  Favorites: {
+    screen: Favorites,
   },
   Contact: {
     screen: Contact,

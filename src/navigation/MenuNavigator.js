@@ -12,10 +12,6 @@ const MenuStack = createStackNavigator({
   },
   MealDetail: {
     screen: MealDetail,
-    navigationOptions: () => ({
-      title: 'Details',
-      headerBackTitle: 'Menu',
-    }),
   },
   Cart: {
     screen: Cart,
