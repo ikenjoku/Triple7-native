@@ -10,7 +10,7 @@ import { fetchMenu } from "../../../redux/actions/mealActions";
 class MenuList extends Component {
 
   static navigationOptions = {
-    header: null
+    header: null,
   }
 
   componentDidMount() {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#eaeaea',
   },
   header: {
     backgroundColor: '#2FBE74',

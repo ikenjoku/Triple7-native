@@ -9,10 +9,6 @@ import Payment from '../Screens/MainScreen/MenuScreen/Payment';
 const MenuStack = createStackNavigator({
   MenuList: {
     screen: MenuList,
-    navigationOptions: () => ({
-      title: 'Menu',
-      headerBackTitle: null,
-    }),
   },
   MealDetail: {
     screen: MealDetail,
