@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
-import { Card, Icon, Button, Badge, Header } from 'react-native-elements';
+import { Card, Icon, Button, Badge, Header, withBadge } from 'react-native-elements';
 
 import { fetchMenu } from "../../../redux/actions/mealActions";
 
@@ -28,13 +28,15 @@ class MenuList extends Component {
   }
 
   renderRightHeaderIcon = (navigation) => {
-    return <Icon
-      name='home'
-      size={35}
+    const BadgedIcon = withBadge(0)(Icon)
+    return <BadgedIcon
+      type="antdesign"
+      name="shoppingcart"
       color='#fff'
+      size={35}
       underlayColor='transparent'
-      onPress={() => navigation.navigate('Menu')}
-    />
+      onPress={() => navigation.navigate('Cart')}
+      />
   }
 
   renderDish = (meal) => {
@@ -84,7 +86,6 @@ class MenuList extends Component {
     const { navigate } = navigation;
     return (
       <View style={styles.container}>
-
         <Header
           statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
           containerStyle={styles.header}
@@ -93,11 +94,9 @@ class MenuList extends Component {
           rightComponent={this.renderRightHeaderIcon(navigation)}
         />
         <ScrollView style={[{ flex: 1, backgroundColor: '#f9f9f9' }, styles.container]}>
-
           {
             menu && menu.map(this.renderDish)
           }
-
         </ScrollView>
 
       </View>
