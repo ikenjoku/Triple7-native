@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import { Provider } from 'react-redux';
+import store from './src/redux/configureStore';
+import RootApp from './src/navigation/AppNavigator';
 
-import RootApp from './navigation/AppNavigator';
-
+// const store = configureStore();
 
 export default class App extends Component {
   // Decide weath to show auth screen or main app
@@ -13,7 +15,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <RootApp />
+      <Provider store={store}>
+        <RootApp />
+      </Provider>
     );
   }
 }

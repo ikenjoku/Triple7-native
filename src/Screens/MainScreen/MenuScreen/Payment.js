@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
-
-class AboutScreen extends Component {
+class Payment extends Component {
 
   static navigationOptions = {
-    drawerLabel: "About Triple-7"
   }
 
   render() {
@@ -13,15 +11,29 @@ class AboutScreen extends Component {
 
     return (
       <View style={[{ backgroundColor: '#FFFFFF' }, styles.container]}>
-        <Text>MENU-SCREEN</Text>
+        <Text>PAYMENT-SCREEN</Text>
         <Button
-          title="Checkout our menu"
-          onPress={() => navigate('Menu')}
+          title="Back to menu"
+          onPress={() => navigate('MenuList')}
+        />
+        <Button
+          title="Menu Details"
+          onPress={() => navigate('MealDetail')}
+        />
+        <Button
+          title="Onboarding"
+          onPress={() => navigate('About')}
+        />
+        <Button
+          title="Auth"
+          onPress={() => navigate('Contact')}
         />
       </View>
     );
   }
 };
+
+export default Payment;
 
 const styles = StyleSheet.create({
   container: {
@@ -31,5 +43,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-export default AboutScreen;
