@@ -3,11 +3,76 @@ import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { Card, Icon, Button, Badge, Header } from 'react-native-elements';
+import { getData, deleteData, storeData } from "../../../utils/asyncStore";
 
 class MealDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      favorites: [],
+    };
+  }
 
   static navigationOptions = {
     header: null,
+  }
+
+  componentDidMount() {
+    getData('@triple-cokie')
+      .then(response => {
+        console.log('componentDidMount', response);
+        if (response) {
+          console.log(response);
+          this.setState(() => ({ favorites: response }));
+        } else {
+          console.log(response);
+          this.setState(() => ({ favorites: [] }));
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  addFavorite = (meal) => {
+    return getData('@triple-cokie')
+    .then(response => {
+      console.log(response);
+      if (response) {
+        const updatedFavs = [...response, meal];
+        return storeData('@triple-cokie', updatedFavs)
+          .then((newFavs) => {
+            this.setState(() => ({ favorites: newFavs }));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        return storeData('@triple-cokie', [meal])
+          .then((newFavs) => {
+            console.log(newFavs);
+            this.setState(() => ({ favorites: newFavs }));
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  removeFavorite = (meal) => {
+    const { favorites } = this.state;
+    const newFavs = favorites.filter(item => meal.name !== item.name);
+    return storeData('@triple-cokie', newFavs)
+      .then((updatedFavs) => {
+        this.setState(() => ({ favorites: updatedFavs }));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   renderMenuIcon = (navigation) => {
@@ -28,6 +93,11 @@ class MealDetail extends Component {
       underlayColor='transparent'
       onPress={() => navigation.navigate('MenuList')}
     />
+  }
+
+  isFavorite = (name) => {
+    const result = this.state.favorites.filter(meal => meal.name === name);
+    return result.length > 0;
   }
 
   render() {
@@ -64,9 +134,10 @@ class MealDetail extends Component {
                   </Text>
                   <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
                   <Icon
-                    name='favorite'
+                    name={this.isFavorite(meal.name) ? 'favorite' : 'favorite-border'}
                     size={35}
                     color='#B32F20'
+                    onPress={!this.isFavorite(meal.name) ? () => this.addFavorite(meal) : () => this.removeFavorite(meal)}
                   />
                 </View>
                 <Text style={{ marginBottom: 10 }}>
