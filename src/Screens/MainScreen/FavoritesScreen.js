@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Header, Icon, Button } from 'react-native-elements';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { Header, Icon, Button, ListItem } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 import { getData, deleteData } from "../../utils/asyncStore";
 
@@ -8,11 +8,14 @@ import { getData, deleteData } from "../../utils/asyncStore";
 class FavoritesScreen extends Component {
   state = {
     favorites: [
+      // {
+      //   name: 'dfsd', description: 'dsdsdsds', _id: 'sd12'
+      // }
     ],
   }
 
   componentDidMount() {
-    const favorites = getData('myTrippleFav');
+    const favorites = getData('@triple-cokie');
     if (favorites) {
       this.setState({ favorites });
     }
@@ -65,12 +68,20 @@ class FavoritesScreen extends Component {
     )
   }
 
+  renderMenuItem = meal => {
+    return (
+      <View>
+        <Text>{meal.name}</Text>
+        <Text>{meal.description}</Text>
+      </View>
+    );
+  }
+
   render() {
     const { favorites } = this.state;
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <Animatable.View animation="fadeInRightBig" duration={400}>
           <Header
             statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
             containerStyle={styles.header}
@@ -87,23 +98,27 @@ class FavoritesScreen extends Component {
                 color='#777f7c'
                 containerStyle={{ marginTop: '20%' }}
               />
-              <View  style={{ marginTop: '5%', }}>
-              <Text style={{ fontSize: 20, }}>You have not liked any meal...</Text>
+              <View style={{ marginTop: '5%', }}>
+                <Text style={{ fontSize: 20, }}>You have not liked any meal...</Text>
               </View>
             </View>
           ) : (
-              <View style={[{ backgroundColor: '#60992D' }, styles.container]}>
-                <Icon
-                  name='like1'
-                  type='antdesign'
-                  size={24}
-                  color='#777f7c'
-                />
-                <Text>FAVORITES-found</Text>
+              // <View style={[{ backgroundColor: '#60992D' }, styles.container]}>
+              //   <Icon
+              //     name='like1'
+              //     type='antdesign'
+              //     size={24}
+              //     color='#777f7c'
+              //   />
+              //   <Text>FAVORITES-found</Text>
+              // </View>
+              <View style={{flex: 1}}>
+                {
+                  this.state.favorites.map(this.renderMenuItem)
+                }
               </View>
             )}
 
-        </Animatable.View>
       </View>
     );
 
