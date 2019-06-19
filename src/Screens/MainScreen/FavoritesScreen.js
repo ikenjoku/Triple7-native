@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { Header, Icon, Button, ListItem } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
@@ -20,7 +21,7 @@ class FavoritesScreen extends Component {
   fetchFavorites = () => {
     return getData('@triple-cokie')
       .then((favs) => {
-        if(favs){
+        if (favs) {
           this.setState(() => ({ favorites: favs }));
         }
       })
@@ -95,124 +96,132 @@ class FavoritesScreen extends Component {
   renderMealItem = (meal, i) => {
     const { navigation } = this.props;
     const swipeButton = [
-        {
-          text: 'Delete',
-          onPress: () => {
-            this.removeFavorite(meal);
-          },
-          backgroundColor: '#B32F20',
-          color: '#f9f9f9'
-        }
-      ];
+      {
+        text: 'Delete',
+        onPress: () => {
+          this.removeFavorite(meal);
+        },
+        backgroundColor: '#B32F20',
+        color: '#f9f9f9'
+      }
+    ];
     return (
       <Swipeout key={i} right={swipeButton} autoClose={true}>
         <ListItem
           leftAvatar={{ source: { uri: meal.imgurl } }}
           title={meal.name}
           subtitle={meal.description}
-          onPress={() => navigation.navigate('MealDetail', { meal })}
+          onPress={() => this.navigateToMenu(meal)}
         />
       </Swipeout>
-  )
+    )
+  }
+
+  navigateToMenu = (meal) => {
+    const { menu, navigation } = this.props;
+    const inMenu = menu.find(item => meal.name === item.name);
+    if (inMenu) {
+      navigation.navigate('MealDetail', { meal })
     }
-render() {
-  const { favorites, refreshing } = this.state;
-  const { navigation } = this.props;
-  return (
-    <View style={styles.container}>
-      <Header
-        statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
-        containerStyle={styles.header}
-        leftComponent={this.renderMenuIcon(navigation)}
-        centerComponent={{ text: 'Favorites', style: styles.titleStyle }}
-        rightComponent={this.renderRightHeaderIcon(navigation)}
-      />
-      {!favorites.length ? (
-        <View style={[{ backgroundColor: '#eaeaea', alignItems: "center" }]}>
-          <Icon
-            name='meh'
-            type='antdesign'
-            size={80}
-            color='#777f7c'
-            containerStyle={{ marginTop: '20%' }}
-          />
-          <View style={{ marginTop: '5%', }}>
-            <Text style={{ fontSize: 20, }}>You have not liked any meal...</Text>
-          </View>
-          <View>
-          <Icon
-            raised
-            name='md-refresh'
-            type='ionicon'
-            size={30}
-            color='#2FBE74'
-            onPress={() => { this.fetchFavorites() }}
-            containerStyle={{ marginTop: '20%' }}
-          />
-          </View>
-        </View>
-      ) : (
-          <ScrollView
-            style={{ flex: 1 }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={this.onRefresh}
-              />
-            }
-          >
-            {
-              favorites.map(this.renderMealItem)
-            }
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              paddingTop: '3%'
-            }}>
+  }
+  render() {
+    const { favorites, refreshing } = this.state;
+    const { navigation } = this.props;
+    return (
+      <View style={styles.container}>
+        <Header
+          statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
+          containerStyle={styles.header}
+          leftComponent={this.renderMenuIcon(navigation)}
+          centerComponent={{ text: 'Favorites', style: styles.titleStyle }}
+          rightComponent={this.renderRightHeaderIcon(navigation)}
+        />
+        {!favorites.length ? (
+          <View style={[{ backgroundColor: '#eaeaea', alignItems: "center" }]}>
+            <Icon
+              name='meh'
+              type='antdesign'
+              size={80}
+              color='#777f7c'
+              containerStyle={{ marginTop: '20%' }}
+            />
+            <View style={{ marginTop: '5%', }}>
+              <Text style={{ fontSize: 20, }}>You have not liked any meal...</Text>
+            </View>
+            <View>
               <Icon
-                name='angle-double-left'
-                type='font-awesome'
-                size={20}
-                color='#777f7c'
-                containerStyle={{ marginRight: '3%' }}
+                raised
+                name='md-refresh'
+                type='ionicon'
+                size={30}
+                color='#2FBE74'
+                onPress={() => { this.fetchFavorites() }}
+                containerStyle={{ marginTop: '20%' }}
               />
-              <Text style={{ fontWeight:'bold' }}>Slide left to delete</Text>
-              <Icon
+            </View>
+          </View>
+        ) : (
+            <ScrollView
+              style={{ flex: 1 }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
+            >
+              {
+                favorites.map(this.renderMealItem)
+              }
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                paddingTop: '3%'
+              }}>
+                <Icon
+                  name='angle-double-left'
+                  type='font-awesome'
+                  size={20}
+                  color='#777f7c'
+                  containerStyle={{ marginRight: '3%' }}
+                />
+                <Text style={{ fontWeight: 'bold' }}>Slide left to delete</Text>
+                <Icon
                   name='angle-double-left'
                   type='font-awesome'
                   size={20}
                   color='#777f7c'
                   containerStyle={{ marginLeft: '3%' }}
                 />
-            </View>
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              paddingTop: '3%'
-            }}>
-              <Icon
-                name='angle-double-down'
-                type='font-awesome'
-                size={20}
-                color='#777f7c'
-                containerStyle={{ marginRight: '3%' }}
-              />
-              <Text style={{ fontWeight:'bold' }}>Scroll down to update</Text>
-              <Icon
+              </View>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                paddingTop: '3%'
+              }}>
+                <Icon
+                  name='angle-double-down'
+                  type='font-awesome'
+                  size={20}
+                  color='#777f7c'
+                  containerStyle={{ marginRight: '3%' }}
+                />
+                <Text style={{ fontWeight: 'bold' }}>Scroll down to update</Text>
+                <Icon
                   name='angle-double-down'
                   type='font-awesome'
                   size={20}
                   color='#777f7c'
                   containerStyle={{ marginLeft: '3%' }}
                 />
-            </View>
-          </ScrollView>
-        )}
+              </View>
+            </ScrollView>
+          )}
 
-    </View>
-  );
+      </View>
+    );
 
-}
+  }
 };
 
 const styles = StyleSheet.create({
@@ -242,4 +251,8 @@ const styles = StyleSheet.create({
   spaceTop: { marginTop: 10 }
 });
 
-export default FavoritesScreen;
+const mapStateToProps = ({ mealReducer }) => ({
+  menu: mealReducer.menu,
+});
+
+export default connect(mapStateToProps, {})(FavoritesScreen);
