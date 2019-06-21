@@ -28,7 +28,8 @@ class ResetPasswordScreen extends Component {
           flex: 1,
           paddingLeft: '3%',
           paddingRight: '3%',
-          paddingBottom: '20%'
+          paddingBottom: '20%',
+          backgroundColor: '#eaeaea',
         }}>
           <View style={styles.containImage}>
             <Image
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     paddingTop: '3%',
     paddingLeft: '5%',
     paddingRight: '5%',
+    backgroundColor: '#eaeaea',
   },
   containImage: {
     marginTop: '20%',
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
   registerText: {
     textAlign: 'center',
     fontWeight: '500',
-    color: '#2FBE74',
+    color: '#26a061',
   },
   formCheckbox: {
     marginTop: 20,
