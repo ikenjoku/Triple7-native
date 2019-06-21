@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Image, ActivityIndicator } from 'react-native';
 import { Card, Icon, Button, Badge, Header, withBadge } from 'react-native-elements';
 
 import { fetchMenu } from "../../../redux/actions/mealActions";
@@ -41,7 +41,7 @@ class MenuList extends Component {
 
   renderDish = (meal) => {
     const { navigation } =  this.props;
-    if (meal.category !== 'Drikns') {
+    if (meal.category !== 'Drinks') {
       return (
         <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
           <Card
@@ -78,6 +78,38 @@ class MenuList extends Component {
           </Card>
         </Animatable.View>
       );
+    } else {
+      return (
+        <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
+          <Card
+            containerStyle={{
+              borderRadius: 5,
+              marginBottom: '3%',
+              marginTop: '3%'
+            }}
+          >
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around'  }}>
+            <View>
+            <Image
+              source={{ uri: meal.imgurl }}
+              style={{ width: 100, height: 100 }}
+              PlaceholderContent={<ActivityIndicator />}
+            />
+            </View>
+            <View style={{ flexDirection: 'column' }}>
+            <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
+              <Text style={{ marginBottom: 10, fontWeight: '700' }}>
+                {meal.name}
+              </Text>
+              <Text style={{ marginBottom: 10 }}>
+              {meal.description}
+            </Text>
+              <Badge value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
+            </View>
+          </View>
+          </Card>
+        </Animatable.View>
+    );
     }
   }
 
@@ -93,7 +125,7 @@ class MenuList extends Component {
           centerComponent={{ text: 'Menu', style: styles.titleStyle }}
           rightComponent={this.renderRightHeaderIcon(navigation)}
         />
-        <ScrollView style={[{ flex: 1, backgroundColor: '#f9f9f9' }, styles.container]}>
+        <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
           {
             menu && menu.map(this.renderDish)
           }
@@ -126,6 +158,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600'
   },
+  drinkThumbnail: {
+    width: '12%',
+    height: '12%'
+  }
 });
 
 export default connect(mapStateToProps, { fetchMenu })(MenuList);
