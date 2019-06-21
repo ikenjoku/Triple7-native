@@ -18,7 +18,6 @@ const RenderIcon = (props) => {
   );
 }
 
-
 class ContactScreen extends Component {
   static navigationOptions = {
     drawerLabel: "Contact",
@@ -108,10 +107,11 @@ class ContactScreen extends Component {
                   onPress={() => console.log('hello')} />
 
                 <RenderIcon
+                  reverse
                   raised
                   size={30}
-                  name='gmail'
-                  type='zocial'
+                  name='email'
+                  type='material-community'
                   color='#B32F20'
                   onPress={() => console.log('hello')} />
               </View>
