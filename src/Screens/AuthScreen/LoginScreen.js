@@ -31,6 +31,7 @@ class LoginScreen extends Component {
 
     return (
         <ScrollView style={{
+          backgroundColor: '#eaeaea',
           paddingLeft: '3%',
           paddingRight: '3%',
         }}>
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   containPasswordText: {
   },
   passwordText: {
-    color: '#2FBE74',
+    color: '#26a061',
     textAlign: 'right',
     paddingBottom: '7%',
     paddingTop: '7%',
@@ -191,10 +192,11 @@ const styles = StyleSheet.create({
   registerText: {
     textAlign: 'center',
     fontWeight: '500',
-    color: '#2FBE74',
+    color: '#26a061',
   },
   formCheckbox: {
     marginTop: 20,
+    backgroundColor: '#eaeaea',
   },
 });
 
