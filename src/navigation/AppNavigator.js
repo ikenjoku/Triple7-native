@@ -6,9 +6,9 @@ import AuthNavigator from './AuthNavigator';
 import OnboardingNavigator from './OnboardingNavigator';
 
 const TopLevelNavigator = createSwitchNavigator({
+  Onboard:OnboardingNavigator,
   Main: MainNavigator,
   Auth: AuthNavigator,
-  Onboard:OnboardingNavigator
 });
 
 export default createAppContainer(TopLevelNavigator);
