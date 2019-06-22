@@ -7,7 +7,7 @@ import { LOGOUT_USER } from "../actionTypes";
 
 const baseReducer = combineReducers({
   // appReducer,
-  // authReducer,
+  authReducer,
   mealReducer
 });
 
