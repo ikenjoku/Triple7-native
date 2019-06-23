@@ -50,7 +50,7 @@ class OnboardingScreen extends Component {
     return (
       <View style={styles.container}>
           <StatusBar hidden={true} />
-          <View style={styles.skipLine}>
+          <View onPress={this.handleFinish} style={styles.skipLine}>
             <Image
               style={styles.leftLogo}
               resizeMode="contain"

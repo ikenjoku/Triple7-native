@@ -35,7 +35,8 @@ class RootApp extends Component {
           if (user) {
             NavigationService.navigate('Main');
           } else {
-            NavigationService.navigate('Auth');
+            // NavigationService.navigate('Auth');
+            NavigationService.navigate('Onboard');
           }
         }
       })
