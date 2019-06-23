@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, ScrollView, FlatList, Image, ActivityIndicator 
 import { Card, Icon, Button, Badge, Header, withBadge } from 'react-native-elements';
 
 import { fetchMenu } from "../../../redux/actions/mealActions";
-
+import AnimatedLoader from "../../../components/animatedLoader";
 
 class MenuList extends Component {
 
@@ -114,7 +114,7 @@ class MenuList extends Component {
   }
 
   render() {
-    const { menu, navigation } = this.props;
+    const { menu, navigation, isLoading } = this.props;
     const { navigate } = navigation;
     return (
       <View style={styles.container}>
@@ -125,12 +125,14 @@ class MenuList extends Component {
           centerComponent={{ text: 'Menu', style: styles.titleStyle }}
           rightComponent={this.renderRightHeaderIcon(navigation)}
         />
+        {isLoading ? <AnimatedLoader loading={isLoading} />
+        : (
         <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
           {
             menu && menu.map(this.renderDish)
           }
         </ScrollView>
-
+        )}
       </View>
     );
   }
