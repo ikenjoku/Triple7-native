@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2FBE74',
     paddingLeft: 20,
     paddingRight: 20,
+    elevation:6
   },
 });
 
