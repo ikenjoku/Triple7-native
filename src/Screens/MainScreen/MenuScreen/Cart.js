@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from "react-redux";
 import LottieView from 'lottie-react-native';
-import { View, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableNativeFeedback } from 'react-native';
 import { Button, Icon, Card } from "react-native-elements";
 import CustomHeader from '../../../components/Header';
+import { Row } from 'native-base';
 
 
 class AnimatedCartIcon extends Component {
@@ -25,6 +26,65 @@ class Cart extends Component {
       underlayColor='transparent'
       onPress={() => navigation.navigate('MenuList')}
     />
+  }
+
+  renderCartItem = (cartItem) => {
+    const { name, qty, price } = cartItem;
+    const ripple = TouchableNativeFeedback.Ripple('#B32F20', true);
+    return (
+      <View style={styles.containCartItem} key={name}>
+        <View style={[styles.childItem, { elevation: 2, borderRadius: 5 }]}>
+          <TouchableNativeFeedback background={ripple}>
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 50
+            }}>
+              <Icon
+                name='plus-circle'
+                size={24}
+                type='feather'
+                color='#B32F20'
+                underlayColor='transparent'
+              />
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+
+        <View style={[styles.childItem, , { flex: 0.6 }]}>
+          <Text style={styles.childText}>{qty}</Text>
+        </View>
+        <View style={[styles.childItem, { flex: 2.5, flexWrap: 'wrap', alignItems: 'flex-start', paddingLeft: '1%' }]}>
+          <Text style={styles.childText}>{name}</Text>
+        </View>
+        <View style={styles.childItem}>
+          <Text style={styles.childText}>N{price}</Text>
+        </View>
+        <View style={styles.childItem}>
+          <Text style={styles.childText}>N{price * qty}</Text>
+        </View>
+
+        <View style={[styles.childItem, { elevation: 3, borderRadius: 5 }]}>
+          <TouchableNativeFeedback background={ripple}>
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 50
+            }}>
+              <Icon
+                name='minus-circle'
+                size={24}
+                type='feather'
+                color='#B32F20'
+                underlayColor='transparent'
+              />
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+      </View>
+    );
   }
 
   render() {
@@ -60,10 +120,35 @@ class Cart extends Component {
               </View>
             </Fragment>
           ) : (
-            <ScrollView>
-              <Card>
-              </Card>
-            </ScrollView>
+              <ScrollView>
+                <Card>
+                  <View style={{ paddingBottom: '3%', marginBottom: '6%', borderBottomColor: '#2FBE74', borderBottomWidth: 5 }}>
+                    <Text style={{ fontSize: 20, color:'#2FBE74', fontWeight:'500' }}>Your basket</Text>
+                  </View>
+                  <View>
+                    {
+                      cart.map(this.renderCartItem)
+                    }
+                  </View>
+                  <View>
+                    <View style={{  marginBottom: '24%', flexDirection: 'row', justifyContent:'flex-end', alignItems:'center' }}>
+                      <Text style={{ fontSize: 15, color: 'black', paddingRight: '1%', fontWeight:'500' }}>Total:</Text>
+                      <Text style={{ fontSize: 30, fontWeight:'500', color:'#B32F20' }}>N18,450</Text>
+                    </View>
+                  </View>
+                  <Button
+                  raised
+                  title="Confirm Order"
+                  onPress={() => navigate('MenuList')}
+                  buttonStyle={{
+                    backgroundColor: '#B32F20'
+                  }}
+                  containerStyle={{
+                    marginTop: 'auto'
+                  }}
+                />
+                </Card>
+              </ScrollView>
             )
         }
       </View>
@@ -76,6 +161,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  containCartItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // borderColor: '#c1c1c1',
+    // borderWidth: 0.6,
+    marginBottom: '6%',
+  },
+  childItem: {
+    borderColor: '#c1c1c1',
+    borderWidth: 0.4,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 50,
+  },
+  childText: {
+    fontWeight: '500'
+  }
 });
 
 
