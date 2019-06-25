@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, ScrollView, FlatList, Image, ActivityIndicator 
 import { Card, Icon, Button, Badge, Header, withBadge } from 'react-native-elements';
 
 import { fetchMenu } from "../../../redux/actions/mealActions";
+import { addToCart } from "../../../redux/actions/cartActions";
 import AnimatedLoader from "../../../components/animatedLoader";
 
 class MenuList extends Component {
@@ -40,7 +41,7 @@ class MenuList extends Component {
   }
 
   renderDish = (meal) => {
-    const { navigation } =  this.props;
+    const { navigation, cart, addToCart } =  this.props;
     if (meal.category !== 'Drinks') {
       return (
         <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
@@ -63,7 +64,7 @@ class MenuList extends Component {
                 {meal.name}
               </Text>
               <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
-              <Badge value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
+              <Badge onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
             </View>
             <Text style={{ marginBottom: 10 }}>
               {meal.description}
@@ -104,7 +105,7 @@ class MenuList extends Component {
               <Text style={{ marginBottom: 10 }}>
               {meal.description}
             </Text>
-              <Badge value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
+              <Badge onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
             </View>
           </View>
           </Card>
@@ -138,10 +139,11 @@ class MenuList extends Component {
   }
 };
 
-const mapStateToProps = ({ mealReducer }) => ({
+const mapStateToProps = ({ mealReducer, cartReducer }) => ({
   menu: mealReducer.menu,
   isLoading: mealReducer.isLoading,
   error: mealReducer.error,
+  cart: cartReducer.cart,
 });
 
 const styles = StyleSheet.create({
@@ -166,4 +168,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps, { fetchMenu })(MenuList);
+export default connect(mapStateToProps, { fetchMenu, addToCart })(MenuList);
