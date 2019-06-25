@@ -27,6 +27,13 @@ class Cart extends Component {
     />
   }
 
+  calcCartTotal = () => {
+    const { cart } = this.props;
+    let sum = 0;
+    cart.map(item => sum += (item.qty * item.price));
+    return sum;
+  }
+
   renderCartItem = (cartItem) => {
     const { cart } = this.props;
     const { name, qty, price } = cartItem;
@@ -134,7 +141,7 @@ class Cart extends Component {
                   <View>
                     <View style={{  marginBottom: '24%', flexDirection: 'row', justifyContent:'flex-end', alignItems:'center' }}>
                       <Text style={{ fontSize: 15, color: 'black', paddingRight: '1%', fontWeight:'500' }}>Total:</Text>
-                      <Text style={{ fontSize: 30, fontWeight:'500', color:'#B32F20' }}>N18,450</Text>
+                      <Text style={{ fontSize: 30, fontWeight:'500', color:'#B32F20' }}>N{this.calcCartTotal()}.00</Text>
                     </View>
                   </View>
                   <Button
