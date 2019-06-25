@@ -4,8 +4,7 @@ import LottieView from 'lottie-react-native';
 import { View, Text, StyleSheet, ScrollView, TouchableNativeFeedback } from 'react-native';
 import { Button, Icon, Card } from "react-native-elements";
 import CustomHeader from '../../../components/Header';
-import { Row } from 'native-base';
-
+import { addToCart, removeFromCart, clearCart } from "../../../redux/actions/cartActions";
 
 class AnimatedCartIcon extends Component {
   render() {
@@ -29,12 +28,13 @@ class Cart extends Component {
   }
 
   renderCartItem = (cartItem) => {
+    const { cart } = this.props;
     const { name, qty, price } = cartItem;
     const ripple = TouchableNativeFeedback.Ripple('#B32F20', true);
     return (
       <View style={styles.containCartItem} key={name}>
         <View style={[styles.childItem, { elevation: 2, borderRadius: 5 }]}>
-          <TouchableNativeFeedback background={ripple}>
+          <TouchableNativeFeedback onPress={() => this.props.addToCart(cart, cartItem)} background={ripple}>
             <View style={{
               flex: 1,
               justifyContent: 'center',
@@ -66,7 +66,7 @@ class Cart extends Component {
         </View>
 
         <View style={[styles.childItem, { elevation: 3, borderRadius: 5 }]}>
-          <TouchableNativeFeedback background={ripple}>
+          <TouchableNativeFeedback background={ripple} onPress={ () => this.props.removeFromCart(cart, cartItem) }>
             <View style={{
               flex: 1,
               justifyContent: 'center',
@@ -88,7 +88,7 @@ class Cart extends Component {
   }
 
   render() {
-    const { navigation, cart } = this.props;
+    const { navigation, cart, clearCart } = this.props;
     const { navigate } = navigation;
     return (
       <View style={[{ backgroundColor: '#eaeaea' }, styles.container]}>
@@ -122,8 +122,9 @@ class Cart extends Component {
           ) : (
               <ScrollView>
                 <Card>
-                  <View style={{ paddingBottom: '3%', marginBottom: '6%', borderBottomColor: '#2FBE74', borderBottomWidth: 5 }}>
+                  <View style={{  marginBottom: '6%', borderBottomColor: '#2FBE74', borderBottomWidth: 5, flexDirection: 'row', justifyContent:'space-between' }}>
                     <Text style={{ fontSize: 20, color:'#2FBE74', fontWeight:'500' }}>Your basket</Text>
+                    <Text style={{ fontWeight: '500' }} onPress={clearCart}>CLEAR ALL</Text>
                   </View>
                   <View>
                     {
@@ -186,4 +187,4 @@ const mapStateToProps = ({ cartReducer }) => ({
   cart: cartReducer.cart,
 });
 
-export default connect(mapStateToProps, {})(Cart);
+export default connect(mapStateToProps, { addToCart, removeFromCart, clearCart })(Cart);
