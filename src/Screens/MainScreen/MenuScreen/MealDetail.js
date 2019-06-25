@@ -5,6 +5,8 @@ import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { Card, Icon, Button, Badge, Header } from 'react-native-elements';
 import { getData, deleteData, storeData } from "../../../utils/asyncStore";
 import { addToCart } from "../../../redux/actions/cartActions";
+import CustomHeader from "../../../components/Header";
+import AnimatedCartIcon from '../../../components/animatedCartIcon';
 
 class MealDetail extends Component {
   constructor(props) {
@@ -87,13 +89,7 @@ class MealDetail extends Component {
   }
 
   renderRightHeaderIcon = (navigation) => {
-    return <Icon
-      name='home'
-      size={35}
-      color='#fff'
-      underlayColor='transparent'
-      onPress={() => navigation.navigate('MenuList')}
-    />
+    return <AnimatedCartIcon navigation={navigation} />
   }
 
   isFavorite = (name) => {
@@ -107,12 +103,10 @@ class MealDetail extends Component {
       return (
         <View style={styles.container}>
           <Animatable.View animation="fadeInRightBig" duration={400}>
-            <Header
-              statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
-              containerStyle={styles.header}
-              leftComponent={this.renderMenuIcon(navigation)}
-              centerComponent={{ text:  `${meal.name }`, style: styles.titleStyle }}
-              rightComponent={this.renderRightHeaderIcon(navigation)}
+            <CustomHeader
+              title={`${meal.name }`}
+              navigation={navigation}
+              rightComponent={this.renderRightHeaderIcon}
             />
             { meal ?
               (
