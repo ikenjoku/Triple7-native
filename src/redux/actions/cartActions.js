@@ -6,7 +6,7 @@ import {
 } from '../actionTypes';
 
 export const addToCart = (prevCart, {name, price}) => {
-  const newCart;
+  let newCart;
   const mealIndex = prevCart.findIndex(item => name === item.name);
   if (mealIndex < 0) {
     newCart = prevCart.push({ name, qty: 1, price });
@@ -21,14 +21,15 @@ export const addToCart = (prevCart, {name, price}) => {
 };
 
 export const removeFromCart = (prevCart, {name, price}) => {
-  const newCart;
+  let newCart;
   const mealIndex = prevCart.findIndex(item => name === item.name);
   if (mealIndex < 0) {
     return;
   } else if (mealIndex >= 0) {
     const meal = prevCart[mealIndex];
     if (meal.qty === 1) {
-      newCart = prevCart.splice(mealIndex, 1);
+      prevCart.splice(mealIndex, 1);
+      newCart = [...prevCart];
     } else if (meal.qty > 1) {
       prevCart[mealIndex].qty -= 1;
       newCart = [...prevCart];
