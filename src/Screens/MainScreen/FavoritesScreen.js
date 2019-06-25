@@ -6,6 +6,7 @@ import Swipeout from 'react-native-swipeout';
 import * as Animatable from 'react-native-animatable';
 import { getData, storeData } from "../../utils/asyncStore";
 import { ScrollView } from 'react-native-gesture-handler';
+import CustomHeader from "../../components/Header";
 
 
 class FavoritesScreen extends Component {
@@ -44,16 +45,6 @@ class FavoritesScreen extends Component {
         color='#777f7c'
       />
     ),
-  }
-
-  renderMenuIcon = (navigation) => {
-    return <Icon
-      name='menu'
-      size={35}
-      color='#fff'
-      underlayColor='transparent'
-      onPress={() => navigation.toggleDrawer()}
-    />
   }
 
   renderRightHeaderIcon = (navigation) => {
@@ -129,12 +120,10 @@ class FavoritesScreen extends Component {
     const { navigation } = this.props;
     return (
       <View style={styles.container}>
-        <Header
-          statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
-          containerStyle={styles.header}
-          leftComponent={this.renderMenuIcon(navigation)}
-          centerComponent={{ text: 'Favorites', style: styles.titleStyle }}
-          rightComponent={this.renderRightHeaderIcon(navigation)}
+        <CustomHeader
+          title={'Favorites'}
+          navigation={this.props.navigation}
+          rightComponent={this.renderRightHeaderIcon}
         />
         {!favorites.length ? (
           <View style={[{ backgroundColor: '#eaeaea', alignItems: "center" }]}>
