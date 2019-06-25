@@ -64,7 +64,7 @@ class MenuList extends Component {
                 {meal.name}
               </Text>
               <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
-              <Badge onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
+              <Badge activeOpacity={0.8} onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
             </View>
             <Text style={{ marginBottom: 10 }}>
               {meal.description}
@@ -105,7 +105,7 @@ class MenuList extends Component {
               <Text style={{ marginBottom: 10 }}>
               {meal.description}
             </Text>
-              <Badge onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
+              <Badge activeOpacity={0.8} onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
             </View>
           </View>
           </Card>
