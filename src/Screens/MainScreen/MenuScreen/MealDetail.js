@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { Card, Icon, Button, Badge, Header } from 'react-native-elements';
 import { getData, deleteData, storeData } from "../../../utils/asyncStore";
+import { addToCart } from "../../../redux/actions/cartActions";
 
 class MealDetail extends Component {
   constructor(props) {
@@ -101,9 +102,8 @@ class MealDetail extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, addToCart, cart } = this.props;
     const { meal } = navigation.state.params;
-    if (meal) {
       return (
         <View style={styles.container}>
           <Animatable.View animation="fadeInRightBig" duration={400}>
@@ -114,6 +114,8 @@ class MealDetail extends Component {
               centerComponent={{ text:  `${meal.name }`, style: styles.titleStyle }}
               rightComponent={this.renderRightHeaderIcon(navigation)}
             />
+            { meal ?
+              (
               <Card
                 image={{ uri: meal.imgurl }}
                 imageStyle={{
@@ -128,7 +130,7 @@ class MealDetail extends Component {
                   width: '100%',
                 }}
               >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Text style={{ marginBottom: 10, fontWeight: '700' }}>
                     {meal.name}
                   </Text>
@@ -147,9 +149,9 @@ class MealDetail extends Component {
                   raised
                   type='solid'
                   title='Add to Cart'
+                  onPress={() => addToCart(cart, { name: meal.name, price: meal.price })}
                   buttonStyle={{ backgroundColor: "#B32F20" }}
                   titleStyle={{ color: "#f9f9f9" }}
-                  onPress={() => navigation.navigate('MealDetail', { meal })}
                   containerStyle={{
                     marginTop: '2%',
                     marginBottom: '5%'
@@ -174,29 +176,36 @@ class MealDetail extends Component {
                     />
                   }
                 />
-              </Card>
+                </Card>
+
+                ) : (
+                  <Card>
+                  <View style={[{
+                    backgroundColor: '#8CAE68',
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'center'
+                  }, styles.container]}>
+                    <Text>No meal selected</Text>
+                    <Button
+                      title="Go back to Menu"
+                      onPress={() => navigation.navigate('Menu')}
+                    />
+                  </View>
+                  </Card>
+                )}
           </Animatable.View>
         </View>
       )
-    } else {
-      return (
-        <View style={[{
-          backgroundColor: '#8CAE68',
-          flex: 1,
-          flexDirection: 'column',
-          justifyContent: 'center'
-        }, styles.container]}>
-          <Text>No meal selected</Text>
-          <Button
-            title="Go back to Menu"
-            onPress={() => navigation.navigate('Menu')}
-          />
-        </View>
-      );
     }
-  }
+  
 };
-export default MealDetail;
+
+const mapStateToProps = ({ cartReducer }) => ({
+  cart: cartReducer.cart,
+});
+
+export default connect(mapStateToProps, { addToCart })(MealDetail);
 
 const styles = StyleSheet.create({
   container: {
