@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Header, Card, Button, Icon } from 'react-native-elements';
+import CustomHeader from "../../components/Header";
 
 const RenderIcon = (props) => {
   const { name, size, color, type, onPress } = props;
@@ -32,15 +33,6 @@ class ContactScreen extends Component {
 
   toggleDrawer = (navigation) => navigation.toggleDrawer();
 
-  renderMenuIcon = (navigation) => {
-    return <RenderIcon
-      size={35}
-      name={'menu'}
-      color={'#f9f9f9'}
-      onPress={() => this.toggleDrawer(navigation)}
-    />;
-  }
-
   navigateToMenu = (navigation) => navigation.navigate('Menu');
 
   renderRightHeaderIcon = (navigation) => {
@@ -58,12 +50,10 @@ class ContactScreen extends Component {
     return (
       <View style={styles.container}>
         <Animatable.View animation="fadeInRightBig" duration={400}>
-          <Header
-            statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
-            containerStyle={styles.header}
-            leftComponent={this.renderMenuIcon(navigation)}
-            centerComponent={{ text: 'Contact', style: styles.titleStyle }}
-            rightComponent={this.renderRightHeaderIcon(navigation)}
+          <CustomHeader
+            title={'Contact'}
+            navigation={this.props.navigation}
+            rightComponent={this.renderRightHeaderIcon}
           />
           <Card>
             <Text style={styles.cardTitle}>Address</Text>
