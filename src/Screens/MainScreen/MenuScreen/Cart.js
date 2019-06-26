@@ -66,10 +66,10 @@ class Cart extends Component {
           <Text style={styles.childText}>{name}</Text>
         </View>
         <View style={styles.childItem}>
-          <Text style={styles.childText}>N{price}</Text>
+          <Text style={styles.childText}>{price}</Text>
         </View>
         <View style={styles.childItem}>
-          <Text style={styles.childText}>N{price * qty}</Text>
+          <Text style={styles.childText}>{price * qty}</Text>
         </View>
 
         <View style={[styles.childItem, { elevation: 3, borderRadius: 5 }]}>
@@ -129,7 +129,7 @@ class Cart extends Component {
           ) : (
               <ScrollView>
                 <Card>
-                  <View style={{  marginBottom: '6%', borderBottomColor: '#2FBE74', borderBottomWidth: 5, flexDirection: 'row', justifyContent:'space-between' }}>
+                  <View style={{  marginBottom: '6%', borderBottomColor: '#2FBE74', borderBottomWidth: 5, flexDirection: 'row', justifyContent:'space-between' , minHeight: "4%"}}>
                     <Text style={{ fontSize: 20, color:'#2FBE74', fontWeight:'500' }}>Your basket</Text>
                     <Text style={{ fontWeight: '500' }} onPress={clearCart}>CLEAR ALL</Text>
                   </View>
@@ -141,7 +141,7 @@ class Cart extends Component {
                   <View>
                     <View style={{  marginBottom: '24%', flexDirection: 'row', justifyContent:'flex-end', alignItems:'center' }}>
                       <Text style={{ fontSize: 15, color: 'black', paddingRight: '1%', fontWeight:'500' }}>Total:</Text>
-                      <Text style={{ fontSize: 30, fontWeight:'500', color:'#B32F20' }}>N{this.calcCartTotal()}.00</Text>
+                      <Text style={{ fontSize: 30, fontWeight:'500', color:'#B32F20' }}>&#8358; {this.calcCartTotal()}.00</Text>
                     </View>
                   </View>
                   <Button
