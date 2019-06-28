@@ -5,10 +5,10 @@ import NavigationService from "../navigation/NavigationService";
 import { storeData } from "../utils/asyncStore";
 
 const images = [
-  require('../assets/gradonboad.png'),
-  require('../assets/gradsplash.png'),
-  require('../assets/newsplash.png'),
-  require('../assets/brownsplash.png')
+  require('../assets/tuts21.png'),
+  require('../assets/tuts22.png'),
+  require('../assets/tuts23.png'),
+  require('../assets/tuts24.png')
 ];
 
 const tradeLogo = require('../assets/brownlogo.png');
@@ -50,15 +50,8 @@ class OnboardingScreen extends Component {
     return (
       <View style={styles.container}>
           <StatusBar hidden={true} />
-          <View onPress={this.handleFinish} style={styles.skipLine}>
-            <Image
-              style={styles.leftLogo}
-              resizeMode="contain"
-              source={tradeLogo}
-            />
-            <Text style={styles.skipText} onPress={this.handleFinish}>
-              {isEnd ? 'Got it!' : 'Skip'}
-            </Text>
+          <View style={styles.containOnboardText}>
+            <Text style={styles.onboardText} onPress={this.handleFinish}>{isEnd ? "Let's Go" : 'Skip'}</Text>
           </View>
           <Carousel
             style={styles.tutorial}
@@ -79,30 +72,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  skipLine: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    maxHeight: 50,
-    backgroundColor: 'transparent',
-    zIndex: 99
-  },
-  skipText: {
-    width: 80,
-    height: 60,
-    fontSize: 20,
-    fontWeight:'bold',
-    color: 'grey',
-    textAlign: 'center',
-    textAlignVertical: 'center'
-  },
-  leftLogo: {
-    width: 80,
-    height: 60
-  },
   tutorial: {
     marginTop: -50,
     flex: 1
@@ -110,6 +79,22 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: '100%',
     flex: 1
+  },
+  containOnboardText: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    maxHeight: 50,
+    backgroundColor: 'transparent',
+    zIndex: 1
+  },
+  onboardText: {
+    paddingTop: '6%',
+    paddingRight: '6%',
+    paddingLeft: '3%',
+    fontSize: 20,
+    color: '#ffffff',
+    fontWeight:'900'
   }
 });
 
