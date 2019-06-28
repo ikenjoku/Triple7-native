@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { Header, Card, Button, Icon } from 'react-native-elements';
+import DatePicker from 'react-native-datepicker'
+import { Card, Button, Icon } from 'react-native-elements';
+import { Item, Picker } from 'native-base';
 import CustomHeader from "../../components/Header";
+
+const dateInstance = new Date();
+const minDate = `${dateInstance.getFullYear()}-${dateInstance.getMonth() < 10 ? 0 : '' }${dateInstance.getMonth() + 1}-${dateInstance.getDate() < 10 ? 0 : '' }${dateInstance.getDate()}`;
 class ReservationScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      guests: '',
+      smoking: false,
+      date: '',
+      showModal: false,
+    }
+  }
 
   static navigationOptions = {
     drawerLabel: "Reserve Table",
@@ -15,6 +29,18 @@ class ReservationScreen extends Component {
         color='#777f7c'
       />
     ),
+  }
+
+  toggleModal() {
+    this.setState({ showModal: !this.state.showModal });
+  }
+
+  handleSeatNumberChange = (value) => {
+    this.setState({ guests: value });
+  }
+
+  handleSmokingChange = (value) => {
+    this.setState({ smoking: value });
   }
 
   renderRightHeaderIcon = (navigation) => {
@@ -39,44 +65,103 @@ class ReservationScreen extends Component {
           rightComponent={this.renderRightHeaderIcon}
         />
           <Card>
-          <Text style={styles.cardTitle}>Our History</Text>
-          <Text style={styles.spaceTop}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse in diam et nisl faucibus varius non non velit.
-              Nunc sodales varius vulputate. Vivamus sed vulputate est,
-              nec bibendum mauris. Pellentesque id leo at diam laoreet
-              accumsan non sed tortor. Donec quis turpis sem. Nunc rutrum
-              venenatis cursus.
-            </Text>
-            <Text style={styles.spaceTop}>Suspendisse potenti. Aliquam erat volutpat.
-            Aliquam pharetra tempor blandit. In at neque faucibus, sagittis
-            leo ac, tincidunt nisi. Quisque congue placerat metus a gravida.</Text>
+          <View style={styles.containReserveForm}>
+            <View style={styles.containInputLine}>
+              <View style={[styles.inputLineChild, styles.labelText]}>
+                <Text>Number of Seats:</Text>
+              </View>
+              <View style={styles.inputLineChild}>
+                <Item picker>
+                <Picker
+                  mode="dropdown"
+                  iosIcon={<Icon name="arrow-down" />}
+                  style={{ width: undefined }}
+                  placeholder="Number of Seats"
+                  placeholderStyle={{ color: "#bfc6ea" }}
+                  placeholderIconColor="#007aff"
+                  selectedValue={this.state.guests}
+                  onValueChange={this.handleSeatNumberChange}
+                >
+                  <Picker.Item label="1 Person" value={1} />
+                  <Picker.Item label="2 Persons" value={2} />
+                  <Picker.Item label="3 Persons" value={3} />
+                  <Picker.Item label="4 Persons" value={4} />
+                  <Picker.Item label="5 Persons" value={5} />
+                  <Picker.Item label="6 Persons" value={6} />
+                  <Picker.Item label="7 Persons" value={7} />
+                  <Picker.Item label="8 Persons" value={8} />
+                  <Picker.Item label="9 Persons" value={9} />
+                  <Picker.Item label="10 Persons" value={10} />
+                </Picker>
+              </Item>
+              </View>
+            </View>
+            <View style={styles.containInputLine}>
+              <View style={[styles.inputLineChild, styles.labelText]}>
+                <Text>Smoking:</Text>
+              </View>
+              <View style={styles.inputLineChild}>
+                <Item picker>
+                <Picker
+                  mode="dropdown"
+                  iosIcon={<Icon name="arrow-down" />}
+                  style={{ width: undefined }}
+                  placeholder="Smoking"
+                  placeholderStyle={{ color: "#bfc6ea" }}
+                  placeholderIconColor="#007aff"
+                  selectedValue={this.state.smoking}
+                  onValueChange={this.handleSmokingChange}
+                >
+                  <Picker.Item label="Yes" value={true} />
+                  <Picker.Item label="No" value={false} />
+                </Picker>
+              </Item>
+              </View>
+            </View>
+            <View style={[styles.containInputLine, {marginBottom: '30%'}]}>
+              <View style={styles.inputLineChild}>
+                <Text>Date and Time:</Text>
+              </View>
+              <View style={styles.inputLineChild}>
+              <DatePicker
+              style={{ flex: 2, marginRight: 20 }}
+              date={this.state.date}
+              format=''
+              mode="datetime"
+              placeholder="Date and Time"
+              minDate={minDate}
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36,
+                  flex: 1,
+                }
+              }}
+              onDateChange={(date) => { this.setState({ date: date }) }}
+            />
+              </View>
+            </View>
             <View>
             <Button
-            raised
-              icon={
-                <Icon
-                  name="food"
-                  size={25}
-                  color="white"
-                  type='material-community'
-                  />
-              }
-              iconLeft
-              title="Checkout our menu"
-              titleStyle={{
-                paddingLeft: 5
-              }}
-              onPress={() => navigation.navigate('Menu')}
-              containerStyle= {{
-                marginTop: 20,
-                marginBottom: 10
-              }}
+              raised
+              title="Reserve Table"
+              onPress={() => navigate('MenuList')}
               buttonStyle={{
-                backgroundColor: '#24a060'
+                backgroundColor: '#B32F20'
+              }}
+              containerStyle={{
+                // marginTop: 'auto'
               }}
             />
             </View>
+          </View>
           </Card>
         </Animatable.View>
       </View>
@@ -90,25 +175,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
   },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
+  containReserveForm: {
+
   },
-  titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
+  containInputLine: {
+    flexDirection: 'row',
+    marginBottom: '3%',
   },
-  cardTitle: {
-    textAlign: 'center',
-    fontWeight: '500',
-    borderBottomColor: '#aba8a8',
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-    fontSize: 15
+  inputLineChild: {
+    flex: 1
   },
-  spaceTop: { marginTop: 10 }
+  spaceTop: { marginTop: 10 },
+  labelText: {
+    justifyContent: 'center',
+  }
 });
 
 export default ReservationScreen;
