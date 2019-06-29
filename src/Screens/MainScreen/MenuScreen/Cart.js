@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { connect } from "react-redux";
 import LottieView from 'lottie-react-native';
 import { View, Text, StyleSheet, ScrollView, TouchableNativeFeedback } from 'react-native';
-import { Button, Icon, Card } from "react-native-elements";
+import { Button, Icon, Card, CheckBox } from "react-native-elements";
+import { Container, Header, Content, Textarea, Form } from "native-base";
 import CustomHeader from '../../../components/Header';
 import { addToCart, removeFromCart, clearCart } from "../../../redux/actions/cartActions";
 
@@ -12,6 +13,10 @@ class AnimatedCartIcon extends Component {
   }
 }
 class Cart extends Component {
+  state={
+    homeDelivery: false,
+    address: '',
+  }
 
   static navigationOptions = {
     header: null,
@@ -29,7 +34,9 @@ class Cart extends Component {
 
   calcCartTotal = () => {
     const { cart } = this.props;
+    const { homeDelivery } = this.state;
     let sum = 0;
+    if (homeDelivery) sum = 500;
     cart.map(item => sum += (item.qty * item.price));
     return sum;
   }
@@ -95,8 +102,10 @@ class Cart extends Component {
   }
 
   render() {
+    const { homeDelivery } = this.state;
     const { navigation, cart, clearCart } = this.props;
     const { navigate } = navigation;
+    const isVisible = homeDelivery ? 'flex' : 'none';
     return (
       <View style={[{ backgroundColor: '#eaeaea' }, styles.container]}>
         <CustomHeader
@@ -137,6 +146,26 @@ class Cart extends Component {
                     {
                       cart.map(this.renderCartItem)
                     }
+                  </View>
+                  <View style={{ marginTop: '3%' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <View style={{ flex: 3, justifyContent: 'center'}}>
+                      <Text style={{ fontWeight: '500'}}>Deliver food to location ?</Text>
+                      <Text>For an extra charge of &#8358; 500.00</Text>
+                      </View>
+                      <View style={{ flex: 1}}>
+                        <CheckBox
+                          checked={this.state.homeDelivery}
+                          onPress={() => this.setState({ homeDelivery: !homeDelivery })}
+                          checkedColor="#2FBE74"
+                        />
+                      </View>
+                    </View>
+                    <View>
+                    </View>
+                  </View>
+                  <View style={{ display: isVisible }}>
+                    <Textarea value={this.state.address} onChangeText={((address) => this.setState({address}))} rowSpan={5} bordered placeholder="Tell us your address" />
                   </View>
                   <View>
                     <View style={{  marginBottom: '24%', flexDirection: 'row', justifyContent:'flex-end', alignItems:'center' }}>
