@@ -10,5 +10,9 @@ export default {
     isLoading: false,
     menu: [],
     error: null,
+  },
+  cartReducer: {
+    homeDelivery: false,
+    cart: [],
   }
 }

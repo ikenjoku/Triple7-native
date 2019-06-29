@@ -2,9 +2,8 @@
  * @file CRUD methods for accessing AsyncStorage
  */
 
-import {
-  AsyncStorage
-} from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 /**
  * @description Retrieves data from AsyncStorage

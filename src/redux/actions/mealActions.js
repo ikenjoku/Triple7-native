@@ -23,13 +23,13 @@ export const fetch_menu_failure = (error) => ({
 // ActionCreators
 export const fetchMenu = () => (dispatch) => {
   dispatch(fetch_menu());
-  API.get('/meals')
+  return API.get('/meals')
     .then(response => {
       console.log(response);
       dispatch(fetch_menu_success(response.data.meals));
     })
     .catch(error => {
-      console.log(error);
-      dispatch(fetch_menu_failure(error.response.data));
+      console.error(error);
+      dispatch(fetch_menu_failure(error));
     });
 };

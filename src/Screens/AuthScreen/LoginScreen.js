@@ -5,12 +5,12 @@ import {
   Image,
   StatusBar,
   TextInput,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, CheckBox } from 'react-native-elements';
+import { Input, CheckBox, Icon } from 'react-native-elements';
 
 const AuthBackground = require('../../assets/auth-background.png');
 const Logo = require('../../assets/Logo2.png');
@@ -30,17 +30,16 @@ class LoginScreen extends Component {
     const { navigate } = this.props.navigation;
 
     return (
-        <ImageBackground style={styles.container} source={AuthBackground}>
-          <StatusBar hidden={true} />
-
+        <ScrollView style={{
+          backgroundColor: '#eaeaea',
+          paddingLeft: '3%',
+          paddingRight: '3%',
+        }}>
           <View style={styles.containImage}>
             <Image
               source={Logo}
               style={styles.logo}
             />
-          </View>
-          <View style={styles.containWelcomeText}>
-            <Text style={styles.welcomeText}>Welcome Back!</Text>
           </View>
           <View style={styles.containLoginText}>
             <Text style={styles.loginText}>Please login to continue.</Text>
@@ -55,11 +54,12 @@ class LoginScreen extends Component {
               style={styles.textInput}
               leftIcon={
                 <Icon
-                  name='envelope-open-o'
+                  name='email-outline'
+                  type='material-community'
                   size={24}
                   color='#6c6d6c'
                   shake={true}
-                  style={{ marginRight: 10, }}
+                  containerStyle={{ marginRight: 15, }}
                 />
               }
             />
@@ -74,11 +74,12 @@ class LoginScreen extends Component {
                 style={styles.textInput}
                 leftIcon={
                   <Icon
-                    name='eye'
                     size={24}
                     color='#6c6d6c'
                     shake={true}
-                    style={{ marginRight: 10, }}
+                    type='antdesign'
+                    name='lock'
+                    containerStyle={{ marginRight: 15}}
                   />
                 }
               />
@@ -91,20 +92,32 @@ class LoginScreen extends Component {
               checkedColor="#2FBE74"
             />
             <View style={styles.containPasswordText}>
-              <Text style={styles.passwordText}>Forgot Password?</Text>
+              <Text
+              style={styles.passwordText}
+              onPress={() => navigate('ResetPassword')}
+              >Forgot Password?</Text>
             </View>
+            <TouchableOpacity
+              onPress={(text) => { }}
+              activeOpacity={0.8}
+              >
             <View style={styles.containButton}>
-              <TouchableOpacity onPress={(text) => { }}>
-                <Text style={styles.loginButton}>
+                <Text
+                 style={styles.loginButton}
+                 >
                   Login
               </Text>
+              </View>
               </TouchableOpacity>
-            </View>
             <View style={styles.containRegisterText}>
-              <Text style={styles.registerText}>Register Here</Text>
+              <Text
+                style={styles.registerText}
+                onPress={() => navigate('Register')}
+              >Register Here</Text>
             </View>
           </View>
-        </ImageBackground>
+          </ScrollView>
+
     );
   }
 };
@@ -117,7 +130,9 @@ const styles = StyleSheet.create({
     paddingRight: '5%',
   },
   containImage: {
-    width: '35%',
+    marginTop: '20%',
+    width: '75%',
+    alignSelf: 'center',
   },
   logo: {
     width: null,
@@ -132,23 +147,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   containLoginText: {
-    marginTop: '24%',
+    marginTop: '10%',
   },
   loginText: {
     color: '#777f7c',
+    paddingLeft: '3%',
+    fontWeight: '500',
   },
   containLoginForm: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
     paddingBottom: '10%',
-    paddingTop: '5%',
     marginTop: '10%',
   },
   containTextInput: {
 
   },
   loginButton: {
-    backgroundColor: '#2FBE74',
+    backgroundColor: '#2C7C07',
     color: '#f9f9f9',
     borderRadius: 5,
     paddingTop: 7,
@@ -162,10 +176,10 @@ const styles = StyleSheet.create({
   containPasswordText: {
   },
   passwordText: {
-    color: '#777f7c',
+    color: '#26a061',
     textAlign: 'right',
-    paddingBottom: '5%',
-    paddingTop: '5%',
+    paddingBottom: '7%',
+    paddingTop: '7%',
     fontWeight: '500',
   },
   textInput: {
@@ -173,16 +187,16 @@ const styles = StyleSheet.create({
     paddingTop: '5%',
   },
   containRegisterText: {
-    paddingTop: '5%',
+    paddingTop: '7%',
   },
   registerText: {
     textAlign: 'center',
     fontWeight: '500',
-    color: '#777f7c',
+    color: '#26a061',
   },
   formCheckbox: {
-    marginTop: 10,
-    backgroundColor: null,
+    marginTop: 20,
+    backgroundColor: '#eaeaea',
   },
 });
 
