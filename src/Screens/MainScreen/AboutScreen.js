@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Header, Card, Button, Icon } from 'react-native-elements';
-
+import CustomHeader from "../../components/Header";
 class AboutScreen extends Component {
 
   static navigationOptions = {
@@ -15,15 +15,6 @@ class AboutScreen extends Component {
         color='#777f7c'
       />
     ),
-  }
-  renderMenuIcon = (navigation) => {
-    return <Icon
-      name='menu'
-      size={35}
-      color='#fff'
-      underlayColor='transparent'
-      onPress={() => navigation.toggleDrawer()}
-    />
   }
 
   renderRightHeaderIcon = (navigation) => {
@@ -42,13 +33,11 @@ class AboutScreen extends Component {
     return (
       <View style={styles.container}>
       <Animatable.View animation="fadeInRightBig" duration={400}>
-      <Header
-        statusBarProps={{ barStyle: 'light-content', backgroundColor: '#24a060' }}
-        containerStyle={styles.header}
-        leftComponent={this.renderMenuIcon(navigation)}
-        centerComponent={{ text: 'About Triple 7', style: styles.titleStyle }}
-        rightComponent={this.renderRightHeaderIcon(navigation)}
-      />
+      <CustomHeader
+          title={'About Triple 7'}
+          navigation={this.props.navigation}
+          rightComponent={this.renderRightHeaderIcon}
+        />
           <Card>
           <Text style={styles.cardTitle}>Our History</Text>
           <Text style={styles.spaceTop}>
