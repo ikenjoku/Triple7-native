@@ -147,7 +147,7 @@ class Cart extends Component {
                   <Button
                   raised
                   title="Confirm Order"
-                  onPress={() => navigate('MenuList')}
+                  onPress={() => navigate('Payment')}
                   buttonStyle={{
                     backgroundColor: '#B32F20'
                   }}

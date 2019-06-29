@@ -119,7 +119,7 @@ class ReservationScreen extends Component {
               </View>
             </View>
             <View style={[styles.containInputLine, {marginBottom: '30%'}]}>
-              <View style={styles.inputLineChild}>
+              <View style={[styles.inputLineChild, styles.labelText]}>
                 <Text>Date and Time:</Text>
               </View>
               <View style={styles.inputLineChild}>
