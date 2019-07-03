@@ -80,7 +80,7 @@ class LoginScreen extends Component {
             style={styles.logo}
           />
         </View>
-        <View style={styles.containLoginText}>
+        <View>
           <Text style={styles.loginText}>Please login to continue.</Text>
         </View>
         <View style={styles.containLoginForm}>
