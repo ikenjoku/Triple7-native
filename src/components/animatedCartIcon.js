@@ -14,7 +14,7 @@ class AnimatedCartIcon extends Component {
         type="antdesign"
         name="shoppingcart"
         color='#fff'
-        size={35}
+        size={24}
         underlayColor='transparent'
         onPress={() => navigation.navigate('Cart')}
       />

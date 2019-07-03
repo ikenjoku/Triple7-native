@@ -3,16 +3,12 @@ import {
   View,
   Text,
   Image,
-  StatusBar,
-  TextInput,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
 } from 'react-native';
 import { Input, CheckBox, Icon } from 'react-native-elements';
 
-const AuthBackground = require('../../assets/auth-background.png');
 const Logo = require('../../assets/Logo2.png');
 
 
@@ -30,22 +26,22 @@ class LoginScreen extends Component {
     const { navigate } = this.props.navigation;
 
     return (
-        <ScrollView style={{
-          backgroundColor: '#eaeaea',
-          paddingLeft: '3%',
-          paddingRight: '3%',
-        }}>
-          <View style={styles.containImage}>
-            <Image
-              source={Logo}
-              style={styles.logo}
-            />
-          </View>
-          <View style={styles.containLoginText}>
-            <Text style={styles.loginText}>Please login to continue.</Text>
-          </View>
-          <View elevation={5} style={styles.containLoginForm}>
-            <View style={styles.containTextInput}>
+      <ScrollView style={{
+        backgroundColor: '#eaeaea',
+        paddingLeft: '3%',
+        paddingRight: '3%',
+      }}>
+        <View style={styles.containImage}>
+          <Image
+            source={Logo}
+            style={styles.logo}
+          />
+        </View>
+        <View style={styles.containLoginText}>
+          <Text style={styles.loginText}>Please login to continue.</Text>
+        </View>
+        <View elevation={5} style={styles.containLoginForm}>
+          <View style={styles.containTextInput}>
             <Input
               placeholder='Email'
               placeholderTextColor='#6c6d6c'
@@ -63,64 +59,64 @@ class LoginScreen extends Component {
                 />
               }
             />
-            </View>
-            <View style={styles.containTextInput}>
-              <Input
-                placeholder='Password'
-                secureTextEntry={true}
-                placeholderTextColor='#6c6d6c'
-                onChangeText={(password) => this.setState({ password })}
-                value={this.state.password}
-                style={styles.textInput}
-                leftIcon={
-                  <Icon
-                    size={24}
-                    color='#6c6d6c'
-                    shake={true}
-                    type='antdesign'
-                    name='lock'
-                    containerStyle={{ marginRight: 15}}
-                  />
-                }
-              />
-            </View>
-            <CheckBox title="Remember me"
-              left
-              checked={this.state.remember}
-              onPress={() => this.setState({ remember: !this.state.remember })}
-              containerStyle={styles.formCheckbox}
-              checkedColor="#2FBE74"
+          </View>
+          <View style={styles.containTextInput}>
+            <Input
+              placeholder='Password'
+              secureTextEntry={true}
+              placeholderTextColor='#6c6d6c'
+              onChangeText={(password) => this.setState({ password })}
+              value={this.state.password}
+              style={styles.textInput}
+              leftIcon={
+                <Icon
+                  size={24}
+                  color='#6c6d6c'
+                  shake={true}
+                  type='antdesign'
+                  name='lock'
+                  containerStyle={{ marginRight: 15}}
+                />
+              }
             />
-            <View style={styles.containPasswordText}>
-              <Text
+          </View>
+          <CheckBox title="Remember me"
+            left
+            checked={this.state.remember}
+            onPress={() => this.setState({ remember: !this.state.remember })}
+            containerStyle={styles.formCheckbox}
+            checkedColor="#2FBE74"
+          />
+          <View style={styles.containPasswordText}>
+            <Text
               style={styles.passwordText}
               onPress={() => navigate('ResetPassword')}
-              >Forgot Password?</Text>
-            </View>
-            <TouchableOpacity
-              onPress={(text) => { }}
-              activeOpacity={0.8}
-              >
+            >Forgot Password?</Text>
+          </View>
+          <TouchableOpacity
+            onPress={(text) => { }}
+            activeOpacity={0.8}
+          >
             <View style={styles.containButton}>
-                <Text
-                 style={styles.loginButton}
-                 >
+              <Text
+                style={styles.loginButton}
+              >
                   Login
               </Text>
-              </View>
-              </TouchableOpacity>
-            <View style={styles.containRegisterText}>
-              <Text
-                style={styles.registerText}
-                onPress={() => navigate('Register')}
-              >Register Here</Text>
             </View>
+          </TouchableOpacity>
+          <View style={styles.containRegisterText}>
+            <Text
+              style={styles.registerText}
+              onPress={() => navigate('Register')}
+            >Register Here</Text>
           </View>
-          </ScrollView>
+        </View>
+      </ScrollView>
 
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {

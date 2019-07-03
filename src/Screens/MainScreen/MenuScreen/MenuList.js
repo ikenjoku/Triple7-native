@@ -19,16 +19,6 @@ class MenuList extends Component {
     this.props.fetchMenu();
   }
 
-  renderMenuIcon = (navigation) => {
-    return <Icon
-      name='menu'
-      size={35}
-      color='#fff'
-      underlayColor='transparent'
-      onPress={() => navigation.toggleDrawer()}
-    />
-  }
-
   renderRightHeaderIcon = (navigation) => {
     return <AnimatedCartIcon navigation={navigation} />
   }

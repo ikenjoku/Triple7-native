@@ -5,8 +5,8 @@ import { Root } from 'native-base';
 import MainNavigator from './MainNavigator';
 import AuthNavigator from './AuthNavigator';
 import OnboardingNavigator from './OnboardingNavigator';
-import { getData } from "../utils/asyncStore";
-import NavigationService from "./NavigationService";
+import { getData } from '../utils/asyncStore';
+import NavigationService from './NavigationService';
 
 const TopLevelNavigator = createSwitchNavigator({
   Onboard:OnboardingNavigator,
@@ -22,10 +22,10 @@ class RootApp extends Component {
   }
 
   componentDidMount() {
-    this.fetchToken();
+    this.fetchTutorialToken();
   }
 
-  fetchToken = () => {
+  fetchTutorialToken = () => {
     const { user } = this.props;
     getData('@triple-tutorial-cookie')
       .then(tutorialToken => {
@@ -35,14 +35,13 @@ class RootApp extends Component {
           if (user) {
             NavigationService.navigate('Main');
           } else {
-            // NavigationService.navigate('Auth');
-            NavigationService.navigate('Onboard');
+            NavigationService.navigate('Main');
           }
         }
       })
       .catch(err => {
         console.log(err);
-      })
+      });
   };
 
   render() {
