@@ -18,7 +18,7 @@ export const addToCart = (prevCart, {name, price}) => {
   return {
     type: ADD_TO_CART,
     payload: newCart,
-  }
+  };
 };
 
 export const removeFromCart = (prevCart, {name, price}) => {
@@ -39,7 +39,7 @@ export const removeFromCart = (prevCart, {name, price}) => {
   return {
     type: REMOVE_FROM_CART,
     payload: newCart,
-  }
+  };
 };
 
 export const clearCart = () => ({

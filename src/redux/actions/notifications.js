@@ -3,11 +3,8 @@ import { Toast } from 'native-base';
 export const toastError = (message) => {
   Toast.show({
     text: message,
-    position: "bottom",
+    position: 'top',
     type:'danger',
-    textStyle: {
-      // textAlign: "center",
-    },
     duration:3000
   });
 };
@@ -15,11 +12,8 @@ export const toastError = (message) => {
 export const toastSuccess = (message) => {
   Toast.show({
     text: message,
-    position: "bottom",
+    position: 'top',
     type:'success',
-    textStyle: {
-      // textAlign: "center",
-    },
     duration:3000
   });
 };

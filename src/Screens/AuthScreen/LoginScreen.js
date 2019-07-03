@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -8,9 +9,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Input, CheckBox, Icon } from 'react-native-elements';
+import { getData } from '../../utils/asyncStore';
+// import { login } from '../../../redux/actions/authActions';
+import { toastError } from '../../redux/actions/notifications';
 
 const Logo = require('../../assets/Logo2.png');
-
 
 class LoginScreen extends Component {
   state = {
@@ -19,18 +22,58 @@ class LoginScreen extends Component {
     remember: false,
   }
 
-  static navigationOptions = {
+  componentDidMount() {
+    getData('@triple7-loginDetails')
+      .then((userdata) => {
+        if (userdata) {
+          this.setState({
+            email: userdata.email,
+            password: userdata.password,
+            remember: true
+          });
+        }
+      })
+      .catch(err => {
+        console.log('Error retrieving credentials');
+      });
+  }
+
+  handleLogin = () => {
+    const { email, password } = this.state;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let errMsg = '';
+
+    if (!email.trim() || !re.test(String(email).toLowerCase())) {
+      errMsg += 'Please provide a valid email address';
+    }
+    if (!password) {
+      errMsg += '\nPlease provide your password';
+    }
+
+    if (!errMsg) {
+      // this.props.loginUser({ email, password });
+      // if (this.state.remember) {
+      //   SecureStore.setItemAsync('loginDetails', JSON.stringify({ email: this.state.email, password: this.state.password }))
+      //     .catch((error) => console.log('Could not save login info', error));
+      // } else {
+      //   SecureStore.deleteItemAsync('loginDetails')
+      //     .catch((error) => console.log('Could not delete login info', error));
+      // }
+    } else {
+      toastError(errMsg);
+    }
   }
 
   render() {
     const { navigate } = this.props.navigation;
-
+    const theme = {
+      pri50: '#e4f6eb',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+    };
+    const bodyTextColor = '#6c6d6c';
     return (
-      <ScrollView style={{
-        backgroundColor: '#eaeaea',
-        paddingLeft: '3%',
-        paddingRight: '3%',
-      }}>
+      <ScrollView style={[{backgroundColor: theme.pri50}, styles.container]}>
         <View style={styles.containImage}>
           <Image
             source={Logo}
@@ -40,11 +83,11 @@ class LoginScreen extends Component {
         <View style={styles.containLoginText}>
           <Text style={styles.loginText}>Please login to continue.</Text>
         </View>
-        <View elevation={5} style={styles.containLoginForm}>
+        <View style={styles.containLoginForm}>
           <View style={styles.containTextInput}>
             <Input
               placeholder='Email'
-              placeholderTextColor='#6c6d6c'
+              placeholderTextColor={bodyTextColor}
               onChangeText={(email) => this.setState({ email })}
               value={this.state.email}
               style={styles.textInput}
@@ -53,9 +96,9 @@ class LoginScreen extends Component {
                   name='email-outline'
                   type='material-community'
                   size={24}
-                  color='#6c6d6c'
+                  color={bodyTextColor}
                   shake={true}
-                  containerStyle={{ marginRight: 15, }}
+                  containerStyle={{ marginRight: 15 }}
                 />
               }
             />
@@ -64,14 +107,14 @@ class LoginScreen extends Component {
             <Input
               placeholder='Password'
               secureTextEntry={true}
-              placeholderTextColor='#6c6d6c'
+              placeholderTextColor={bodyTextColor}
               onChangeText={(password) => this.setState({ password })}
               value={this.state.password}
               style={styles.textInput}
               leftIcon={
                 <Icon
                   size={24}
-                  color='#6c6d6c'
+                  color={bodyTextColor}
                   shake={true}
                   type='antdesign'
                   name='lock'
@@ -84,22 +127,27 @@ class LoginScreen extends Component {
             left
             checked={this.state.remember}
             onPress={() => this.setState({ remember: !this.state.remember })}
-            containerStyle={styles.formCheckbox}
-            checkedColor="#2FBE74"
+            containerStyle={[{backgroundColor: theme.pri50}, styles.formCheckbox]}
+            checkedColor={theme.sec700}
+            textStyle={{
+              color: bodyTextColor,
+              fontWeight: '300',
+              fontFamily: 'sans-serif-medium'
+            }}
           />
           <View style={styles.containPasswordText}>
             <Text
-              style={styles.passwordText}
+              style={[{ color: theme.sec700 }, styles.passwordText]}
               onPress={() => navigate('ResetPassword')}
-            >Forgot Password?</Text>
+            >Forgot password?</Text>
           </View>
           <TouchableOpacity
-            onPress={(text) => { }}
             activeOpacity={0.8}
+            onPress={this.handleLogin}
           >
-            <View style={styles.containButton}>
+            <View elevation={5} style={styles.containButton}>
               <Text
-                style={styles.loginButton}
+                style={[{ backgroundColor: theme.pri800 }, styles.loginButton]}
               >
                   Login
               </Text>
@@ -107,9 +155,9 @@ class LoginScreen extends Component {
           </TouchableOpacity>
           <View style={styles.containRegisterText}>
             <Text
-              style={styles.registerText}
+              style={[{ color: theme.sec700 }, styles.registerText]}
               onPress={() => navigate('Register')}
-            >Register Here</Text>
+            >Register</Text>
           </View>
         </View>
       </ScrollView>
@@ -121,12 +169,12 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: '3%',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    paddingLeft: '3%',
+    paddingRight: '3%',
   },
   containImage: {
-    marginTop: '20%',
+    marginTop: '10%',
+    marginBottom: '10%',
     width: '75%',
     alignSelf: 'center',
   },
@@ -134,49 +182,39 @@ const styles = StyleSheet.create({
     width: null,
     resizeMode: 'contain',
   },
-  containWelcomeText: {
-    marginTop: '4%',
-  },
-  welcomeText: {
-    color: '#777f7c',
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  containLoginText: {
-    marginTop: '10%',
-  },
   loginText: {
     color: '#777f7c',
     paddingLeft: '3%',
-    fontWeight: '500',
+    fontFamily: 'sans-serif-medium',
   },
   containLoginForm: {
     paddingBottom: '10%',
-    marginTop: '10%',
-  },
-  containTextInput: {
-
+    marginTop: '20%',
   },
   loginButton: {
-    backgroundColor: '#2C7C07',
     color: '#f9f9f9',
     borderRadius: 5,
     paddingTop: 7,
     paddingBottom: 7,
     fontSize: 20,
     textAlign: 'center',
+    fontFamily: 'sans-serif-medium'
   },
   containButton: {
-    
-  },
-  containPasswordText: {
+    backgroundColor:'#d9d9d9',
+    shadowColor: '#000000',
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
   },
   passwordText: {
-    color: '#26a061',
     textAlign: 'right',
     paddingBottom: '7%',
     paddingTop: '7%',
-    fontWeight: '500',
+    fontFamily: 'sans-serif-medium'
   },
   textInput: {
     paddingBottom: '5%',
@@ -187,13 +225,11 @@ const styles = StyleSheet.create({
   },
   registerText: {
     textAlign: 'center',
-    fontWeight: '500',
-    color: '#26a061',
+    fontFamily: 'sans-serif-medium',
   },
   formCheckbox: {
     marginTop: 20,
-    backgroundColor: '#eaeaea',
   },
 });
 
-export default LoginScreen;
+export default connect(null, {  })(LoginScreen);

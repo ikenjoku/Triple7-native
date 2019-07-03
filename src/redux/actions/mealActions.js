@@ -25,7 +25,6 @@ export const fetchMenu = () => (dispatch) => {
   dispatch(fetch_menu());
   return API.get('/meals')
     .then(response => {
-      console.log(response);
       dispatch(fetch_menu_success(response.data.meals));
     })
     .catch(error => {
