@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import { Input, CheckBox, Icon } from 'react-native-elements';
 import { getData } from '../../utils/asyncStore';
-// import { login } from '../../../redux/actions/authActions';
 import { toastError } from '../../redux/actions/notifications';
+import { loginUser } from '../../redux/actions/authActions';
+import OverlayLoader from '../../components/OverlayLoader';
 
 const Logo = require('../../assets/Logo2.png');
 
@@ -43,7 +44,7 @@ class LoginScreen extends Component {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errMsg = '';
 
-    if (!email.trim() || !re.test(String(email).toLowerCase())) {
+    if (!email.trim() || !re.test(String(email.trim()).toLowerCase())) {
       errMsg += 'Please provide a valid email address';
     }
     if (!password) {
@@ -51,20 +52,14 @@ class LoginScreen extends Component {
     }
 
     if (!errMsg) {
-      // this.props.loginUser({ email, password });
-      // if (this.state.remember) {
-      //   SecureStore.setItemAsync('loginDetails', JSON.stringify({ email: this.state.email, password: this.state.password }))
-      //     .catch((error) => console.log('Could not save login info', error));
-      // } else {
-      //   SecureStore.deleteItemAsync('loginDetails')
-      //     .catch((error) => console.log('Could not delete login info', error));
-      // }
+      this.props.loginUser({ email, password });
     } else {
       toastError(errMsg);
     }
   }
 
   render() {
+    const { isLoading } = this.props;
     const { navigate } = this.props.navigation;
     const theme = {
       pri50: '#e4f6eb',
@@ -74,6 +69,11 @@ class LoginScreen extends Component {
     const bodyTextColor = '#6c6d6c';
     return (
       <ScrollView style={[{backgroundColor: theme.pri50}, styles.container]}>
+        <OverlayLoader
+          message='Please wait, logging you in...'
+          pri800={theme.pri800}
+          isVisble={isLoading}
+        />
         <View style={styles.containImage}>
           <Image
             source={Logo}
@@ -88,6 +88,8 @@ class LoginScreen extends Component {
             <Input
               placeholder='Email'
               placeholderTextColor={bodyTextColor}
+              keyboardType='email-address'
+              autoCapitalize={'none'}
               onChangeText={(email) => this.setState({ email })}
               value={this.state.email}
               style={styles.textInput}
@@ -107,6 +109,7 @@ class LoginScreen extends Component {
             <Input
               placeholder='Password'
               secureTextEntry={true}
+              autoCapitalize={'none'}
               placeholderTextColor={bodyTextColor}
               onChangeText={(password) => this.setState({ password })}
               value={this.state.password}
@@ -232,4 +235,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {  })(LoginScreen);
+const mapStateToProps = ({ authReducer }) => ({
+  isLoading: authReducer.isLoading,
+});
+
+export default connect(mapStateToProps, { loginUser })(LoginScreen);
