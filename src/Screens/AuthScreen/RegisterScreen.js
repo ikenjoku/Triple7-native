@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -9,6 +10,10 @@ import {
 } from 'react-native';
 import { Input } from 'react-native-elements';
 import { Item, Picker, Icon } from 'native-base';
+import { toastError } from '../../redux/actions/notifications';
+import { signupUser } from '../../redux/actions/authActions';
+import OverlayLoader from '../../components/OverlayLoader';
+
 const Logo = require('../../assets/Logo2.png');
 
 class RegisterScreen extends Component {
@@ -16,9 +21,45 @@ class RegisterScreen extends Component {
     firstname: '',
     lastname: '',
     password: '',
+    confirmPassword: '',
     email: '',
     phone: '',
     gender: '',
+  }
+
+  handleSignup = () => {
+    const { firstname, lastname, email, password, confirmPassword, phone, gender } = this.state;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let errMsg = '';
+
+    if (!firstname.trim() || !lastname.trim() ) {
+      errMsg += 'Please tell us your name';
+    }
+
+    if (!email.trim() || !re.test(String(email).toLowerCase())) {
+      errMsg += '\nPlease provide a valid email address';
+    }
+    if (!password || !confirmPassword) {
+      errMsg += '\nPlease provide your password';
+    }
+
+    if (password !== confirmPassword) {
+      errMsg += '\nPasswords do not match';
+    }
+
+    if (!phone.trim()  || phone.length > 11 || !Number.isInteger(Number(phone)) ) {
+      errMsg += '\nProvide a valid 11-digits phone number';
+    }
+
+    if (!gender.trim()) {
+      errMsg += '\nPlease tell us your gender';
+    }
+
+    if (!errMsg) {
+      this.props.signupUser(this.state);
+    } else {
+      toastError(errMsg);
+    }
   }
 
   handleGenderChange = (value) => {
@@ -26,6 +67,7 @@ class RegisterScreen extends Component {
   }
 
   render() {
+    const { isLoading } = this.props;
     const { navigate } = this.props.navigation;
     const theme = {
       pri50: '#e4f6eb',
@@ -35,6 +77,11 @@ class RegisterScreen extends Component {
     const bodyTextColor = '#6c6d6c';
     return (
       <ScrollView style={[{backgroundColor: theme.pri50}, styles.container]}>
+        <OverlayLoader
+          message='Please wait, registering you...'
+          pri800={theme.pri800}
+          isVisble={isLoading}
+        />
         <View style={styles.containImage}>
           <Image
             source={Logo}
@@ -75,6 +122,19 @@ class RegisterScreen extends Component {
               value={this.state.password}
               style={styles.textInput}
             />
+          </View>
+          <View style={styles.containTextInput}>
+            <Input
+              placeholder='Confirm password'
+              secureTextEntry={true}
+              autoCapitalize={'none'}
+              placeholderTextColor={bodyTextColor}
+              onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
+              value={this.state.confirmPassword}
+              style={styles.textInput}
+            />
+          </View>
+          <View>
             <Input
               placeholder='Email'
               placeholderTextColor={bodyTextColor}
@@ -132,7 +192,7 @@ class RegisterScreen extends Component {
             >Forgot Password?</Text>
           </View>
           <TouchableOpacity
-            onPress={(text) => { }}
+            onPress={this.handleSignup}
             activeOpacity={0.8}
           >
             <View elevation={5} style={styles.containButton}>
@@ -161,7 +221,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: '3%',
     paddingRight: '3%',
-    paddingBottom: '20%',
   },
   containImage: {
     marginTop: '10%',
@@ -226,4 +285,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+const mapStateToProps = ({ authReducer }) => ({
+  isLoading: authReducer.isLoading,
+});
+
+export default connect(mapStateToProps, { signupUser })(RegisterScreen);
