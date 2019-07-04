@@ -3,6 +3,7 @@ export default {
     isLoading: false,
   },
   authReducer: {
+    isLoading: false,
     user: null,
     error: null,
   },
@@ -15,4 +16,4 @@ export default {
     homeDelivery: false,
     cart: [],
   }
-}
+};
