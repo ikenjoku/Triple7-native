@@ -35,18 +35,6 @@ class FavoritesScreen extends Component {
     this.fetchFavorites();
   }
 
-  static navigationOptions = {
-    drawerLabel: "My Favorites",
-    drawerIcon: () => (
-      <Icon
-        name='like1'
-        type='antdesign'
-        size={24}
-        color='#777f7c'
-      />
-    ),
-  }
-
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'

@@ -19,18 +19,6 @@ class ReservationScreen extends Component {
     }
   }
 
-  static navigationOptions = {
-    drawerLabel: "Reserve Table",
-    drawerIcon: () => (
-      <Icon
-        name='tags'
-        type='antdesign'
-        size={24}
-        color='#777f7c'
-      />
-    ),
-  }
-
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
   }

@@ -42,18 +42,6 @@ class AboutScreen extends Component {
     ]
   }
 
-  static navigationOptions = {
-    drawerLabel: "Order History",
-    drawerIcon: () => (
-      <Icon
-        name='history'
-        type='font-awesome'
-        size={24}
-        color='#777f7c'
-      />
-    ),
-  }
-
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'

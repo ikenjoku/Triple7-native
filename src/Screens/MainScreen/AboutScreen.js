@@ -5,18 +5,6 @@ import { Header, Card, Button, Icon } from 'react-native-elements';
 import CustomHeader from "../../components/Header";
 class AboutScreen extends Component {
 
-  static navigationOptions = {
-    drawerLabel: "About Triple 7",
-    drawerIcon: () => (
-      <Icon
-        name='info-outline'
-        type='material-icons'
-        size={24}
-        color='#777f7c'
-      />
-    ),
-  }
-
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'

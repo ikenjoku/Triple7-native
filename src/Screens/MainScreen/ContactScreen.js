@@ -20,16 +20,6 @@ const RenderIcon = (props) => {
 }
 
 class ContactScreen extends Component {
-  static navigationOptions = {
-    drawerLabel: "Contact",
-    drawerIcon: () =>
-      <RenderIcon
-        name={'contacts'}
-        size={24}
-        color={'#777f7c'}
-        type={'ant-design'}
-      />,
-  }
 
   toggleDrawer = (navigation) => navigation.toggleDrawer();
 
