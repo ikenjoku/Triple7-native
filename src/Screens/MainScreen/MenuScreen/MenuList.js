@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, ActivityIndicator } from 'react-native';
-import { Card, Icon, Button, Badge, Header, withBadge } from 'react-native-elements';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
+import { Card, Button, Badge } from 'react-native-elements';
 
-import { fetchMenu } from "../../../redux/actions/mealActions";
-import { addToCart } from "../../../redux/actions/cartActions";
-import AnimatedLoader from "../../../components/animatedLoader";
+import { fetchMenu } from '../../../redux/actions/mealActions';
+import { addToCart } from '../../../redux/actions/cartActions';
+import AnimatedLoader from '../../../components/animatedLoader';
 import AnimatedCartIcon from '../../../components/animatedCartIcon';
-import CustomHeader from "../../../components/Header";
+import CustomHeader from '../../../components/Header';
 class MenuList extends Component {
 
   static navigationOptions = {
@@ -20,11 +20,42 @@ class MenuList extends Component {
   }
 
   renderRightHeaderIcon = (navigation) => {
-    return <AnimatedCartIcon navigation={navigation} />
+    return <AnimatedCartIcon navigation={navigation} />;
+  }
+
+  renderNumberInCart = () => {
+    const theme = {
+      pri50: '#e4f6eb',
+      pri500: '#00b25c',
+      pri700: '#009145',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+      sec900: '#802764',
+    };
+    return (
+      <View style={{ alignItems: 'flex-end' }}>
+        <Badge
+          value={'2 Added'}
+          textStyle={{ color: theme.sec700 }}
+          badgeStyle={{
+            backgroundColor: '#fff',
+            padding: 5,
+            borderColor: theme.sec700 }}
+        />
+      </View>
+    );
   }
 
   renderDish = (meal) => {
     const { navigation, cart, addToCart } = this.props;
+    const theme = {
+      pri50: '#e4f6eb',
+      pri500: '#00b25c',
+      pri700: '#009145',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+    };
+
     if (meal.category !== 'Drinks') {
       return (
         <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
@@ -41,60 +72,87 @@ class MenuList extends Component {
             imageWrapperStyle={{
               width: '100%',
             }}
+            PlaceholderContent={<ActivityIndicator />}
           >
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ marginBottom: 10, fontWeight: '700' }}>
+              <Text style={{ marginBottom: 10, fontWeight: '700', fontFamily: 'sans-serif-medium' }}>
                 {meal.name}
               </Text>
-              <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
-              <Badge activeOpacity={0.8} onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
+              <Badge
+                value={meal.category}
+                textStyle={{ color: theme.pri500 }}
+                badgeStyle={{
+                  backgroundColor: '#fff',
+                  padding: 5, borderColor: theme.pri500 }}
+              />
+              <Badge
+                activeOpacity={0.8}
+                onPress={() => addToCart(cart, { name: meal.name, price: meal.price })}
+                value="+ Add to Cart"
+                badgeStyle={{ backgroundColor: theme.sec700, padding: 15 }}
+              />
             </View>
-            <Text style={{ marginBottom: 10 }}>
+            {this.renderNumberInCart()}
+            <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
               {meal.description}
             </Text>
             <Button
               type='outline'
-              title='VIEW'
-              buttonStyle={{ borderColor: "#2FBE74", backgroundColor: "#f9f9f9" }}
-              titleStyle={{ color: "#2FBE74" }}
+              title='View'
+              buttonStyle={{ borderColor: theme.pri500, backgroundColor: '#fff', borderWidth: 1 }}
+              titleStyle={{ color: theme.pri500, fontFamily: 'sans-serif-medium' }}
               onPress={() => navigation.navigate('MealDetail', { meal })}
             />
           </Card>
         </Animatable.View>
       );
-    } else {
-      return (
-        <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
-          <Card
-            containerStyle={{
-              borderRadius: 5,
-              marginBottom: '3%',
-              marginTop: '3%'
-            }}
-          >
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <View>
-                <Image
-                  source={{ uri: meal.imgurl }}
-                  style={{ width: 100, height: 100 }}
-                  PlaceholderContent={<ActivityIndicator />}
-                />
-              </View>
-              <View style={{ flexDirection: 'column' }}>
-                <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
-                <Text style={{ marginBottom: 10, fontWeight: '700' }}>
-                  {meal.name}
-                </Text>
-                <Text style={{ marginBottom: 10 }}>
-                  {meal.description}
-                </Text>
-                <Badge activeOpacity={0.8} onPress={() => addToCart(cart, { name: meal.name, price: meal.price })} value="+ Add to Cart" badgeStyle={{ backgroundColor: '#B32F20', padding: 15 }} />
-              </View>
-            </View>
-          </Card>
-        </Animatable.View>
-      );
     }
+    return (
+      <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
+        <Card
+          containerStyle={{
+            borderRadius: 5,
+            marginBottom: '3%',
+            marginTop: '3%'
+          }}
+        >
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+            <View>
+              <Image
+                source={{ uri: meal.imgurl }}
+                style={{ width: 100, height: 100 }}
+                PlaceholderContent={<ActivityIndicator />}
+              />
+            </View>
+            <View style={{ flexDirection: 'column' }}>
+              <View style={{ flexDirection: 'row', justifyContent:'center' }}>
+                <Badge
+                  value={meal.category}
+                  textStyle={{ color: theme.pri500 }}
+                  badgeStyle={{
+                    backgroundColor: '#fff',
+                    padding: 5,
+                    borderColor: theme.pri500 }}
+                />
+                {this.renderNumberInCart()}
+              </View>
+              <Text style={{ marginBottom: 10, fontWeight: '700' }}>
+                {meal.name}
+              </Text>
+              <Text style={{ marginBottom: 10 }}>
+                {meal.description}
+              </Text>
+              <Badge
+                activeOpacity={0.8}
+                onPress={() => addToCart(cart, { name: meal.name, price: meal.price })}
+                value="+ Add to Cart"
+                badgeStyle={{ backgroundColor: theme.sec700, padding: 15 }}
+              />
+            </View>
+          </View>
+        </Card>
+      </Animatable.View>
+    );
   }
 
   render() {
@@ -117,7 +175,7 @@ class MenuList extends Component {
       </View>
     );
   }
-};
+}
 
 const mapStateToProps = ({ mealReducer, cartReducer }) => ({
   menu: mealReducer.menu,
@@ -131,16 +189,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
-  },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
   },
   drinkThumbnail: {
     width: '12%',
