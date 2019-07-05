@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
-import { Card, Icon, Button, Badge, Header } from 'react-native-elements';
-import { getData, deleteData, storeData } from "../../../utils/asyncStore";
-import { addToCart } from "../../../redux/actions/cartActions";
-import CustomHeader from "../../../components/Header";
+import { View, Text, StyleSheet } from 'react-native';
+import { Card, Icon, Button, Badge } from 'react-native-elements';
+import { getData, storeData } from '../../../utils/asyncStore';
+import { addToCart } from '../../../redux/actions/cartActions';
+import CustomHeader from '../../../components/Header';
 import AnimatedCartIcon from '../../../components/animatedCartIcon';
 
 class MealDetail extends Component {
@@ -23,12 +23,9 @@ class MealDetail extends Component {
   componentDidMount() {
     getData('@triple-cokie')
       .then(response => {
-        console.log('componentDidMount', response);
         if (response) {
-          console.log(response);
           this.setState(() => ({ favorites: response }));
         } else {
-          console.log(response);
           this.setState(() => ({ favorites: [] }));
         }
       })
@@ -39,31 +36,28 @@ class MealDetail extends Component {
 
   addFavorite = (meal) => {
     return getData('@triple-cokie')
-    .then(response => {
-      console.log(response);
-      if (response) {
-        const updatedFavs = [...response, meal];
-        return storeData('@triple-cokie', updatedFavs)
-          .then((newFavs) => {
-            this.setState(() => ({ favorites: newFavs }));
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      } else {
+      .then(response => {
+        if (response) {
+          const updatedFavs = [...response, meal];
+          return storeData('@triple-cokie', updatedFavs)
+            .then((newFavs) => {
+              this.setState(() => ({ favorites: newFavs }));
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } 
         return storeData('@triple-cokie', [meal])
           .then((newFavs) => {
-            console.log(newFavs);
             this.setState(() => ({ favorites: newFavs }));
           })
           .catch(err => {
             console.log(err);
           });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   removeFavorite = (meal) => {
@@ -85,11 +79,11 @@ class MealDetail extends Component {
       color='#fff'
       underlayColor='transparent'
       onPress={() => navigation.toggleDrawer()}
-    />
+    />;
   }
 
   renderRightHeaderIcon = (navigation) => {
-    return <AnimatedCartIcon navigation={navigation} />
+    return <AnimatedCartIcon navigation={navigation} />;
   }
 
   isFavorite = (name) => {
@@ -97,19 +91,51 @@ class MealDetail extends Component {
     return result.length > 0;
   }
 
+  renderNumberInCart = () => {
+    const theme = {
+      pri50: '#e4f6eb',
+      pri500: '#00b25c',
+      pri700: '#009145',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+      sec900: '#802764',
+    };
+    return (
+      <View style={{ alignItems: 'flex-end' }}>
+        <Badge
+          value={'2 Added'}
+          textStyle={{ color: theme.sec700 }}
+          badgeStyle={{
+            backgroundColor: '#fff',
+            padding: 5,
+            borderColor: theme.sec700 }}
+        />
+      </View>
+    );
+  }
+
   render() {
     const { navigation, addToCart, cart } = this.props;
     const { meal } = navigation.state.params;
-      return (
-        <View style={styles.container}>
-          <Animatable.View animation="fadeInRightBig" duration={400}>
-            <CustomHeader
-              title={`${meal.name }`}
-              navigation={navigation}
-              rightComponent={this.renderRightHeaderIcon}
-            />
-            { meal ?
-              (
+    const theme = {
+      pri50: '#e4f6eb',
+      pri500: '#00b25c',
+      pri700: '#009145',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+      sec900: '#802764',
+    };
+
+    return (
+      <View style={styles.container}>
+        <Animatable.View animation="fadeInRightBig" duration={400}>
+          <CustomHeader
+            title={`${meal.name }`}
+            navigation={navigation}
+            rightComponent={this.renderRightHeaderIcon}
+          />
+          { meal ?
+            (
               <Card
                 image={{ uri: meal.imgurl }}
                 imageStyle={{
@@ -124,19 +150,27 @@ class MealDetail extends Component {
                   width: '100%',
                 }}
               >
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{ marginBottom: 10, fontWeight: '700' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{ marginBottom: 10, fontWeight: '700', fontFamily: 'sans-serif-medium' }}>
                     {meal.name}
                   </Text>
-                  <Badge value={meal.category} textStyle={{ color: '#2FBE74' }} badgeStyle={{ backgroundColor: '#fff', padding: 5, borderColor: '#2FBE74' }} />
+                  <Badge
+                    value={meal.category}
+                    textStyle={{ color: theme.pri500 }}
+                    badgeStyle={{
+                      backgroundColor: '#fff',
+                      padding: 5,
+                      borderColor: theme.pri500
+                    }} />
                   <Icon
                     name={this.isFavorite(meal.name) ? 'favorite' : 'favorite-border'}
                     size={35}
-                    color='#B32F20'
+                    color={theme.sec900}
                     onPress={!this.isFavorite(meal.name) ? () => this.addFavorite(meal) : () => this.removeFavorite(meal)}
                   />
                 </View>
-                <Text style={{ marginBottom: 10 }}>
+                {this.renderNumberInCart()}
+                <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
                   {meal.description}
                 </Text>
                 <Button
@@ -144,8 +178,8 @@ class MealDetail extends Component {
                   type='solid'
                   title='Add to Cart'
                   onPress={() => addToCart(cart, { name: meal.name, price: meal.price })}
-                  buttonStyle={{ backgroundColor: "#B32F20" }}
-                  titleStyle={{ color: "#f9f9f9" }}
+                  buttonStyle={{ backgroundColor: theme.sec700 }}
+                  titleStyle={{ color: '#fff', fontFamily: 'sans-serif-medium' }}
                   containerStyle={{
                     marginTop: '2%',
                     marginBottom: '5%'
@@ -154,8 +188,8 @@ class MealDetail extends Component {
                 <Button
                   type='outline'
                   title='Bact to Menu'
-                  buttonStyle={{ borderColor: "#2FBE74", backgroundColor: "#f9f9f9" }}
-                  titleStyle={{ color: "#2FBE74", paddingLeft: 5 }}
+                  buttonStyle={{ borderColor: theme.pri500, backgroundColor: '#fff', borderWidth: 1 }}
+                  titleStyle={{ color: theme.pri500, paddingLeft: 5, fontFamily: 'sans-serif-medium' }}
                   onPress={() => navigation.navigate('MenuList')}
                   containerStyle={{
                     marginBottom: '2%'
@@ -165,35 +199,34 @@ class MealDetail extends Component {
                     <Icon
                       name="back"
                       size={25}
-                      color="#2FBE74"
+                      color={theme.pri500}
                       type='antdesign'
                     />
                   }
                 />
-                </Card>
+              </Card>
 
-                ) : (
-                  <Card>
-                  <View style={[{
-                    backgroundColor: '#8CAE68',
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                  }, styles.container]}>
-                    <Text>No meal selected</Text>
-                    <Button
-                      title="Go back to Menu"
-                      onPress={() => navigation.navigate('Menu')}
-                    />
-                  </View>
-                  </Card>
-                )}
-          </Animatable.View>
-        </View>
-      )
-    }
-  
-};
+            ) : (
+              <Card>
+                <View style={[{
+                  backgroundColor: '#8CAE68',
+                  flex: 1,
+                  flexDirection: 'column',
+                  justifyContent: 'center'
+                }, styles.container]}>
+                  <Text>No meal selected</Text>
+                  <Button
+                    title="Go back to Menu"
+                    onPress={() => navigation.navigate('Menu')}
+                  />
+                </View>
+              </Card>
+            )}
+        </Animatable.View>
+      </View>
+    );
+  }
+}
 
 const mapStateToProps = ({ cartReducer }) => ({
   cart: cartReducer.cart,
@@ -206,15 +239,5 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
-  },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
-  },
+  }
 });
