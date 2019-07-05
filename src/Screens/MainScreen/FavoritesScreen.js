@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
-import { Header, Icon, Button, ListItem } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { View, Text, StyleSheet, RefreshControl } from 'react-native';
+import { Icon, ListItem } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
-import * as Animatable from 'react-native-animatable';
-import { getData, storeData } from "../../utils/asyncStore";
+import { getData, storeData } from '../../utils/asyncStore';
 import { ScrollView } from 'react-native-gesture-handler';
-import CustomHeader from "../../components/Header";
+import CustomHeader from '../../components/Header';
 
 
 class FavoritesScreen extends Component {
@@ -38,11 +37,11 @@ class FavoritesScreen extends Component {
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'
-      size={35}
+      size={24}
       color='#fff'
       underlayColor='transparent'
       onPress={() => navigation.navigate('Menu')}
-    />
+    />;
   }
 
   removeFavorite = (meal) => {
@@ -59,7 +58,7 @@ class FavoritesScreen extends Component {
 
   renderNoList = () => {
     return (
-      <View style={[{ backgroundColor: '#eaeaea', alignItems: "center" }]}>
+      <View style={[{ backgroundColor: '#eaeaea', alignItems: 'center' }]}>
         <Icon
           name='meh'
           type='antdesign'
@@ -69,11 +68,10 @@ class FavoritesScreen extends Component {
         />
         <Text style={{ fontSize: 20 }}>You have not liked any meal?</Text>
       </View>
-    )
+    );
   }
 
   renderMealItem = (meal, i) => {
-    const { navigation } = this.props;
     const swipeButton = [
       {
         text: 'Delete',
@@ -93,19 +91,26 @@ class FavoritesScreen extends Component {
           onPress={() => this.navigateToMenu(meal)}
         />
       </Swipeout>
-    )
+    );
   }
 
   navigateToMenu = (meal) => {
     const { menu, navigation } = this.props;
     const inMenu = menu.find(item => meal.name === item.name);
     if (inMenu) {
-      navigation.navigate('MealDetail', { meal })
+      navigation.navigate('MealDetail', { meal });
     }
   }
   render() {
     const { favorites, refreshing } = this.state;
-    const { navigation } = this.props;
+    const theme = {
+      pri50: '#e4f6eb',
+      pri500: '#00b25c',
+      pri700: '#009145',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+      sec900: '#802764',
+    };
     return (
       <View style={styles.container}>
         <CustomHeader
@@ -114,7 +119,7 @@ class FavoritesScreen extends Component {
           rightComponent={this.renderRightHeaderIcon}
         />
         {!favorites.length ? (
-          <View style={[{ backgroundColor: '#eaeaea', alignItems: "center" }]}>
+          <View style={[{ backgroundColor: '#eaeaea', alignItems: 'center' }]}>
             <Icon
               name='meh'
               type='antdesign'
@@ -131,91 +136,81 @@ class FavoritesScreen extends Component {
                 name='md-refresh'
                 type='ionicon'
                 size={30}
-                color='#2FBE74'
-                onPress={() => { this.fetchFavorites() }}
+                color={theme.pri500}
+                onPress={this.fetchFavorites}
                 containerStyle={{ marginTop: '20%' }}
               />
             </View>
           </View>
         ) : (
-            <ScrollView
-              style={{ flex: 1 }}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={this.onRefresh}
-                />
-              }
-            >
-              {
-                favorites.map(this.renderMealItem)
-              }
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                paddingTop: '3%'
-              }}>
-                <Icon
-                  name='angle-double-left'
-                  type='font-awesome'
-                  size={20}
-                  color='#777f7c'
-                  containerStyle={{ marginRight: '3%' }}
-                />
-                <Text style={{ fontWeight: 'bold' }}>Slide left to delete</Text>
-                <Icon
-                  name='angle-double-left'
-                  type='font-awesome'
-                  size={20}
-                  color='#777f7c'
-                  containerStyle={{ marginLeft: '3%' }}
-                />
-              </View>
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                paddingTop: '3%'
-              }}>
-                <Icon
-                  name='angle-double-down'
-                  type='font-awesome'
-                  size={20}
-                  color='#777f7c'
-                  containerStyle={{ marginRight: '3%' }}
-                />
-                <Text style={{ fontWeight: 'bold' }}>Scroll down to update</Text>
-                <Icon
-                  name='angle-double-down'
-                  type='font-awesome'
-                  size={20}
-                  color='#777f7c'
-                  containerStyle={{ marginLeft: '3%' }}
-                />
-              </View>
-            </ScrollView>
-          )}
+          <ScrollView
+            style={{ flex: 1 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          >
+            {
+              favorites.map(this.renderMealItem)
+            }
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              paddingTop: '3%'
+            }}>
+              <Icon
+                name='angle-double-left'
+                type='font-awesome'
+                size={20}
+                color='#777f7c'
+                containerStyle={{ marginRight: '3%' }}
+              />
+              <Text style={{ fontWeight: 'bold' }}>Slide left to delete</Text>
+              <Icon
+                name='angle-double-left'
+                type='font-awesome'
+                size={20}
+                color='#777f7c'
+                containerStyle={{ marginLeft: '3%' }}
+              />
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              paddingTop: '3%'
+            }}>
+              <Icon
+                name='angle-double-down'
+                type='font-awesome'
+                size={20}
+                color='#777f7c'
+                containerStyle={{ marginRight: '3%' }}
+              />
+              <Text style={{ fontWeight: 'bold' }}>Scroll down to update</Text>
+              <Icon
+                name='angle-double-down'
+                type='font-awesome'
+                size={20}
+                color='#777f7c'
+                containerStyle={{ marginLeft: '3%' }}
+              />
+            </View>
+          </ScrollView>
+        )}
 
       </View>
     );
 
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
-  },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
   },
   cardTitle: {
     textAlign: 'center',
