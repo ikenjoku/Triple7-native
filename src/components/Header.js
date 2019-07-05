@@ -17,11 +17,19 @@ class CustomHeader extends Component {
 
   render () {
     const { navigation, title, rightComponent } = this.props;
+    const theme = {
+      pri50: '#e4f6eb',
+      pri500: '#00b25c',
+      pri700: '#009145',
+      pri800: '#007f39',
+      sec700: '#be2f79',
+    };
+
     return (
       <Header
-        statusBarProps={{ barStyle: 'light-content', backgroundColor: '#009145' }}
+        statusBarProps={{ barStyle: 'light-content', backgroundColor: theme.pri700 }}
         containerStyle={styles.header}
-        backgroundColor='#00b25c'
+        backgroundColor={theme.pri500}
         leftComponent={this.renderMenuIcon(navigation)}
         centerComponent={{ text:  `${title}`, style: styles.titleStyle }}
         rightComponent={rightComponent(navigation)}
