@@ -9,6 +9,8 @@ import { addToCart } from '../../../redux/actions/cartActions';
 import AnimatedLoader from '../../../components/animatedLoader';
 import AnimatedCartIcon from '../../../components/animatedCartIcon';
 import CustomHeader from '../../../components/Header';
+import ErrorPage from '../../../components/ErrorPage';
+
 class MenuList extends Component {
 
 
@@ -158,43 +160,9 @@ class MenuList extends Component {
 
   renderPage = () => {
     const { error, menu } = this.props;
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-    };
 
     if (error) {
-      return (
-        <Fragment>
-          <View style={{ height: '40%' }}>
-            <Icon
-              name='wifi-off'
-              type='material-community'
-              size={80}
-              color='#777f7c'
-              containerStyle={{ marginTop: '20%' }}
-            />
-          </View>
-          <View style={{ paddingLeft: '3%', paddingRight: '3%', paddingBottom: '3%', flex: 1 }}>
-            <Text style={{ textAlign: 'center', fontSize: 25, fontWeight: '500' }}>Network Error</Text>
-            <Text style={{ textAlign: 'center', fontSize: 15, fontWeight: '400' }}>Check your connection and try again</Text>
-            <Button
-              raised
-              title="Try Again"
-              onPress={this.props.fetchMenu}
-              buttonStyle={{
-                backgroundColor: theme.sec700
-              }}
-              containerStyle={{
-                marginTop: 'auto'
-              }}
-            />
-          </View>
-        </Fragment>
-      );
+      return <ErrorPage onRefresh={this.props.fetchMenu} />;
     }
     return (
       <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
