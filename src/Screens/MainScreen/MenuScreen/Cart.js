@@ -66,7 +66,7 @@ class Cart extends Component {
           </TouchableNativeFeedback>
         </View>
 
-        <View style={[styles.childItem, , { flex: 0.6 }]}>
+        <View style={[styles.childItem, { flex: 0.6 }]}>
           <Text style={styles.childText}>{qty}</Text>
         </View>
         <View style={[styles.childItem, { flex: 2.5, flexWrap: 'wrap', alignItems: 'flex-start', paddingLeft: '1%' }]}>

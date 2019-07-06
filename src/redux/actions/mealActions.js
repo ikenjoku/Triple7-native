@@ -27,8 +27,7 @@ export const fetchMenu = () => (dispatch) => {
     .then(response => {
       dispatch(fetch_menu_success(response.data.meals));
     })
-    .catch(error => {
-      console.error(error);
-      dispatch(fetch_menu_failure(error));
+    .catch(() => {
+      dispatch(fetch_menu_failure({ message: 'Error fetching the menu' }));
     });
 };
