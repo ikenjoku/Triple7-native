@@ -82,14 +82,8 @@ class MealDetail extends Component {
   }
 
   renderNumberInCart = () => {
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-      sec900: '#802764',
-    };
+    const { theme } = this.props;
+
     return (
       <View style={{ alignItems: 'flex-end' }}>
         <Badge
@@ -105,16 +99,8 @@ class MealDetail extends Component {
   }
 
   render() {
-    const { navigation, addToCart, cart } = this.props;
+    const { navigation, addToCart, cart, theme } = this.props;
     const { meal } = navigation.state.params;
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-      sec900: '#802764',
-    };
 
     return (
       <View style={styles.container}>
@@ -218,8 +204,9 @@ class MealDetail extends Component {
   }
 }
 
-const mapStateToProps = ({ cartReducer }) => ({
+const mapStateToProps = ({ cartReducer, themeReducer }) => ({
   cart: cartReducer.cart,
+  theme: themeReducer.theme,
 });
 
 export default connect(mapStateToProps, { addToCart })(MealDetail);
