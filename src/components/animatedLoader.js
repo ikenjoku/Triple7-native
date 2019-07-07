@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import AnimatedLoader from 'react-native-animated-loader';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 const loadingJSON = require('../assets/cooking2.json');
 
 const defaultSettings = {
@@ -10,11 +10,11 @@ const defaultSettings = {
 };
 
 export default ({ loading }) => (
-    <AnimatedLoader
-      visible={loading}
-      animationStyle={styles.animationLoader}
-      {...defaultSettings}
-    />
+  <AnimatedLoader
+    visible={loading}
+    animationStyle={styles.animationLoader}
+    {...defaultSettings}
+  />
 );
 
 const styles = StyleSheet.create({
