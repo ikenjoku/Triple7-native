@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon, Button } from 'react-native-elements';
-import CustomHeader from "../../components/Header";
+import CustomHeader from '../../components/Header';
 
 class AnimatedChefIcon extends Component {
   render() {
@@ -20,7 +21,7 @@ class AnimatedChefIcon extends Component {
   }
 }
 
-class AboutScreen extends Component {
+class OrdersScreen extends Component {
 
   state = {
     orders: [
@@ -42,14 +43,29 @@ class AboutScreen extends Component {
     ]
   }
 
+  static navigationOptions = () => {
+    // const { theme } = this.props;
+    return ({
+      drawerLabel: 'Order History',
+      drawerIcon: () => (
+        <Icon
+          name='history'
+          type='font-awesome'
+          size={24}
+          color='#777f7c'
+        />
+      ),
+    });
+  }
+
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'
-      size={35}
+      size={24}
       color='#fff'
       underlayColor='transparent'
       onPress={() => navigation.navigate('Menu')}
-    />
+    />;
   }
 
   renderOrderItem = (order) => {
@@ -100,19 +116,19 @@ class AboutScreen extends Component {
           <Text style={{ textAlign: 'center', fontSize: 25, fontWeight: '500' }}>No previous orders yet</Text>
           <Text style={{ textAlign: 'center', fontSize: 15, fontWeight: '400' }}>Load up your basket with some yummy meals</Text>
         </View>
-          <View style={{ marginTop: '6%' }}>
-            <Button
-              raised
-              title="See Today's Menu"
-              onPress={() => navigate('MenuList')}
-              buttonStyle={{
-                backgroundColor: '#B32F20'
-              }}
-              containerStyle={{
-                marginTop: 'auto'
-              }}
-            />
-          </View>
+        <View style={{ marginTop: '6%' }}>
+          <Button
+            raised
+            title="See Today's Menu"
+            onPress={() => navigate('MenuList')}
+            buttonStyle={{
+              backgroundColor: '#B32F20'
+            }}
+            containerStyle={{
+              marginTop: 'auto'
+            }}
+          />
+        </View>
           
       </Fragment>
     );
@@ -138,7 +154,7 @@ class AboutScreen extends Component {
       </ScrollView>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -170,4 +186,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AboutScreen;
+const mapStateToProps = ({ themeReducer }) => ({
+  theme: themeReducer.theme,
+});
+
+export default connect(mapStateToProps, { })(OrdersScreen);
