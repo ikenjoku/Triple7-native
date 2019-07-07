@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { changeTheme } from '../redux/actions/themeActions';
 
 export class ColorPalette extends Component {
   state = {
-    colorOptions: ['green', 'purple', 'orange', 'black']
+    colorOptions: ['#2fbe74', '#8b50da', '#f69400', '#000000']
   }
 
   renderPalette = (color) => {
 
     return (
-      <View key={color} style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: color, margin: 5 }}>
-      </View>
+      <TouchableOpacity key={color} onPress={() => this.props.changeTheme(color)}>
+        <View style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: color, margin: 5 }}>
+        </View>
+      </TouchableOpacity>
     );
   }
   render() {
@@ -40,4 +44,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ColorPalette;
+const mapStateToProps = ({ themeReducer }) => ({
+  theme: themeReducer.theme,
+});
+
+export default connect(mapStateToProps, { changeTheme })(ColorPalette);
