@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon } from 'react-native-elements';
@@ -20,6 +21,20 @@ const RenderIcon = (props) => {
 };
 
 class ContactScreen extends Component {
+  static navigationOptions = () => {
+    // const { theme } = this.props;
+    return ({
+      drawerLabel: 'Contact',
+      drawerIcon: () => (
+        <Icon
+          name='contacts'
+          size={24}
+          type='ant-design'
+          color='#777f7c'
+        />
+      ),
+    });
+  }
 
   renderRightHeaderIcon = (navigation) => {
     return <RenderIcon
@@ -31,6 +46,7 @@ class ContactScreen extends Component {
   }
 
   render() {
+    const { theme } = this.props;
 
     return (
       <View style={styles.container}>
@@ -87,7 +103,7 @@ class ContactScreen extends Component {
                   size={30}
                   name='email'
                   type='material-community'
-                  color='#B32F20'
+                  color={theme.sec700}
                   onPress={() => console.log('hello')} />
               </View>
             </View>
@@ -126,4 +142,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactScreen;
+const mapStateToProps = ({ themeReducer }) => ({
+  theme: themeReducer.theme,
+});
+
+export default connect(mapStateToProps, {})(ContactScreen);
