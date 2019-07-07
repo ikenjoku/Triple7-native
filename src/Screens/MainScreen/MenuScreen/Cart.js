@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import LottieView from 'lottie-react-native';
 import { View, Text, StyleSheet, ScrollView, TouchableNativeFeedback } from 'react-native';
-import { Button, Icon, Card, CheckBox } from "react-native-elements";
-import { Container, Header, Content, Textarea, Form } from "native-base";
+import { Button, Icon, Card, CheckBox } from 'react-native-elements';
+import { Textarea } from 'native-base';
 import CustomHeader from '../../../components/Header';
-import { addToCart, removeFromCart, clearCart } from "../../../redux/actions/cartActions";
+import { addToCart, removeFromCart, clearCart } from '../../../redux/actions/cartActions';
 
 class AnimatedCartIcon extends Component {
   render() {
@@ -25,26 +25,26 @@ class Cart extends Component {
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'
-      size={35}
+      size={24}
       color='#fff'
       underlayColor='transparent'
       onPress={() => navigation.navigate('MenuList')}
-    />
+    />;
   }
 
   calcCartTotal = () => {
     const { cart } = this.props;
     const { homeDelivery } = this.state;
     let sum = 0;
-    if (homeDelivery) sum = 500;
+    if (homeDelivery) {sum = 500;}
     cart.map(item => sum += (item.qty * item.price));
     return sum;
   }
 
   renderCartItem = (cartItem) => {
-    const { cart } = this.props;
+    const { cart, theme } = this.props;
     const { name, qty, price } = cartItem;
-    const ripple = TouchableNativeFeedback.Ripple('#B32F20', true);
+    const ripple = TouchableNativeFeedback.Ripple('grey', true);
     return (
       <View style={styles.containCartItem} key={name}>
         <View style={[styles.childItem, { elevation: 2, borderRadius: 5 }]}>
@@ -59,7 +59,7 @@ class Cart extends Component {
                 name='plus-circle'
                 size={24}
                 type='feather'
-                color='#B32F20'
+                color={theme.sec700}
                 underlayColor='transparent'
               />
             </View>
@@ -91,7 +91,7 @@ class Cart extends Component {
                 name='minus-circle'
                 size={24}
                 type='feather'
-                color='#B32F20'
+                color={theme.sec700}
                 underlayColor='transparent'
               />
             </View>
@@ -103,7 +103,7 @@ class Cart extends Component {
 
   render() {
     const { homeDelivery } = this.state;
-    const { navigation, cart, clearCart } = this.props;
+    const { navigation, cart, clearCart, theme } = this.props;
     const { navigate } = navigation;
     const isVisible = homeDelivery ? 'flex' : 'none';
     return (
@@ -127,7 +127,7 @@ class Cart extends Component {
                   title="See Today's Menu"
                   onPress={() => navigate('MenuList')}
                   buttonStyle={{
-                    backgroundColor: '#B32F20'
+                    backgroundColor: theme.sec700
                   }}
                   containerStyle={{
                     marginTop: 'auto'
@@ -136,62 +136,72 @@ class Cart extends Component {
               </View>
             </Fragment>
           ) : (
-              <ScrollView>
-                <Card>
-                  <View style={{  marginBottom: '6%', borderBottomColor: '#2FBE74', borderBottomWidth: 5, flexDirection: 'row', justifyContent:'space-between' , minHeight: "4%"}}>
-                    <Text style={{ fontSize: 20, color:'#2FBE74', fontWeight:'500' }}>Your basket</Text>
+            <ScrollView>
+              <Card>
+                <View style={{
+                  marginBottom: '6%',
+                  borderBottomColor: theme.pri500,
+                  borderBottomWidth: 5,
+                  flexDirection: 'row',
+                  justifyContent:'space-between',
+                }}>
+                  <View>
+                    <Text style={{ fontSize: 20, color: theme.pri500, fontWeight:'500' }}>Your basket</Text>
+                  </View>
+                  <View>
                     <Text style={{ fontWeight: '500' }} onPress={clearCart}>CLEAR ALL</Text>
                   </View>
-                  <View>
-                    {
-                      cart.map(this.renderCartItem)
-                    }
-                  </View>
-                  <View style={{ marginTop: '3%' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <View style={{ flex: 3, justifyContent: 'center'}}>
+                </View>
+                <View>
+                  {
+                    cart.map(this.renderCartItem)
+                  }
+                </View>
+                <View style={{ marginTop: '3%' }}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flex: 3, justifyContent: 'center'}}>
                       <Text style={{ fontWeight: '500'}}>Deliver food to location ?</Text>
                       <Text>For an extra charge of &#8358; 500.00</Text>
-                      </View>
-                      <View style={{ flex: 1}}>
-                        <CheckBox
-                          checked={this.state.homeDelivery}
-                          onPress={() => this.setState({ homeDelivery: !homeDelivery })}
-                          checkedColor="#2FBE74"
-                        />
-                      </View>
                     </View>
-                    <View>
+                    <View style={{ flex: 1}}>
+                      <CheckBox
+                        checked={this.state.homeDelivery}
+                        onPress={() => this.setState({ homeDelivery: !homeDelivery })}
+                        checkedColor={theme.pri500}
+                      />
                     </View>
-                  </View>
-                  <View style={{ display: isVisible }}>
-                    <Textarea value={this.state.address} onChangeText={((address) => this.setState({address}))} rowSpan={5} bordered placeholder="Tell us your address" />
                   </View>
                   <View>
-                    <View style={{  marginBottom: '24%', flexDirection: 'row', justifyContent:'flex-end', alignItems:'center' }}>
-                      <Text style={{ fontSize: 15, color: 'black', paddingRight: '1%', fontWeight:'500' }}>Total:</Text>
-                      <Text style={{ fontSize: 30, fontWeight:'500', color:'#B32F20' }}>&#8358; {this.calcCartTotal()}.00</Text>
-                    </View>
                   </View>
-                  <Button
+                </View>
+                <View style={{ display: isVisible }}>
+                  <Textarea value={this.state.address} onChangeText={((address) => this.setState({address}))} rowSpan={5} bordered placeholder="Tell us your address" />
+                </View>
+                <View>
+                  <View style={{  marginBottom: '24%', flexDirection: 'row', justifyContent:'flex-end', alignItems:'center' }}>
+                    <Text style={{ fontSize: 15, color: 'black', paddingRight: '1%', fontWeight:'500' }}>Total:</Text>
+                    <Text style={{ fontSize: 30, fontWeight:'500', color: theme.sec900 }}>&#8358; {this.calcCartTotal()}.00</Text>
+                  </View>
+                </View>
+                <Button
                   raised
                   title="Confirm Order"
                   onPress={() => navigate('Payment')}
                   buttonStyle={{
-                    backgroundColor: '#B32F20'
+                    backgroundColor: theme.sec700
                   }}
                   containerStyle={{
                     marginTop: 'auto'
                   }}
                 />
-                </Card>
-              </ScrollView>
-            )
+              </Card>
+            </ScrollView>
+          )
         }
       </View>
     );
   }
-};
+}
 
 
 const styles = StyleSheet.create({
@@ -201,8 +211,6 @@ const styles = StyleSheet.create({
   containCartItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // borderColor: '#c1c1c1',
-    // borderWidth: 0.6,
     marginBottom: '6%',
   },
   childItem: {
@@ -219,8 +227,9 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = ({ cartReducer }) => ({
+const mapStateToProps = ({ cartReducer, themeReducer }) => ({
   cart: cartReducer.cart,
+  theme: themeReducer.theme,
 });
 
 export default connect(mapStateToProps, { addToCart, removeFromCart, clearCart })(Cart);
