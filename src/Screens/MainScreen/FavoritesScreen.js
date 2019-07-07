@@ -14,6 +14,21 @@ class FavoritesScreen extends Component {
     refreshing: false
   }
 
+  static navigationOptions = () => {
+    // const { theme } = this.props;
+    return ({
+      drawerLabel: 'My Favorites',
+      drawerIcon: () => (
+        <Icon
+          name='like1'
+          type='antdesign'
+          size={24}
+          color='#777f7c'
+        />
+      ),
+    });
+  }
+
   componentDidMount() {
     this.fetchFavorites();
   }
@@ -103,14 +118,8 @@ class FavoritesScreen extends Component {
   }
   render() {
     const { favorites, refreshing } = this.state;
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-      sec900: '#802764',
-    };
+    // const { theme } = this.props;
+
     return (
       <View style={styles.container}>
         <CustomHeader
@@ -136,7 +145,7 @@ class FavoritesScreen extends Component {
                 name='md-refresh'
                 type='ionicon'
                 size={30}
-                color={theme.pri500}
+                // color={theme.pri500}
                 onPress={this.fetchFavorites}
                 containerStyle={{ marginTop: '20%' }}
               />
@@ -223,8 +232,9 @@ const styles = StyleSheet.create({
   spaceTop: { marginTop: 10 }
 });
 
-const mapStateToProps = ({ mealReducer }) => ({
+const mapStateToProps = ({ mealReducer, themeReducer }) => ({
   menu: mealReducer.menu,
+  theme: themeReducer.theme
 });
 
 export default connect(mapStateToProps, {})(FavoritesScreen);
