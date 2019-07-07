@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Card, Button, Icon } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
 class AboutScreen extends Component {
+  static navigationOptions = {
+    drawerLabel: 'About Triple 7',
+    drawerIcon: () => (
+      <Icon
+        name='info-outline'
+        type='material-icons'
+        size={24}
+        color='#777f7c'
+      />
+    ),
+  }
 
   renderRightHeaderIcon = (navigation) => {
     return <Icon
@@ -16,15 +28,7 @@ class AboutScreen extends Component {
   }
 
   render() {
-    const { navigation } = this.props;
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-      sec900: '#802764',
-    };
+    const { navigation, theme } = this.props;
 
     return (
       <View style={styles.container}>
@@ -97,4 +101,8 @@ const styles = StyleSheet.create({
   spaceTop: { marginTop: 10 }
 });
 
-export default AboutScreen;
+const mapStateToProps = ({ themeReducer }) => ({
+  theme: themeReducer.theme,
+});
+
+export default connect(mapStateToProps, { })(AboutScreen);
