@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
@@ -13,20 +13,17 @@ import ErrorPage from '../../../components/ErrorPage';
 
 class MenuList extends Component {
 
-  static navigationOptions = () => {
-    // const { theme } = this.props;
-    return ({
-      drawerLabel: 'Menu',
-      drawerIcon: () => (
-        <Icon
-          name='food-fork-drink'
-          type='material-community'
-          size={24}
-          // color={theme.pri900}
-        />
-      ),
-      header: null,
-    });
+  static navigationOptions = {
+    drawerLabel: 'Menu',
+    drawerIcon: () => (
+      <Icon
+        name='food-fork-drink'
+        type='material-community'
+        size={24}
+        color='#777f7c'
+      />
+    ),
+    header: null,
   }
 
   componentDidMount() {
@@ -38,14 +35,7 @@ class MenuList extends Component {
   }
 
   renderNumberInCart = () => {
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-      sec900: '#802764',
-    };
+    const { theme } = this.props;
     return (
       <View style={{ alignItems: 'flex-end' }}>
         <Badge
@@ -61,14 +51,7 @@ class MenuList extends Component {
   }
 
   renderDish = (meal) => {
-    const { navigation, cart, addToCart } = this.props;
-    const theme = {
-      pri50: '#e4f6eb',
-      pri500: '#00b25c',
-      pri700: '#009145',
-      pri800: '#007f39',
-      sec700: '#be2f79',
-    };
+    const { navigation, cart, addToCart, theme } = this.props;
 
     if (meal.category !== 'Drinks') {
       return (
@@ -200,11 +183,12 @@ class MenuList extends Component {
   }
 }
 
-const mapStateToProps = ({ mealReducer, cartReducer }) => ({
+const mapStateToProps = ({ mealReducer, cartReducer, themeReducer }) => ({
   menu: mealReducer.menu,
   isLoading: mealReducer.isLoading,
   error: mealReducer.error,
   cart: cartReducer.cart,
+  theme: themeReducer.theme,
 });
 
 const styles = StyleSheet.create({
