@@ -81,21 +81,25 @@ class MealDetail extends Component {
     return result.length > 0;
   }
 
-  renderNumberInCart = () => {
-    const { theme } = this.props;
+  renderNumberInCart = (meal) => {
+    const { theme, cart } = this.props;
 
-    return (
-      <View style={{ alignItems: 'flex-end' }}>
-        <Badge
-          value={'2 Added'}
-          textStyle={{ color: theme.sec700 }}
-          badgeStyle={{
-            backgroundColor: '#fff',
-            padding: 5,
-            borderColor: theme.sec700 }}
-        />
-      </View>
-    );
+    const inCart = cart.find(item => item.name === meal.name);
+    if (inCart) {
+      return (
+        <View style={{ alignItems: 'flex-end' }}>
+          <Badge
+            value={`${inCart.qty} Added`}
+            textStyle={{ color: theme.sec700 }}
+            badgeStyle={{
+              backgroundColor: '#fff',
+              padding: 5,
+              borderColor: theme.sec700 }}
+          />
+        </View>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -145,7 +149,7 @@ class MealDetail extends Component {
                     onPress={!this.isFavorite(meal.name) ? () => this.addFavorite(meal) : () => this.removeFavorite(meal)}
                   />
                 </View>
-                {this.renderNumberInCart()}
+                {this.renderNumberInCart(meal)}
                 <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
                   {meal.description}
                 </Text>

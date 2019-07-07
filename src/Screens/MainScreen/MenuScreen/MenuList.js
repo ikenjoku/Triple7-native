@@ -34,20 +34,25 @@ class MenuList extends Component {
     return <AnimatedCartIcon navigation={navigation} />;
   }
 
-  renderNumberInCart = () => {
-    const { theme } = this.props;
-    return (
-      <View style={{ alignItems: 'flex-end' }}>
-        <Badge
-          value={'2 Added'}
-          textStyle={{ color: theme.sec700 }}
-          badgeStyle={{
-            backgroundColor: '#fff',
-            padding: 5,
-            borderColor: theme.sec700 }}
-        />
-      </View>
-    );
+  renderNumberInCart = (meal) => {
+    const { theme, cart } = this.props;
+
+    const inCart = cart.find(item => item.name === meal.name);
+    if (inCart) {
+      return (
+        <View style={{ alignItems: 'flex-end' }}>
+          <Badge
+            value={`${inCart.qty} Added`}
+            textStyle={{ color: theme.sec700 }}
+            badgeStyle={{
+              backgroundColor: '#fff',
+              padding: 5,
+              borderColor: theme.sec700 }}
+          />
+        </View>
+      );
+    }
+    return null;
   }
 
   renderDish = (meal) => {
@@ -89,7 +94,7 @@ class MenuList extends Component {
                 badgeStyle={{ backgroundColor: theme.sec700, padding: 15 }}
               />
             </View>
-            {this.renderNumberInCart()}
+            {this.renderNumberInCart(meal)}
             <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
               {meal.description}
             </Text>
@@ -131,7 +136,7 @@ class MenuList extends Component {
                     padding: 5,
                     borderColor: theme.pri500 }}
                 />
-                {this.renderNumberInCart()}
+                {this.renderNumberInCart(meal)}
               </View>
               <Text style={{ marginBottom: 10, fontWeight: '700' }}>
                 {meal.name}
