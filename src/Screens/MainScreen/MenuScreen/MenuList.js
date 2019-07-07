@@ -13,9 +13,20 @@ import ErrorPage from '../../../components/ErrorPage';
 
 class MenuList extends Component {
 
-
-  static navigationOptions = {
-    header: null,
+  static navigationOptions = () => {
+    // const { theme } = this.props;
+    return ({
+      drawerLabel: 'Menu',
+      drawerIcon: () => (
+        <Icon
+          name='food-fork-drink'
+          type='material-community'
+          size={24}
+          // color={theme.pri900}
+        />
+      ),
+      header: null,
+    });
   }
 
   componentDidMount() {
