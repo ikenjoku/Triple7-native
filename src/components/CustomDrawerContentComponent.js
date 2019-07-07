@@ -42,7 +42,7 @@ class CustomDrawerContentComponent extends Component {
                   name='logout'
                   type='simple-line-icon'
                   size={20}
-                  color={`${theme.pri900}80`}
+                  color={theme.pri900}
                   containerStyle={{ marginRight: '10%' }}
                 />
                 <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Log Out</Text>
@@ -52,7 +52,7 @@ class CustomDrawerContentComponent extends Component {
                   name='user-secret'
                   type='font-awesome'
                   size={24}
-                  color={`${theme.pri900}90`}
+                  color={theme.pri900}
                   containerStyle={{ marginRight: '10%' }}
                 />
                 <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Developer</Text>
