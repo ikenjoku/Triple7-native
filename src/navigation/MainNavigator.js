@@ -14,7 +14,7 @@ import CustomDrawerContentComponent from '../components/CustomDrawerContentCompo
 const MainStack = createDrawerNavigator({
   Menu: {
     screen: MenuStack,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: {
       title: 'Menu',
       drawerIcon: () => (
         <Icon
@@ -24,7 +24,7 @@ const MainStack = createDrawerNavigator({
           color='#777f7c'
         />
       ),
-    }),
+    },
   },
   Reservation: {
     screen: Reservation,

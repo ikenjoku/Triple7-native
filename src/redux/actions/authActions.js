@@ -52,8 +52,13 @@ export const loginUser = (loginDetails) => (dispatch) => {
       NavigationService.navigate('Main');
     })
     .catch(error => {
-      dispatch(login_user_failure(error.response.data));
-      toastError(error.response.data.message);
+      if (error.response) {
+        dispatch(login_user_failure(error.response.data));
+        toastError(error.response.data.message);
+      } else {
+        toastError('Network Error! Check your internet connection and retry');
+        dispatch(login_user_failure({ message: 'Error logging in user' }));
+      }
     });
 };
 
@@ -66,8 +71,13 @@ export const signupUser = (signupDetails) => (dispatch) => {
       dispatch(signup_user_success());
     })
     .catch(error => {
-      dispatch(signup_user_failure(error.response.data));
-      toastError(error.response.data.message);
+      if (error.response) {
+        dispatch(signup_user_failure(error.response.data));
+        toastError(error.response.data.message);
+      } else {
+        toastError('Network Error! Check your internet connection and retry');
+        dispatch(signup_user_failure({ message: 'Error registering user' }));
+      }
     });
 };
 

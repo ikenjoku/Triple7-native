@@ -4,6 +4,7 @@ import {
   FETCH_MENU_FAILURE,
 } from '../actionTypes';
 import API from '../axiosConfig';
+import { toastSuccess, toastError } from './notifications';
 
 export const fetch_menu = () => ({
   type: FETCH_MENU,
@@ -27,7 +28,11 @@ export const fetchMenu = () => (dispatch) => {
     .then(response => {
       dispatch(fetch_menu_success(response.data.meals));
     })
-    .catch(() => {
-      dispatch(fetch_menu_failure({ message: 'Error fetching the menu' }));
+    .catch(error => {
+      if (error.response) {
+        dispatch(fetch_menu_failure(error.response.data));
+      } else {
+        dispatch(fetch_menu_failure({ message: error.message }));
+      }
     });
 };
