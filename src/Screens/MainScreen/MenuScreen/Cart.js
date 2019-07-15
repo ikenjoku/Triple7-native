@@ -5,7 +5,8 @@ import { View, Text, StyleSheet, ScrollView, TouchableNativeFeedback } from 'rea
 import { Button, Icon, Card, CheckBox } from 'react-native-elements';
 import { Textarea } from 'native-base';
 import CustomHeader from '../../../components/Header';
-import { addToCart, removeFromCart, clearCart } from '../../../redux/actions/cartActions';
+import OverlayLoader from '../../../components/OverlayLoader';
+import { addToCart, removeFromCart, clearCart, makeAnOrder } from '../../../redux/actions/cartActions';
 
 class AnimatedCartIcon extends Component {
   render() {
@@ -39,6 +40,12 @@ class Cart extends Component {
     if (homeDelivery) {sum = 500;}
     cart.map(item => sum += (item.qty * item.price));
     return sum;
+  }
+
+  handleConfirmOrder = () => {
+    // add homeDelivery and address field to order
+    const { cart, homeDelivery } = this.props;
+    this.props.makeAnOrder({ meals: cart });
   }
 
   renderCartItem = (cartItem) => {
@@ -103,7 +110,7 @@ class Cart extends Component {
 
   render() {
     const { homeDelivery } = this.state;
-    const { navigation, cart, clearCart, theme } = this.props;
+    const { navigation, cart, clearCart, theme, isOrdering } = this.props;
     const { navigate } = navigation;
     const isVisible = homeDelivery ? 'flex' : 'none';
     return (
@@ -137,6 +144,11 @@ class Cart extends Component {
             </Fragment>
           ) : (
             <ScrollView>
+              <OverlayLoader
+                message='Please wait, making your order...'
+                pri800={theme.pri800}
+                isVisble={isOrdering}
+              />
               <Card>
                 <View style={{
                   marginBottom: '6%',
@@ -186,7 +198,7 @@ class Cart extends Component {
                 <Button
                   raised
                   title="Confirm Order"
-                  onPress={() => navigate('Payment')}
+                  onPress={this.handleConfirmOrder}
                   buttonStyle={{
                     backgroundColor: theme.sec700
                   }}
@@ -229,7 +241,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ cartReducer, themeReducer }) => ({
   cart: cartReducer.cart,
+  isOrdering: cartReducer.isOrdering,
   theme: themeReducer.theme,
 });
 
-export default connect(mapStateToProps, { addToCart, removeFromCart, clearCart })(Cart);
+export default connect(mapStateToProps, { addToCart, removeFromCart, clearCart, makeAnOrder })(Cart);
