@@ -23,5 +23,6 @@ export default {
   cartReducer: {
     homeDelivery: false,
     cart: [],
+    isOrdering: false,
   }
 };
