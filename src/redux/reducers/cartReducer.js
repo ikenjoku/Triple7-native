@@ -3,6 +3,9 @@ import {
   REMOVE_FROM_CART,
   CLEAR_CART,
   HOME_DELIVERY,
+  MAKE_ORDER,
+  MAKE_ORDER_SUCCESS,
+  MAKE_ORDER_FAILURE,
 } from '../actionTypes';
 import initialState from './initialState';
 
@@ -16,6 +19,12 @@ const cartReducer = (state = initialState.cartReducer, action) => {
       return { ...state, homeDelivery: action.payload };
     case CLEAR_CART:
       return { ...state, cart: action.payload };
+    case MAKE_ORDER:
+      return { ...state, isOrdering: true };
+    case MAKE_ORDER_SUCCESS:
+      return { ...state, isOrdering: false, cart: [], error: null };
+    case MAKE_ORDER_FAILURE:
+      return { ...state, isOrdering: false, error: action.error };
     default:
       return state;
   }
