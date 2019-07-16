@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon, Button } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
+import AnimatedLoader from '../../components/animatedLoader';
 import { fetchMyOrder } from '../../redux/actions/cartActions';
 
 class AnimatedChefIcon extends Component {
@@ -25,6 +26,7 @@ class AnimatedChefIcon extends Component {
 }
 
 class OrdersScreen extends Component {
+  state = { refreshing: false }
 
   static navigationOptions = () => {
     return ({
@@ -124,10 +126,18 @@ class OrdersScreen extends Component {
   }
 
   render() {
-    const { theme, fetchMyOrder, orders } = this.props;
-
+    const { theme, fetchMyOrder, orders, isFetching } = this.props;
+    const { refreshing } = this.state;
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchMyOrder}
+          />
+        }
+      >
         <Animatable.View animation="fadeInRightBig" duration={400}>
           <CustomHeader
             title={'Order History'}
@@ -135,6 +145,7 @@ class OrdersScreen extends Component {
             rightComponent={this.renderRightHeaderIcon}
           />
           <NavigationEvents onDidFocus={fetchMyOrder} />
+          <AnimatedLoader loading={isFetching} />
           <Card>
             <View>
               {
@@ -194,6 +205,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ themeReducer, cartReducer }) => ({
   theme: themeReducer.theme,
   orders: cartReducer.orders,
+  isFetching: cartReducer.isFetching,
 });
 
 export default connect(mapStateToProps, { fetchMyOrder })(OrdersScreen);
