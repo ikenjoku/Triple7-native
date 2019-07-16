@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import { NavigationEvents } from 'react-navigation';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon, Button } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
+import { fetchMyOrder } from '../../redux/actions/cartActions';
 
 class AnimatedChefIcon extends Component {
   render() {
@@ -23,28 +25,7 @@ class AnimatedChefIcon extends Component {
 
 class OrdersScreen extends Component {
 
-  state = {
-    orders: [
-      {
-        _id: 1,
-        customer: 'John',
-        date: '2019-04-26',
-        status: 'confirmed', // cancelled => pending ==> confirmed ==> delivered
-        amount: 17200,
-        meals: [{ name: 'Ewedu and Semo', qty: 2, price: 500 }, { name: 'Coke', qty: 1, price: 300 }],
-      }, {
-        _id: 2,
-        customer: 'Mark',
-        date: '2019-05-11',
-        status: 'delivered',
-        amount: 11600,
-        meals: [{ name: 'Ewedu and Semo', qty: 2, price: 500 }, { name: 'Coke', qty: 1, price: 300 }],
-      }
-    ]
-  }
-
   static navigationOptions = () => {
-    // const { theme } = this.props;
     return ({
       drawerLabel: 'Order History',
       drawerIcon: () => (
@@ -82,7 +63,7 @@ class OrdersScreen extends Component {
           marginBottom: '3%'
         }}>
           <View>
-            <Text>{order.date}</Text>
+            <Text>{order.createdAt}</Text>
           </View>
           <View>
             <View style={{flexDirection: 'column'}}>
@@ -95,7 +76,7 @@ class OrdersScreen extends Component {
             </View>
           </View>
           <View>
-            <Text style={styles.orderText}>&#8358; {order.amount}</Text>
+            <Text style={styles.orderText}>{order.amount}</Text>
           </View>
           <View>
             <Text style={styles.orderText}>{order.status}</Text>
@@ -129,13 +110,12 @@ class OrdersScreen extends Component {
             }}
           />
         </View>
-          
       </Fragment>
     );
   }
 
   render() {
-    const { navigation } = this.props;
+    const { theme, fetchMyOrder, orders } = this.props;
 
     return (
       <ScrollView style={styles.container}>
@@ -145,10 +125,27 @@ class OrdersScreen extends Component {
             navigation={this.props.navigation}
             rightComponent={this.renderRightHeaderIcon}
           />
+          <NavigationEvents onDidFocus={fetchMyOrder} />
           <Card>
-            {
-              this.state.orders ? this.state.orders.map(this.renderOrderItem) : this.renderNoOrders()
-            }
+            <View>
+              {
+                orders.length ? (
+                  <Fragment>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: '1%' }}>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Date</Text></View>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Order</Text></View>
+                      <View>
+                        <Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Amount (&#8358;)</Text>
+                      </View>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Status</Text></View>
+                    </View>
+                    <View>
+                      {orders.map(this.renderOrderItem)}
+                    </View>
+                  </Fragment>
+                ) : this.renderNoOrders()
+              }
+            </View>
           </Card>
         </Animatable.View>
       </ScrollView>
@@ -168,9 +165,8 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
+    textAlign: 'center',
+    fontWeight: '500',
   },
   cardTitle: {
     textAlign: 'center',
@@ -186,8 +182,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ themeReducer }) => ({
+const mapStateToProps = ({ themeReducer, cartReducer }) => ({
   theme: themeReducer.theme,
+  orders: cartReducer.orders,
 });
 
-export default connect(mapStateToProps, { })(OrdersScreen);
+export default connect(mapStateToProps, { fetchMyOrder })(OrdersScreen);
