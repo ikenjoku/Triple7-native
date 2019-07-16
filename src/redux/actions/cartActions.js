@@ -6,6 +6,9 @@ import {
   MAKE_ORDER,
   MAKE_ORDER_SUCCESS,
   MAKE_ORDER_FAILURE,
+  FETCH_ORDERS,
+  FETCH_ORDERS_SUCCESS,
+  FETCH_ORDERS_FAILURE,
 } from '../actionTypes';
 import API from '../axiosConfig';
 import { toastError } from './notifications';
@@ -27,7 +30,7 @@ export const addToCart = (prevCart, {name, price}) => {
   };
 };
 
-export const removeFromCart = (prevCart, {name, price}) => {
+export const removeFromCart = (prevCart, {name}) => {
   let newCart;
   const mealIndex = prevCart.findIndex(item => name === item.name);
   if (mealIndex < 0) {
@@ -71,6 +74,21 @@ export const make_order_failure = (error) => ({
   error,
 });
 
+export const fetch_orders = () => ({
+  type: FETCH_ORDERS,
+});
+
+export const fetch_orders_success = (orders) => ({
+  type: FETCH_ORDERS_SUCCESS,
+  orders,
+});
+
+export const fetch_orders_failure = (error) => ({
+  type: FETCH_ORDERS_FAILURE,
+  error,
+});
+
+
 export const makeAnOrder = (order) => (dispatch) => {
   dispatch(make_order());
   return  API.post('/orders', order)
@@ -85,6 +103,23 @@ export const makeAnOrder = (order) => (dispatch) => {
       } else {
         toastError('Network Error! Check your internet connection and retry');
         dispatch(make_order_failure({ message: 'Error registering user' }));
+      }
+    });
+};
+
+export const fetchMyOrder = () => (dispatch) => {
+  dispatch(fetch_orders());
+  return  API.get('/my-orders')
+    .then((response) => {
+      console.log(response);
+      dispatch(fetch_orders_success(response.data.orders));
+    })
+    .catch(error => {
+      if (error.response) {
+        dispatch(fetch_orders_failure(error.response.data));
+      } else {
+        toastError('Network Error! Check your internet connection and retry');
+        dispatch(fetch_orders_failure({ message: 'Error registering user' }));
       }
     });
 };
