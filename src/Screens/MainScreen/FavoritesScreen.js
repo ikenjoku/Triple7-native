@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, RefreshControl } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
+import { NavigationEvents } from 'react-navigation';
 import Swipeout from 'react-native-swipeout';
 import { getData, storeData } from '../../utils/asyncStore';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -14,24 +15,18 @@ class FavoritesScreen extends Component {
     refreshing: false
   }
 
-  static navigationOptions = () => {
-    // const { theme } = this.props;
-    return ({
-      drawerLabel: 'My Favorites',
-      drawerIcon: () => (
-        <Icon
-          name='like1'
-          type='antdesign'
-          size={24}
-          color='#777f7c'
-        />
-      ),
-    });
-  }
+  static navigationOptions = {
+    drawerLabel: 'My Favorites',
+    drawerIcon: () => (
+      <Icon
+        name='like1'
+        type='antdesign'
+        size={24}
+        color='#777f7c'
+      />
+    ),
+  };
 
-  componentDidMount() {
-    this.fetchFavorites();
-  }
 
   fetchFavorites = () => {
     return getData('@triple-cokie')
@@ -118,8 +113,6 @@ class FavoritesScreen extends Component {
   }
   render() {
     const { favorites, refreshing } = this.state;
-    // const { theme } = this.props;
-
     return (
       <View style={styles.container}>
         <CustomHeader
@@ -208,7 +201,7 @@ class FavoritesScreen extends Component {
             </View>
           </ScrollView>
         )}
-
+        <NavigationEvents onDidFocus={this.fetchFavorites} />
       </View>
     );
 
