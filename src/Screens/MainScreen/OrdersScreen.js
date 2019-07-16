@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
@@ -50,6 +51,14 @@ class OrdersScreen extends Component {
   }
 
   renderOrderItem = (order) => {
+    const formattedDate = moment(order.createdAt);
+    const colors = {
+      pending: '#e66900',
+      cancelled: '#c22b2b',
+      confirmed: '#2b2bc2',
+      completed: '#00b25c'
+    };
+    const statusColor = colors[order.status];
     return (
       <View key={order._id} style={{
         padding: '1%',
@@ -59,11 +68,11 @@ class OrdersScreen extends Component {
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems:'center',
-          marginBottom: '3%'
+          marginBottom: '2%',
+          marginTop: '2%'
         }}>
           <View>
-            <Text>{order.createdAt}</Text>
+            <Text>{formattedDate.format('DD MMM YY')}</Text>
           </View>
           <View>
             <View style={{flexDirection: 'column'}}>
@@ -79,7 +88,7 @@ class OrdersScreen extends Component {
             <Text style={styles.orderText}>{order.amount}</Text>
           </View>
           <View>
-            <Text style={styles.orderText}>{order.status}</Text>
+            <Text style={[{ color: statusColor }, styles.orderText]}>{order.status}</Text>
           </View>
         </View>
       </View>
