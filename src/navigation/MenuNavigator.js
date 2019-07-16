@@ -1,4 +1,3 @@
-import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
 import MenuList from '../Screens/MainScreen/MenuScreen/MenuList';

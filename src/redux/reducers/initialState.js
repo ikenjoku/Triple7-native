@@ -24,5 +24,7 @@ export default {
     homeDelivery: false,
     cart: [],
     isOrdering: false,
+    isFetching: false,
+    orders: [],
   }
 };
