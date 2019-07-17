@@ -83,6 +83,6 @@ export const signupUser = (signupDetails) => (dispatch) => {
 
 export const logoutAUser = () => (dispatch) => {
   API.defaults.headers.common['authorization'] = '';
-  dispatch(logout_user());
   NavigationService.navigate('Auth');
+  dispatch(logout_user());
 };
