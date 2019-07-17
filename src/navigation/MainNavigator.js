@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 
 import MenuStack from './MenuNavigator';
 import Reservation from '../Screens/MainScreen/ReservationScreen';
+import Highlights from '../Screens/MainScreen/HighlightsScreen';
 import Favorites from '../Screens/MainScreen/FavoritesScreen';
 import Contact from '../Screens/MainScreen/ContactScreen';
 import Orders from '../Screens/MainScreen/OrdersScreen';
@@ -35,11 +36,14 @@ const MainStack = createDrawerNavigator({
   Favorites: {
     screen: Favorites,
   },
-  Contact: {
-    screen: Contact,
+  Highlights: {
+    screen: Highlights,
   },
   About: {
     screen: About,
+  },
+  Contact: {
+    screen: Contact,
   }
 },{
   initialRouteName: 'Menu',
