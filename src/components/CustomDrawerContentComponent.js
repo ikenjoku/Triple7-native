@@ -7,13 +7,23 @@ import ColorPalette from '../components/ColorPalette.js';
 import { logoutAUser } from '../redux/actions/authActions';
 
 class CustomDrawerContentComponent extends Component {
-  state = { devModalVisible: false }
+  state = {
+    devModalVisible: false,
+    confirmLogoutModal: false,
+  }
 
   toggleDevModal = () => {
     const { navigation } = this.props;
     const { devModalVisible } = this.state;
     navigation.closeDrawer();
     this.setState({ devModalVisible: !devModalVisible });
+  }
+
+  toggleLogoutModal = () => {
+    const { navigation } = this.props;
+    const { confirmLogoutModal } = this.state;
+    navigation.closeDrawer();
+    this.setState({ confirmLogoutModal: !confirmLogoutModal });
   }
 
   renderDeveleperModal = () => {
@@ -46,8 +56,40 @@ class CustomDrawerContentComponent extends Component {
     );
   }
 
+  renderLogoutConfirmationModal = () => {
+    const { logoutAUser } = this.props;
+    const { confirmLogoutModal } = this.state;
+    return (
+      <Overlay
+        isVisible={confirmLogoutModal}
+        windowBackgroundColor='rgba(0, 0, 0, .25)'
+      >
+        <View style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'sans-serif-condensed'
+            }}>
+            Are you sure you want to logout ?
+          </Text>
+          <View>
+            <TouchableOpacity onPress={this.toggleLogoutModal}>
+              <Text>CLOSE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={logoutAUser}>
+              <Text>Yes, LOGOUT</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Overlay>
+    );
+  }
+
   render() {
-    const { theme, user, logoutAUser } = this.props;
+    const { theme, user } = this.props;
     const ripple = TouchableNativeFeedback.Ripple('#adacac', true);
 
     return (
@@ -65,6 +107,7 @@ class CustomDrawerContentComponent extends Component {
               </View>
             </View>
             { this.renderDeveleperModal() }
+            { this.renderLogoutConfirmationModal() }
 
             <DrawerItems {...this.props} />
 
@@ -82,7 +125,7 @@ class CustomDrawerContentComponent extends Component {
           </SafeAreaView>
         </ScrollView>
         <View>
-          <TouchableNativeFeedback onPress={logoutAUser} background={ripple}>
+          <TouchableNativeFeedback onPress={this.toggleLogoutModal} background={ripple}>
             <View style={styles.containDrawerOption}>
               <Icon
                 name='logout'
