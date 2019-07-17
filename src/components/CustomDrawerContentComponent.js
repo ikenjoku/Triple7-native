@@ -1,12 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
-import { Avatar, Divider, Icon } from 'react-native-elements';
+import { Avatar, Divider, Icon, Overlay } from 'react-native-elements';
 import ColorPalette from '../components/ColorPalette.js';
 import { logoutAUser } from '../redux/actions/authActions';
 
 class CustomDrawerContentComponent extends Component {
+  state = { devModalVisible: false }
+
+  toggleDevModal = () => {
+    const { navigation } = this.props;
+    const { devModalVisible } = this.state;
+    navigation.closeDrawer();
+    this.setState({ devModalVisible: !devModalVisible });
+  }
+
+  renderDeveleperModal = () => {
+    const { devModalVisible } = this.state;
+    return (
+      <Overlay
+        isVisible={devModalVisible}
+        windowBackgroundColor='rgba(0, 0, 0, .25)'
+      >
+        <View style={{
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'sans-serif-condensed'
+            }}>
+            Developed with by Ike Njoku
+          </Text>
+          <Text>Leave a feedback, Get in touch iconemail</Text>
+          <Text>Or just say Hi whatappicon</Text>
+          <View>
+            <TouchableOpacity onPress={this.toggleDevModal}>
+              <Text>CLOSE</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Overlay>
+    );
+  }
 
   render() {
     const { theme, user, logoutAUser } = this.props;
@@ -26,6 +64,7 @@ class CustomDrawerContentComponent extends Component {
                 <Text style={{ color: '#f9f9f9', fontFamily: 'sans-serif-condensed' }}>{`${user.email}`}</Text>
               </View>
             </View>
+            { this.renderDeveleperModal() }
 
             <DrawerItems {...this.props} />
 
@@ -56,7 +95,7 @@ class CustomDrawerContentComponent extends Component {
             </View>
           </TouchableNativeFeedback>
 
-          <TouchableNativeFeedback onPress={() => {}} background={ripple}>
+          <TouchableNativeFeedback onPress={this.toggleDevModal} background={ripple}>
             <View style={styles.containDrawerOption}>
               <Icon
                 name='user-secret'
@@ -71,7 +110,6 @@ class CustomDrawerContentComponent extends Component {
 
         </View>
       </View>
-
     );
   }
 }
