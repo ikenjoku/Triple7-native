@@ -98,6 +98,7 @@ class OrdersScreen extends Component {
   }
 
   renderNoOrders = () => {
+    const { theme } = this.props;
     const { navigate } = this.props.navigation;
     return (
       <Fragment>
@@ -108,13 +109,13 @@ class OrdersScreen extends Component {
           <Text style={{ textAlign: 'center', fontSize: 25, fontWeight: '500' }}>No previous orders yet</Text>
           <Text style={{ textAlign: 'center', fontSize: 15, fontWeight: '400' }}>Load up your basket with some yummy meals</Text>
         </View>
-        <View style={{ marginTop: '6%' }}>
+        <View style={{ marginTop: '6%', paddingRight: '5%', paddingLeft: '5%' }}>
           <Button
             raised
             title="See Today's Menu"
             onPress={() => navigate('MenuList')}
             buttonStyle={{
-              backgroundColor: '#B32F20'
+              backgroundColor: theme.sec700
             }}
             containerStyle={{
               marginTop: 'auto'
