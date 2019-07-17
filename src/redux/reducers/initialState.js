@@ -26,5 +26,10 @@ export default {
     isOrdering: false,
     isFetching: false,
     orders: [],
+  },
+  highlightReducer: {
+    isLoading: false,
+    highlights: [],
+    error: null,
   }
 };

@@ -111,7 +111,6 @@ export const fetchMyOrder = () => (dispatch) => {
   dispatch(fetch_orders());
   return  API.get('/my-orders')
     .then((response) => {
-      console.log(response);
       dispatch(fetch_orders_success(response.data.orders));
     })
     .catch(error => {
