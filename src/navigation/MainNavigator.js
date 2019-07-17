@@ -9,10 +9,12 @@ import Contact from '../Screens/MainScreen/ContactScreen';
 import Orders from '../Screens/MainScreen/OrdersScreen';
 import About from '../Screens/MainScreen/AboutScreen';
 
+import CustomDrawerContentComponent from '../components/CustomDrawerContentComponent';
+
 const MainStack = createDrawerNavigator({
   Menu: {
     screen: MenuStack,
-    navigationOptions: () => ({
+    navigationOptions: {
       title: 'Menu',
       drawerIcon: () => (
         <Icon
@@ -22,7 +24,7 @@ const MainStack = createDrawerNavigator({
           color='#777f7c'
         />
       ),
-    }),
+    },
   },
   Reservation: {
     screen: Reservation,
@@ -37,7 +39,14 @@ const MainStack = createDrawerNavigator({
     screen: Contact,
   },
   About: {
-    screen: About
+    screen: About,
+  }
+},{
+  initialRouteName: 'Menu',
+  contentComponent: CustomDrawerContentComponent,
+  contentOptions: {
+    activeTintColor: 'black',
+    activeBackgroundColor: '#e6e6e6',
   }
 });
 

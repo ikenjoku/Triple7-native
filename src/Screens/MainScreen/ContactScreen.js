@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { Header, Card, Button, Icon } from 'react-native-elements';
-import CustomHeader from "../../components/Header";
+import { Card, Icon } from 'react-native-elements';
+import CustomHeader from '../../components/Header';
 
 const RenderIcon = (props) => {
   const { name, size, color, type, onPress } = props;
@@ -17,35 +18,35 @@ const RenderIcon = (props) => {
       {...props}
     />
   );
-}
+};
 
 class ContactScreen extends Component {
-  static navigationOptions = {
-    drawerLabel: "Contact",
-    drawerIcon: () =>
-      <RenderIcon
-        name={'contacts'}
-        size={24}
-        color={'#777f7c'}
-        type={'ant-design'}
-      />,
+  static navigationOptions = () => {
+    // const { theme } = this.props;
+    return ({
+      drawerLabel: 'Contact',
+      drawerIcon: () => (
+        <Icon
+          name='contacts'
+          size={24}
+          type='ant-design'
+          color='#777f7c'
+        />
+      ),
+    });
   }
-
-  toggleDrawer = (navigation) => navigation.toggleDrawer();
-
-  navigateToMenu = (navigation) => navigation.navigate('Menu');
 
   renderRightHeaderIcon = (navigation) => {
     return <RenderIcon
       name={'home'}
-      size={35}
-      color={'#f9f9f9'}
-      onPress={() => this.navigateToMenu(navigation)}
+      size={24}
+      color='#fff'
+      onPress={() => navigation.navigate('Menu')}
     />;
   }
 
   render() {
-    const { navigation } = this.props;
+    const { theme } = this.props;
 
     return (
       <View style={styles.container}>
@@ -102,7 +103,7 @@ class ContactScreen extends Component {
                   size={30}
                   name='email'
                   type='material-community'
-                  color='#B32F20'
+                  color={theme.sec700}
                   onPress={() => console.log('hello')} />
               </View>
             </View>
@@ -113,23 +114,13 @@ class ContactScreen extends Component {
       </View>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
-  },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
   },
   cardTitle: {
     textAlign: 'center',
@@ -141,14 +132,18 @@ const styles = StyleSheet.create({
   },
   spaceTop: { marginTop: 10 },
   containPhoneNo: {
-    flexDirection: "row",
+    flexDirection: 'row',
     alignItems: 'center'
   },
   containSocialBtn: {
-    flexDirection: "row",
+    flexDirection: 'row',
     justifyContent: 'space-around',
     margin: '5%'
   },
 });
 
-export default ContactScreen;
+const mapStateToProps = ({ themeReducer }) => ({
+  theme: themeReducer.theme,
+});
+
+export default connect(mapStateToProps, {})(ContactScreen);
