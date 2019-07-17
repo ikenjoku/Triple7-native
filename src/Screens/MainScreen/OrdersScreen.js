@@ -3,27 +3,13 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { NavigationEvents } from 'react-navigation';
 import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import LottieView from 'lottie-react-native';
 
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon, Button } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
 import AnimatedLoader from '../../components/animatedLoader';
 import { fetchMyOrder } from '../../redux/actions/cartActions';
-
-class AnimatedChefIcon extends Component {
-  render() {
-    return <LottieView style={{
-      height: 200,
-      width: 200,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginTop: '6%',
-      marginBottom: '6%'
-    }}
-    source={require('../../assets/animatedPlate.json')} autoPlay loop />;
-  }
-}
+import AnimatedPlateIcon from '../../components/AnimatedPlateIcon';
 
 class OrdersScreen extends Component {
   state = { refreshing: false }
@@ -103,7 +89,7 @@ class OrdersScreen extends Component {
     return (
       <Fragment>
         <View>
-          <AnimatedChefIcon />
+          <AnimatedPlateIcon />
         </View>
         <View style={{ paddingLeft: '3%', paddingRight: '3%', paddingBottom: '3%', marginTop: '6%' }}>
           <Text style={{ textAlign: 'center', fontSize: 25, fontWeight: '500' }}>No previous orders yet</Text>
