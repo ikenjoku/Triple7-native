@@ -1,10 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
+import moment from 'moment';
+import { NavigationEvents } from 'react-navigation';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon, Button } from 'react-native-elements';
-import CustomHeader from "../../components/Header";
+import CustomHeader from '../../components/Header';
+import AnimatedLoader from '../../components/animatedLoader';
+import { fetchMyOrder } from '../../redux/actions/cartActions';
 
 class AnimatedChefIcon extends Component {
   render() {
@@ -20,51 +25,42 @@ class AnimatedChefIcon extends Component {
   }
 }
 
-class AboutScreen extends Component {
+class OrdersScreen extends Component {
+  state = { refreshing: false }
 
-  state = {
-    orders: [
-      {
-        _id: 1,
-        customer: 'John',
-        date: '2019-04-26',
-        status: 'confirmed', // cancelled => pending ==> confirmed ==> delivered
-        amount: 17200,
-        meals: [{ name: 'Ewedu and Semo', qty: 2, price: 500 }, { name: 'Coke', qty: 1, price: 300 }],
-      }, {
-        _id: 2,
-        customer: 'Mark',
-        date: '2019-05-11',
-        status: 'delivered',
-        amount: 11600,
-        meals: [{ name: 'Ewedu and Semo', qty: 2, price: 500 }, { name: 'Coke', qty: 1, price: 300 }],
-      }
-    ]
-  }
-
-  static navigationOptions = {
-    drawerLabel: "Order History",
-    drawerIcon: () => (
-      <Icon
-        name='history'
-        type='font-awesome'
-        size={24}
-        color='#777f7c'
-      />
-    ),
+  static navigationOptions = () => {
+    return ({
+      drawerLabel: 'Order History',
+      drawerIcon: () => (
+        <Icon
+          name='history'
+          type='font-awesome'
+          size={24}
+          color='#777f7c'
+        />
+      ),
+    });
   }
 
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'
-      size={35}
+      size={24}
       color='#fff'
       underlayColor='transparent'
       onPress={() => navigation.navigate('Menu')}
-    />
+    />;
   }
 
   renderOrderItem = (order) => {
+    const formattedDate = moment(order.createdAt);
+    const colors = {
+      pending: '#e66900',
+      cancelled: '#c22b2b',
+      confirmed: '#2b2bc2',
+      completed: '#00b25c'
+    };
+    const statusColor = colors[order.status];
     return (
       <View key={order._id} style={{
         padding: '1%',
@@ -74,11 +70,11 @@ class AboutScreen extends Component {
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems:'center',
-          marginBottom: '3%'
+          marginBottom: '2%',
+          marginTop: '2%'
         }}>
           <View>
-            <Text>{order.date}</Text>
+            <Text>{formattedDate.format('DD MMM YY')}</Text>
           </View>
           <View>
             <View style={{flexDirection: 'column'}}>
@@ -91,10 +87,10 @@ class AboutScreen extends Component {
             </View>
           </View>
           <View>
-            <Text style={styles.orderText}>&#8358; {order.amount}</Text>
+            <Text style={styles.orderText}>{order.amount}</Text>
           </View>
           <View>
-            <Text style={styles.orderText}>{order.status}</Text>
+            <Text style={[{ color: statusColor }, styles.orderText]}>{order.status}</Text>
           </View>
         </View>
       </View>
@@ -112,45 +108,70 @@ class AboutScreen extends Component {
           <Text style={{ textAlign: 'center', fontSize: 25, fontWeight: '500' }}>No previous orders yet</Text>
           <Text style={{ textAlign: 'center', fontSize: 15, fontWeight: '400' }}>Load up your basket with some yummy meals</Text>
         </View>
-          <View style={{ marginTop: '6%' }}>
-            <Button
-              raised
-              title="See Today's Menu"
-              onPress={() => navigate('MenuList')}
-              buttonStyle={{
-                backgroundColor: '#B32F20'
-              }}
-              containerStyle={{
-                marginTop: 'auto'
-              }}
-            />
-          </View>
-          
+        <View style={{ marginTop: '6%' }}>
+          <Button
+            raised
+            title="See Today's Menu"
+            onPress={() => navigate('MenuList')}
+            buttonStyle={{
+              backgroundColor: '#B32F20'
+            }}
+            containerStyle={{
+              marginTop: 'auto'
+            }}
+          />
+        </View>
       </Fragment>
     );
   }
 
   render() {
-    const { navigation } = this.props;
-
+    const { theme, fetchMyOrder, orders, isFetching } = this.props;
+    const { refreshing } = this.state;
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchMyOrder}
+          />
+        }
+      >
         <Animatable.View animation="fadeInRightBig" duration={400}>
           <CustomHeader
             title={'Order History'}
             navigation={this.props.navigation}
             rightComponent={this.renderRightHeaderIcon}
           />
+          <NavigationEvents onDidFocus={fetchMyOrder} />
+          <AnimatedLoader loading={isFetching} />
           <Card>
-            {
-              this.state.orders ? this.state.orders.map(this.renderOrderItem) : this.renderNoOrders()
-            }
+            <View>
+              {
+                orders.length ? (
+                  <Fragment>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: '1%' }}>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Date</Text></View>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Order</Text></View>
+                      <View>
+                        <Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Amount (&#8358;)</Text>
+                      </View>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Status</Text></View>
+                    </View>
+                    <View>
+                      {orders.map(this.renderOrderItem)}
+                    </View>
+                  </Fragment>
+                ) : this.renderNoOrders()
+              }
+            </View>
           </Card>
         </Animatable.View>
       </ScrollView>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -164,9 +185,8 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
+    textAlign: 'center',
+    fontWeight: '500',
   },
   cardTitle: {
     textAlign: 'center',
@@ -182,4 +202,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AboutScreen;
+const mapStateToProps = ({ themeReducer, cartReducer }) => ({
+  theme: themeReducer.theme,
+  orders: cartReducer.orders,
+  isFetching: cartReducer.isFetching,
+});
+
+export default connect(mapStateToProps, { fetchMyOrder })(OrdersScreen);

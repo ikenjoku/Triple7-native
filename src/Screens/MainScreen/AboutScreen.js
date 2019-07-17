@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { Header, Card, Button, Icon } from 'react-native-elements';
-import CustomHeader from "../../components/Header";
+import { Card, Button, Icon } from 'react-native-elements';
+import CustomHeader from '../../components/Header';
 class AboutScreen extends Component {
-
   static navigationOptions = {
-    drawerLabel: "About Triple 7",
+    drawerLabel: 'About Triple 7',
     drawerIcon: () => (
       <Icon
         name='info-outline'
@@ -20,27 +20,27 @@ class AboutScreen extends Component {
   renderRightHeaderIcon = (navigation) => {
     return <Icon
       name='home'
-      size={35}
+      size={24}
       color='#fff'
       underlayColor='transparent'
       onPress={() => navigation.navigate('Menu')}
-      />
+    />;
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
 
     return (
       <View style={styles.container}>
-      <Animatable.View animation="fadeInRightBig" duration={400}>
-      <CustomHeader
-          title={'About Triple 7'}
-          navigation={this.props.navigation}
-          rightComponent={this.renderRightHeaderIcon}
-        />
+        <Animatable.View animation="fadeInRightBig" duration={400}>
+          <CustomHeader
+            title={'About Triple 7'}
+            navigation={this.props.navigation}
+            rightComponent={this.renderRightHeaderIcon}
+          />
           <Card>
-          <Text style={styles.cardTitle}>Our History</Text>
-          <Text style={styles.spaceTop}>
+            <Text style={styles.cardTitle}>Our History</Text>
+            <Text style={styles.spaceTop}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Suspendisse in diam et nisl faucibus varius non non velit.
               Nunc sodales varius vulputate. Vivamus sed vulputate est,
@@ -52,53 +52,43 @@ class AboutScreen extends Component {
             Aliquam pharetra tempor blandit. In at neque faucibus, sagittis
             leo ac, tincidunt nisi. Quisque congue placerat metus a gravida.</Text>
             <View>
-            <Button
-            raised
-              icon={
-                <Icon
-                  name="food"
-                  size={25}
-                  color="white"
-                  type='material-community'
+              <Button
+                raised
+                icon={
+                  <Icon
+                    name="food"
+                    size={25}
+                    color="white"
+                    type='material-community'
                   />
-              }
-              iconLeft
-              title="Checkout our menu"
-              titleStyle={{
-                paddingLeft: 5
-              }}
-              onPress={() => navigation.navigate('Menu')}
-              containerStyle= {{
-                marginTop: 20,
-                marginBottom: 10
-              }}
-              buttonStyle={{
-                backgroundColor: '#24a060'
-              }}
-            />
+                }
+                iconLeft
+                title="Checkout our menu"
+                titleStyle={{
+                  paddingLeft: 5
+                }}
+                onPress={() => navigation.navigate('Menu')}
+                containerStyle= {{
+                  marginTop: 20,
+                  marginBottom: 10
+                }}
+                buttonStyle={{
+                  backgroundColor: theme.sec700
+                }}
+              />
             </View>
           </Card>
         </Animatable.View>
       </View>
     );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
-  },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  titleStyle: {
-    color: '#f9f9f9',
-    fontSize: 20,
-    fontWeight: '600'
   },
   cardTitle: {
     textAlign: 'center',
@@ -111,4 +101,8 @@ const styles = StyleSheet.create({
   spaceTop: { marginTop: 10 }
 });
 
-export default AboutScreen;
+const mapStateToProps = ({ themeReducer }) => ({
+  theme: themeReducer.theme,
+});
+
+export default connect(mapStateToProps, { })(AboutScreen);

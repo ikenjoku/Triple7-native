@@ -31,7 +31,7 @@ class OnboardingScreen extends Component {
 
   handleFinish = async () => {
     await storeData('@triple-tutorial-cookie', 'true');
-    NavigationService.navigate('Main');
+    NavigationService.navigate('Auth');
   };
 
   renderImages = images =>

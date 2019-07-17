@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import appReducer from './appReducer';
-import cartReducer from "./cartReducer";
+import themeReducer from './themeReducer';
+import cartReducer from './cartReducer';
 import mealReducer from './mealReducer';
 import initialState from './initialState';
-import { LOGOUT_USER } from "../actionTypes";
+import { LOGOUT_USER } from '../actionTypes';
 
 const baseReducer = combineReducers({
-  // appReducer,
+  themeReducer,
   authReducer,
   mealReducer,
   cartReducer,
