@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
@@ -21,19 +21,16 @@ const RenderIcon = (props) => {
 };
 
 class ContactScreen extends Component {
-  static navigationOptions = () => {
-    // const { theme } = this.props;
-    return ({
-      drawerLabel: 'Contact',
-      drawerIcon: () => (
-        <Icon
-          name='contacts'
-          size={24}
-          type='ant-design'
-          color='#777f7c'
-        />
-      ),
-    });
+  static navigationOptions = {
+    drawerLabel: 'Contact',
+    drawerIcon: () => (
+      <Icon
+        name='contacts'
+        size={24}
+        type='ant-design'
+        color='#777f7c'
+      />
+    ),
   }
 
   renderRightHeaderIcon = (navigation) => {
@@ -49,13 +46,13 @@ class ContactScreen extends Component {
     const { theme } = this.props;
 
     return (
-      <View style={styles.container}>
-        <Animatable.View animation="fadeInRightBig" duration={400}>
-          <CustomHeader
-            title={'Contact'}
-            navigation={this.props.navigation}
-            rightComponent={this.renderRightHeaderIcon}
-          />
+      <Animatable.View animation="fadeInRightBig" duration={400} style={styles.container}>
+        <CustomHeader
+          title={'Contact'}
+          navigation={this.props.navigation}
+          rightComponent={this.renderRightHeaderIcon}
+        />
+        <ScrollView>
           <Card>
             <Text style={styles.cardTitle}>Address</Text>
             <Text style={styles.spaceTop}> 121, Clear Water Bay Road</Text>
@@ -110,8 +107,8 @@ class ContactScreen extends Component {
             <View>
             </View>
           </Card>
-        </Animatable.View>
-      </View>
+        </ScrollView>
+      </Animatable.View>
     );
   }
 }
