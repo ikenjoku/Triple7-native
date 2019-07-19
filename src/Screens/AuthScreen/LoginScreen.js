@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Input, CheckBox, Icon } from 'react-native-elements';
-import { getData } from '../../utils/asyncStore';
+import { getData, storeData, deleteData } from '../../utils/asyncStore';
 import { toastError } from '../../redux/actions/notifications';
 import { loginUser } from '../../redux/actions/authActions';
 import OverlayLoader from '../../components/OverlayLoader';
@@ -40,7 +40,7 @@ class LoginScreen extends Component {
   }
 
   handleLogin = () => {
-    const { email, password } = this.state;
+    const { email, password, remember } = this.state;
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let errMsg = '';
 
@@ -53,6 +53,19 @@ class LoginScreen extends Component {
 
     if (!errMsg) {
       this.props.loginUser({ email, password });
+      if (remember) {
+        storeData('@triple7-loginDetails', { email, password })
+          .catch(() => {
+            // eslint-disable-next-line no-console
+            console.log('Error storing credentials');
+          });
+      } else {
+        deleteData('@triple7-loginDetails')
+          .catch(() => {
+            // eslint-disable-next-line no-console
+            console.log('Error deleting credentials');
+          });
+      }
     } else {
       toastError(errMsg);
     }
