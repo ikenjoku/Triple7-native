@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Card, Icon, Button, Badge } from 'react-native-elements';
 import { getData, storeData } from '../../../utils/asyncStore';
 import { addToCart } from '../../../redux/actions/cartActions';
@@ -46,7 +46,7 @@ class MealDetail extends Component {
             .catch(err => {
               console.log(err);
             });
-        } 
+        }
         return storeData('@triple-cokie', [meal])
           .then((newFavs) => {
             this.setState(() => ({ favorites: newFavs }));
@@ -107,13 +107,13 @@ class MealDetail extends Component {
     const { meal } = navigation.state.params;
 
     return (
-      <View style={styles.container}>
-        <Animatable.View animation="fadeInRightBig" duration={400}>
-          <CustomHeader
-            title={`${meal.name }`}
-            navigation={navigation}
-            rightComponent={this.renderRightHeaderIcon}
-          />
+      <Animatable.View animation="fadeInRightBig" duration={400} style={styles.container}>
+        <CustomHeader
+          title={`${meal.name }`}
+          navigation={navigation}
+          rightComponent={this.renderRightHeaderIcon}
+        />
+        <ScrollView>
           { meal ?
             (
               <Card
@@ -185,7 +185,6 @@ class MealDetail extends Component {
                   }
                 />
               </Card>
-
             ) : (
               <Card>
                 <View style={[{
@@ -202,8 +201,8 @@ class MealDetail extends Component {
                 </View>
               </Card>
             )}
-        </Animatable.View>
-      </View>
+        </ScrollView>
+      </Animatable.View>
     );
   }
 }
