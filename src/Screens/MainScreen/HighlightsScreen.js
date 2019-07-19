@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { Card, Badge, Icon, Button } from 'react-native-elements';
 
 import { fetchHighlights } from '../../redux/actions/highlightActions';
@@ -10,6 +10,7 @@ import CustomHeader from '../../components/Header';
 import ErrorPage from '../../components/ErrorPage';
 import AnimatedPlateIcon from '../../components/AnimatedPlateIcon';
 class HighlightsScreen extends Component {
+  state = { refreshing: false }
 
   static navigationOptions = {
     drawerLabel: 'Highlights',
@@ -106,13 +107,22 @@ class HighlightsScreen extends Component {
   }
 
   renderPage = () => {
-    const { error, highlights } = this.props;
+    const { refreshing } = this.state;
+    const { error, highlights, fetchHighlights } = this.props;
 
     if (error) {
       return <ErrorPage onRefresh={this.props.fetchHighlights} />;
     }
     return (
-      <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
+      <ScrollView
+        style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={fetchHighlights}
+          />
+        }
+      >
         {
           highlights.length ? highlights.map(this.renderHighlight) : this.renderNoHighlights()
         }
@@ -123,15 +133,17 @@ class HighlightsScreen extends Component {
   render() {
     const { navigation, isLoading } = this.props;
     return (
-      <View style={styles.container}>
+      <Animatable.View animation="fadeInRightBig" duration={400} style={styles.container}>
         <CustomHeader
           title={'Highlights'}
           navigation={navigation}
           rightComponent={this.renderRightHeaderIcon}
         />
-        {isLoading ? <AnimatedLoader loading={isLoading} />
-          : this.renderPage()}
-      </View>
+        <View style={styles.container}>
+          {isLoading ? <AnimatedLoader loading={isLoading} />
+            : this.renderPage()}
+        </View>
+      </Animatable.View>
     );
   }
 }
