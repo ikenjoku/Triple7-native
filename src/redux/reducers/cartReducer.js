@@ -9,6 +9,9 @@ import {
   FETCH_ORDERS,
   FETCH_ORDERS_SUCCESS,
   FETCH_MENU_FAILURE,
+  MAKE_RESERVATION,
+  MAKE_RESERVATION_SUCCESS,
+  MAKE_RESERVATION_FAILURE,
 } from '../actionTypes';
 import initialState from './initialState';
 
@@ -34,6 +37,12 @@ const cartReducer = (state = initialState.cartReducer, action) => {
       return { ...state, isFetching: false, orders: action.orders, error: null };
     case FETCH_MENU_FAILURE:
       return { ...state, isFetching: false, error: action.error };
+    case MAKE_RESERVATION:
+      return { ...state, isReserving: true };
+    case MAKE_RESERVATION_SUCCESS:
+      return { ...state, isReserving: false, reservationError: null };
+    case MAKE_RESERVATION_FAILURE:
+      return { ...state, isReserving: false, reservationError: action.error };
     default:
       return state;
   }

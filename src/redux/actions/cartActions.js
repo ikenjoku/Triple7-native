@@ -9,9 +9,12 @@ import {
   FETCH_ORDERS,
   FETCH_ORDERS_SUCCESS,
   FETCH_ORDERS_FAILURE,
+  MAKE_RESERVATION,
+  MAKE_RESERVATION_SUCCESS,
+  MAKE_RESERVATION_FAILURE,
 } from '../actionTypes';
 import API from '../axiosConfig';
-import { toastError } from './notifications';
+import { toastError, toastSuccess } from './notifications';
 import NavigationService from '../../navigation/NavigationService';
 
 export const addToCart = (prevCart, {name, price}) => {
@@ -88,6 +91,18 @@ export const fetch_orders_failure = (error) => ({
   error,
 });
 
+export const make_reservation = () => ({
+  type: MAKE_RESERVATION,
+});
+
+export const make_reservation_success = () => ({
+  type: MAKE_RESERVATION_SUCCESS,
+});
+
+export const make_reservation_failure = (error) => ({
+  type: MAKE_RESERVATION_FAILURE,
+  error,
+});
 
 export const makeAnOrder = (order) => (dispatch) => {
   dispatch(make_order());
@@ -118,7 +133,26 @@ export const fetchMyOrder = () => (dispatch) => {
         dispatch(fetch_orders_failure(error.response.data));
       } else {
         toastError('Network Error! Check your internet connection and retry');
-        dispatch(fetch_orders_failure({ message: 'Error registering user' }));
+        dispatch(fetch_orders_failure({ message: 'Error fetching orders' }));
+      }
+    });
+};
+
+export const makeAReservation = (reservation) => (dispatch) => {
+  console.log(reservation, '🔥🔥🔥🔥🔥🔥')
+  dispatch(make_reservation());
+  return  API.post('/reservations', reservation)
+    .then(() => {
+      dispatch(make_reservation_success());
+      toastSuccess('Reservation received!', 'bottom');
+    })
+    .catch(error => {
+      if (error.response) {
+        dispatch(make_reservation_failure(error.response.data));
+        toastError(error.response.data.message, 'bottom');
+      } else {
+        toastError('Network Error! Check your internet connection and retry');
+        dispatch(make_reservation_failure({ message: 'Error making reservation' }));
       }
     });
 };
