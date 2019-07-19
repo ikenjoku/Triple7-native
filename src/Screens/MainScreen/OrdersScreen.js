@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
+import { connect } from 'react-redux';
 import { NavigationEvents } from 'react-navigation';
-import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
-
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon, Button } from 'react-native-elements';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+
 import CustomHeader from '../../components/Header';
 import AnimatedLoader from '../../components/animatedLoader';
 import { fetchMyOrder } from '../../redux/actions/cartActions';
@@ -14,18 +14,16 @@ import AnimatedPlateIcon from '../../components/AnimatedPlateIcon';
 class OrdersScreen extends Component {
   state = { refreshing: false }
 
-  static navigationOptions = () => {
-    return ({
-      drawerLabel: 'Order History',
-      drawerIcon: () => (
-        <Icon
-          name='history'
-          type='font-awesome'
-          size={24}
-          color='#777f7c'
-        />
-      ),
-    });
+  static navigationOptions = {
+    drawerLabel: 'Order History',
+    drawerIcon: () => (
+      <Icon
+        name='history'
+        type='font-awesome'
+        size={24}
+        color='#777f7c'
+      />
+    )
   }
 
   renderRightHeaderIcon = (navigation) => {
@@ -48,17 +46,8 @@ class OrdersScreen extends Component {
     };
     const statusColor = colors[order.status];
     return (
-      <View key={order._id} style={{
-        padding: '1%',
-        borderColor: '#c1c1c1',
-        borderWidth: 0.6,
-      }}>
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginBottom: '2%',
-          marginTop: '2%'
-        }}>
+      <View key={order._id} style={styles.orderContainer}>
+        <View style={styles.containItem}>
           <View>
             <Text>{formattedDate.format('DD MMM YY')}</Text>
           </View>
@@ -100,12 +89,8 @@ class OrdersScreen extends Component {
             raised
             title="See Today's Menu"
             onPress={() => navigate('MenuList')}
-            buttonStyle={{
-              backgroundColor: theme.sec700
-            }}
-            containerStyle={{
-              marginTop: 'auto'
-            }}
+            buttonStyle={{ backgroundColor: theme.sec700 }}
+            containerStyle={{ marginTop: 'auto' }}
           />
         </View>
       </Fragment>
@@ -116,21 +101,20 @@ class OrdersScreen extends Component {
     const { theme, fetchMyOrder, orders, isFetching } = this.props;
     const { refreshing } = this.state;
     return (
-      <ScrollView
-        style={styles.container}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={fetchMyOrder}
-          />
-        }
-      >
-        <Animatable.View animation="fadeInRightBig" duration={400}>
-          <CustomHeader
-            title={'Order History'}
-            navigation={this.props.navigation}
-            rightComponent={this.renderRightHeaderIcon}
-          />
+      <Animatable.View animation="fadeInRightBig" duration={400} style={styles.container}>
+        <CustomHeader
+          title={'Order History'}
+          navigation={this.props.navigation}
+          rightComponent={this.renderRightHeaderIcon}
+        />
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={fetchMyOrder}
+            />
+          }
+        >
           <NavigationEvents onDidFocus={fetchMyOrder} />
           <AnimatedLoader loading={isFetching} />
           <Card>
@@ -154,8 +138,8 @@ class OrdersScreen extends Component {
               }
             </View>
           </Card>
-        </Animatable.View>
-      </ScrollView>
+        </ScrollView>
+      </Animatable.View>
     );
   }
 }
@@ -166,26 +150,23 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
   },
-  header: {
-    backgroundColor: '#2FBE74',
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
   titleStyle: {
     textAlign: 'center',
     fontWeight: '500',
   },
-  cardTitle: {
-    textAlign: 'center',
-    fontWeight: '500',
-    borderBottomColor: '#aba8a8',
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-    fontSize: 15
-  },
-  spaceTop: { marginTop: 10 },
   orderText: {
     fontWeight: '500',
+  },
+  containItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: '2%',
+    marginTop: '2%'
+  },
+  orderContainer: {
+    padding: '1%',
+    borderColor: '#c1c1c1',
+    borderWidth: 0.6,
   }
 });
 

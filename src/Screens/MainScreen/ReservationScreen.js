@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Item, Picker } from 'native-base';
+import DatePicker from 'react-native-datepicker';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import DatePicker from 'react-native-datepicker';
 import { Card, Button, Icon } from 'react-native-elements';
-import { Item, Picker } from 'native-base';
+
 import CustomHeader from '../../components/Header';
 
 const dateInstance = new Date();
