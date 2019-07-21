@@ -106,7 +106,7 @@ class CustomDrawerContentComponent extends Component {
 
   render() {
     const { theme, user } = this.props;
-    const ripple = TouchableNativeFeedback.Ripple('#adacac', true);
+    const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
     return (
       <View style={{ flex: 1 }}>
@@ -150,7 +150,7 @@ class CustomDrawerContentComponent extends Component {
                 color={theme.pri700}
                 containerStyle={{ marginRight: '10%' }}
               />
-              <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Log Out</Text>
+              <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Logout</Text>
             </View>
           </TouchableNativeFeedback>
 
@@ -185,8 +185,8 @@ const styles = StyleSheet.create({
     paddingLeft: '6%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: '2%',
-    paddingBottom: '3%',
+    paddingTop: '1%',
+    paddingBottom: '5%',
     backgroundColor: '#e6e6e6',
     marginBottom: 5,
   },
