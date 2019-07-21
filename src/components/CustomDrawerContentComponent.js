@@ -35,7 +35,8 @@ class CustomDrawerContentComponent extends Component {
       <Overlay
         isVisible={devModalVisible}
         height={300}
-        windowBackgroundColor='rgba(0, 0, 0, .60)'
+        windowBackgroundColor='rgba(0, 0, 0, .65)'
+        onBackdropPress={this.toggleDevModal}
       >
         <View>
           <Text
@@ -84,7 +85,7 @@ class CustomDrawerContentComponent extends Component {
       <Overlay
         isVisible={confirmLogoutModal}
         height={120}
-        windowBackgroundColor='rgba(0, 0, 0, .60)'
+        windowBackgroundColor='rgba(0, 0, 0, .65)'
         onBackdropPress={this.toggleLogoutModal}
       >
         <View>
@@ -140,7 +141,7 @@ class CustomDrawerContentComponent extends Component {
             </View>
           </SafeAreaView>
         </ScrollView>
-        <View>
+        <View elevation={6} style={{ backgroundColor: '#ffffff' }}>
           <TouchableNativeFeedback onPress={this.toggleLogoutModal} background={ripple}>
             <View style={styles.containDrawerOption}>
               <Icon
@@ -153,7 +154,6 @@ class CustomDrawerContentComponent extends Component {
               <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Logout</Text>
             </View>
           </TouchableNativeFeedback>
-
           <TouchableNativeFeedback onPress={this.toggleDevModal} background={ripple}>
             <View style={styles.containDrawerOption}>
               <Icon
@@ -188,7 +188,6 @@ const styles = StyleSheet.create({
     paddingTop: '1%',
     paddingBottom: '5%',
     backgroundColor: '#e6e6e6',
-    marginBottom: 5,
   },
   headerText: {
     textAlign: 'center',
