@@ -1,9 +1,9 @@
 import { createStackNavigator } from 'react-navigation';
 
-import MenuList from '../Screens/MainScreen/MenuScreen/MenuList';
-import MealDetail from '../Screens/MainScreen/MenuScreen/MealDetail';
-import Cart from '../Screens/MainScreen/MenuScreen/Cart';
-import Payment from '../Screens/MainScreen/MenuScreen/Payment';
+import MenuList from '../screens/MainScreen/MenuScreen/MenuList';
+import MealDetail from '../screens/MainScreen/MenuScreen/MealDetail';
+import Cart from '../screens/MainScreen/MenuScreen/Cart';
+import Payment from '../screens/MainScreen/MenuScreen/Payment';
 
 const MenuStack = createStackNavigator({
   MenuList: {
