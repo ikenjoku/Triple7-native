@@ -167,7 +167,7 @@ class MealDetail extends Component {
                 />
                 <Button
                   type='outline'
-                  title='Bact to Menu'
+                  title='Back to Menu'
                   buttonStyle={{ borderColor: theme.pri500, backgroundColor: '#fff', borderWidth: 1 }}
                   titleStyle={{ color: theme.pri500, paddingLeft: 5, fontFamily: 'sans-serif-medium' }}
                   onPress={() => navigation.navigate('MenuList')}
@@ -178,6 +178,25 @@ class MealDetail extends Component {
                   icon={
                     <Icon
                       name="back"
+                      size={25}
+                      color={theme.pri500}
+                      type='antdesign'
+                    />
+                  }
+                />
+                <Button
+                  type='outline'
+                  title='Go to Cart'
+                  buttonStyle={{ borderColor: theme.pri500, backgroundColor: '#fff', borderWidth: 1 }}
+                  titleStyle={{ color: theme.pri500, paddingLeft: 5, fontFamily: 'sans-serif-medium' }}
+                  onPress={() => navigation.navigate('Cart')}
+                  containerStyle={{
+                    marginBottom: '2%'
+                  }}
+                  iconLeft
+                  icon={
+                    <Icon
+                      name="shoppingcart"
                       size={25}
                       color={theme.pri500}
                       type='antdesign'
