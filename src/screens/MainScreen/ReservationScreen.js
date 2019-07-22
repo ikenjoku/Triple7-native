@@ -52,6 +52,14 @@ class ReservationScreen extends Component {
     this.setState({ smoking: value });
   }
 
+  resetState = () => {
+    this.setState({
+      seats: '',
+      smoking: false,
+      datetime: '',
+    });
+  }
+
   handleReservation = () => {
     const { seats, datetime, smoking } = this.state;
     let errMsg = '';
@@ -64,7 +72,7 @@ class ReservationScreen extends Component {
     }
 
     if (!errMsg) {
-      this.props.makeAReservation({ seats: Number(seats), smoking, datetime });
+      this.props.makeAReservation({ seats: Number(seats), smoking, datetime }, this.resetState());
     } else {
       toastError(errMsg, 'bottom');
     }
@@ -90,7 +98,7 @@ class ReservationScreen extends Component {
                 <View style={styles.inputLineChild}>
                   <TextInput
                     onChangeText={(seats) => this.setState({seats})}
-                    value={this.state.guests}
+                    value={this.state.seats}
                     maxLength = {3}
                     keyboardType='numeric'
                     underlineColorAndroid='#707070'
