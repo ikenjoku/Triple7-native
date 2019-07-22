@@ -130,6 +130,7 @@ class MealDetail extends Component {
                   width: '100%',
                 }}
               >
+                <Text style={[ { color: theme.sec900 }, styles.priceTag]}>&#8358; {meal.price}</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Text style={{ marginBottom: 10, fontWeight: '700', fontFamily: 'sans-serif-medium' }}>
                     {meal.name}
@@ -149,7 +150,7 @@ class MealDetail extends Component {
                     onPress={!this.isFavorite(meal.name) ? () => this.addFavorite(meal) : () => this.removeFavorite(meal)}
                   />
                 </View>
-                {this.renderNumberInCart(meal)}
+                <View style={{ alignItems: 'center' }}>{this.renderNumberInCart(meal)}</View>
                 <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
                   {meal.description}
                 </Text>
@@ -238,5 +239,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#eaeaea',
-  }
+  },
+  priceTag: {
+    position: 'absolute',
+    top: '-15%',
+    right: '3%',
+    fontWeight: '500',
+    fontSize: 20
+  },
 });
