@@ -76,6 +76,7 @@ class MenuList extends Component {
             }}
             PlaceholderContent={<ActivityIndicator />}
           >
+            <Text style={[ { color: theme.sec900 }, styles.priceTag]}>&#8358; {meal.price}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <Text style={{ marginBottom: 10, fontWeight: '700', fontFamily: 'sans-serif-medium' }}>
                 {meal.name}
@@ -118,7 +119,8 @@ class MenuList extends Component {
             marginTop: '3%'
           }}
         >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Text style={[{ color: theme.sec900 }, styles.drinkPriceTag]}>&#8358; {meal.price}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', position: 'relative' }}>
             <View>
               <Image
                 source={{ uri: meal.imgurl }}
@@ -205,6 +207,21 @@ const styles = StyleSheet.create({
   drinkThumbnail: {
     width: '12%',
     height: '12%'
+  },
+  priceTag: {
+    position: 'absolute',
+    top: '-30%',
+    left: '3%',
+    fontWeight: '500',
+    fontSize: 20
+  },
+  drinkPriceTag: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    fontWeight: '500',
+    fontSize: 15,
+    zIndex: 1
   }
 });
 
