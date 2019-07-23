@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Card, Icon } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
+import whatsappMessenger from '../../utils/whatsappMessenger';
+import emailMessenger from '../../utils/emailMessenger';
 
 const RenderIcon = (props) => {
   const { name, size, color, type, onPress } = props;
@@ -85,23 +87,31 @@ class ContactScreen extends Component {
             <View>
               <Text style={styles.spaceTop}> Send us a message:</Text>
               <View style={styles.containSocialBtn}>
-                <RenderIcon
-                  reverse
-                  raised
-                  size={30}
-                  name='whatsapp'
-                  type='font-awesome'
-                  color='#24a060'
-                  onPress={() => console.log('hello')} />
+                <TouchableOpacity
+                  onPress={() => whatsappMessenger('+2348086082224', 'Hello Triple 7')}
+                >
+                  <RenderIcon
+                    reverse
+                    raised
+                    size={30}
+                    name='whatsapp'
+                    type='font-awesome'
+                    color='#24a060'
+                  />
+                </TouchableOpacity>
 
-                <RenderIcon
-                  reverse
-                  raised
-                  size={30}
-                  name='email'
-                  type='material-community'
-                  color={theme.sec700}
-                  onPress={() => console.log('hello')} />
+                <TouchableOpacity
+                  onPress={() => emailMessenger('ikeenjoku@gmail.com', 'Hello Ike', 'I just want to say Hi')}
+                >
+                  <RenderIcon
+                    reverse
+                    raised
+                    size={30}
+                    name='email'
+                    type='material-community'
+                    color={theme.sec700}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
             <View>
