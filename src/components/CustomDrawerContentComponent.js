@@ -6,6 +6,8 @@ import { View, Text, ScrollView, StyleSheet, TouchableNativeFeedback, TouchableO
 
 import ColorPalette from '../components/ColorPalette.js';
 import { logoutAUser } from '../redux/actions/authActions';
+import emailMessenger from '../utils/emailMessenger';
+import whatsappMessenger from '../utils/whatsappMessenger';
 
 class CustomDrawerContentComponent extends Component {
   state = {
@@ -34,7 +36,7 @@ class CustomDrawerContentComponent extends Component {
     return (
       <Overlay
         isVisible={devModalVisible}
-        height={300}
+        height={180}
         windowBackgroundColor='rgba(0, 0, 0, .65)'
         onBackdropPress={this.toggleDevModal}
       >
@@ -46,27 +48,44 @@ class CustomDrawerContentComponent extends Component {
             }}>
             Developed with &#9829; by Ike Njoku
           </Text>
-          <View style={{ alignItems: 'center' }}>
-            <Text>Leave a feedback or Get in touch</Text>
-            <Icon
-              reverse
-              name='email'
-              size={24}
-              type='material-community'
-              color='#f95a5b'
-            />
-            <Text>ikeenjoku@gmail.com</Text>
-          </View>
-          <View style={{ alignItems: 'center' }}>
-            <Text>Or just say Hi</Text>
-            <Icon
-              reverse
-              name='whatsapp'
-              size={24}
-              type='font-awesome'
-              color='#24a060'
-            />
-            <Text>+234-8086082224</Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'sans-serif-condensed',
+              marginTop: 10,
+            }}>Leave a feedback or Get in touch</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+
+            <TouchableOpacity
+              onPress={() => {
+                whatsappMessenger('+2348086082224', 'Hello Ike');
+                this.toggleDevModal();
+              }}
+            >
+              <Icon
+                reverse
+                name='whatsapp'
+                size={24}
+                type='font-awesome'
+                color='#24a060'
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                emailMessenger('ikeenjoku@gmail.com', 'Hello Ike', 'I just want to say Hi');
+                this.toggleDevModal();
+              }}
+            >
+              <Icon
+                reverse
+                name='email'
+                size={24}
+                type='material-community'
+                color='#f95a5b'
+              />
+            </TouchableOpacity>
+
           </View>
           <View style={styles.closeBtn}>
             <TouchableOpacity onPress={this.toggleDevModal}>
@@ -211,7 +230,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 30
+    marginTop: 20,
   },
   closeText: {
     fontFamily: 'sans-serif-medium',
