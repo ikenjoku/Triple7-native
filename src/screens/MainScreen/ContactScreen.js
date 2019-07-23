@@ -6,6 +6,7 @@ import { Card, Icon } from 'react-native-elements';
 import CustomHeader from '../../components/Header';
 import whatsappMessenger from '../../utils/whatsappMessenger';
 import emailMessenger from '../../utils/emailMessenger';
+import makePhoneCall from '../../utils/makePhoneCall';
 
 const RenderIcon = (props) => {
   const { name, size, color, type, onPress } = props;
@@ -60,30 +61,38 @@ class ContactScreen extends Component {
             <Text style={styles.spaceTop}> 121, Clear Water Bay Road</Text>
             <Text style={styles.spaceTop}> Clear Water Bay, Kowloon</Text>
             <Text style={styles.spaceTop}> Lagos</Text>
-            <View style={styles.containPhoneNo}>
-              <RenderIcon
-                name={'phone-call'}
-                size={20}
-                type='feather'
-                color='#777f7c'
-                containerStyle={{
-                  paddingTop: 16
-                }}
-              />
-              <Text style={styles.spaceTop}>  0808 553 1234</Text>
-            </View>
-            <View style={styles.containPhoneNo}>
-              <RenderIcon
-                name={'phone-call'}
-                size={20}
-                type='feather'
-                color='#777f7c'
-                containerStyle={{
-                  paddingTop: 16
-                }}
-              />
-              <Text style={styles.spaceTop}>  0808 321 8888</Text>
-            </View>
+            <TouchableOpacity
+              onPress={() => makePhoneCall('+2348086082224')}
+            >
+              <View style={styles.containPhoneNo}>
+                <RenderIcon
+                  name={'phone-call'}
+                  size={20}
+                  type='feather'
+                  color='#777f7c'
+                  containerStyle={{
+                    paddingTop: 16
+                  }}
+                />
+                <Text style={styles.spaceTop}>  0808 553 1234</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => makePhoneCall('+2348086082224')}
+            >
+              <View style={styles.containPhoneNo}>
+                <RenderIcon
+                  name={'phone-call'}
+                  size={20}
+                  type='feather'
+                  color='#777f7c'
+                  containerStyle={{
+                    paddingTop: 16
+                  }}
+                />
+                <Text style={styles.spaceTop}>  0808 321 8888</Text>
+              </View>
+            </TouchableOpacity>
             <View>
               <Text style={styles.spaceTop}> Send us a message:</Text>
               <View style={styles.containSocialBtn}>
