@@ -54,7 +54,7 @@ class CustomDrawerContentComponent extends Component {
               fontFamily: 'sans-serif-condensed',
               marginTop: 10,
             }}>Leave a feedback or Get in touch</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
 
             <TouchableOpacity
               onPress={() => {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 20,
+    marginTop: 17,
   },
   closeText: {
     fontFamily: 'sans-serif-medium',
