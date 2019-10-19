@@ -12,6 +12,7 @@ import { Input, CheckBox, Icon } from 'react-native-elements';
 import { getData, storeData, deleteData } from '../../utils/asyncStore';
 import { toastError } from '../../redux/actions/notifications';
 import { loginUser } from '../../redux/actions/authActions';
+import { changeTheme } from '../../redux/actions/themeActions';
 import OverlayLoader from '../../components/OverlayLoader';
 
 const Logo = require('../../assets/Logo2.png');
@@ -34,8 +35,18 @@ class LoginScreen extends Component {
           });
         }
       })
-      .catch(err => {
-        console.log('Error retrieving credentials');
+      .catch((err) => {
+        console.log('Error retrieving credentials', err);
+      });
+
+    getData('@triple7-theme')
+      .then((themeColor) => {
+        if (themeColor) {
+          this.props.changeTheme(themeColor);
+        }
+      })
+      .catch(() => {
+        //Error retrieving theme color
       });
   }
 
@@ -254,4 +265,4 @@ const mapStateToProps = ({ authReducer }) => ({
   isLoading: authReducer.isLoading,
 });
 
-export default connect(mapStateToProps, { loginUser })(LoginScreen);
+export default connect(mapStateToProps, { loginUser, changeTheme })(LoginScreen);
