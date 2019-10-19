@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { Item, Picker } from 'native-base';
 import DatePicker from 'react-native-datepicker';
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
@@ -10,8 +11,8 @@ import CustomHeader from '../../components/Header';
 import { toastError } from '../../redux/actions/notifications';
 import { makeAReservation } from '../../redux/actions/cartActions';
 
-const dateInstance = new Date();
-const minDate = `${dateInstance.getFullYear()}-${dateInstance.getMonth() < 10 ? 0 : '' }${dateInstance.getMonth() + 1}-${dateInstance.getDate() < 10 ? 0 : '' }${dateInstance.getDate()}`;
+const today = moment().format();
+
 class ReservationScreen extends Component {
   constructor(props) {
     super(props);
@@ -138,7 +139,7 @@ class ReservationScreen extends Component {
                     format=''
                     mode="datetime"
                     placeholder="Date and Time"
-                    minDate={minDate}
+                    minDate={today}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
