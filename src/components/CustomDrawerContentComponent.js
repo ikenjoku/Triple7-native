@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView, StyleSheet, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { Avatar, Divider, Icon, Overlay } from 'react-native-elements';
+import { View, Text, ScrollView, StyleSheet, TouchableNativeFeedback, TouchableOpacity } from 'react-native';
+
 import ColorPalette from '../components/ColorPalette.js';
 import { logoutAUser } from '../redux/actions/authActions';
+import emailMessenger from '../utils/emailMessenger';
+import whatsappMessenger from '../utils/whatsappMessenger';
 
 class CustomDrawerContentComponent extends Component {
   state = {
@@ -28,27 +31,65 @@ class CustomDrawerContentComponent extends Component {
 
   renderDeveleperModal = () => {
     const { devModalVisible } = this.state;
+    const { theme } = this.props;
+
     return (
       <Overlay
         isVisible={devModalVisible}
-        windowBackgroundColor='rgba(0, 0, 0, .25)'
+        height={180}
+        windowBackgroundColor='rgba(0, 0, 0, .65)'
+        onBackdropPress={this.toggleDevModal}
       >
-        <View style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+        <View>
           <Text
             style={{
               textAlign: 'center',
               fontFamily: 'sans-serif-condensed'
             }}>
-            Developed with by Ike Njoku
+            Developed with &#9829; by Ike Njoku
           </Text>
-          <Text>Leave a feedback, Get in touch iconemail</Text>
-          <Text>Or just say Hi whatappicon</Text>
-          <View>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'sans-serif-condensed',
+              marginTop: 10,
+            }}>Leave a feedback or Get in touch</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+
+            <TouchableOpacity
+              onPress={() => {
+                whatsappMessenger('+2348086082224', 'Hello Ike');
+                this.toggleDevModal();
+              }}
+            >
+              <Icon
+                reverse
+                name='whatsapp'
+                size={24}
+                type='font-awesome'
+                color='#24a060'
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                emailMessenger('ikeenjoku@gmail.com', 'Hello Ike', 'I just want to say Hi');
+                this.toggleDevModal();
+              }}
+            >
+              <Icon
+                reverse
+                name='email'
+                size={24}
+                type='material-community'
+                color='#f95a5b'
+              />
+            </TouchableOpacity>
+
+          </View>
+          <View style={styles.closeBtn}>
             <TouchableOpacity onPress={this.toggleDevModal}>
-              <Text>CLOSE</Text>
+              <Text style={[{ color: theme.pri800 }, styles.closeText]}>CLOSE</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -57,30 +98,25 @@ class CustomDrawerContentComponent extends Component {
   }
 
   renderLogoutConfirmationModal = () => {
-    const { logoutAUser } = this.props;
+    const { logoutAUser, theme } = this.props;
     const { confirmLogoutModal } = this.state;
     return (
       <Overlay
         isVisible={confirmLogoutModal}
-        windowBackgroundColor='rgba(0, 0, 0, .25)'
+        height={120}
+        windowBackgroundColor='rgba(0, 0, 0, .65)'
+        onBackdropPress={this.toggleLogoutModal}
       >
-        <View style={{
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontFamily: 'sans-serif-condensed'
-            }}>
+        <View>
+          <Text style={styles.headerText}>
             Are you sure you want to logout ?
           </Text>
-          <View>
+          <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.toggleLogoutModal}>
-              <Text>CLOSE</Text>
+              <Text style={[{ color: theme.pri800 }, styles.actionText]}>CLOSE</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={logoutAUser}>
-              <Text>Yes, LOGOUT</Text>
+              <Text style={[{ color: theme.pri800 }, styles.actionText]}>Yes, LOGOUT</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -90,7 +126,7 @@ class CustomDrawerContentComponent extends Component {
 
   render() {
     const { theme, user } = this.props;
-    const ripple = TouchableNativeFeedback.Ripple('#adacac', true);
+    const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
     return (
       <View style={{ flex: 1 }}>
@@ -124,7 +160,7 @@ class CustomDrawerContentComponent extends Component {
             </View>
           </SafeAreaView>
         </ScrollView>
-        <View>
+        <View elevation={6} style={{ backgroundColor: '#ffffff' }}>
           <TouchableNativeFeedback onPress={this.toggleLogoutModal} background={ripple}>
             <View style={styles.containDrawerOption}>
               <Icon
@@ -134,10 +170,9 @@ class CustomDrawerContentComponent extends Component {
                 color={theme.pri700}
                 containerStyle={{ marginRight: '10%' }}
               />
-              <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Log Out</Text>
+              <Text style={{ color: 'black', fontFamily: 'sans-serif-medium' }}>Logout</Text>
             </View>
           </TouchableNativeFeedback>
-
           <TouchableNativeFeedback onPress={this.toggleDevModal} background={ripple}>
             <View style={styles.containDrawerOption}>
               <Icon
@@ -169,10 +204,39 @@ const styles = StyleSheet.create({
     paddingLeft: '6%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: '2%',
-    paddingBottom: '3%',
+    paddingTop: '1%',
+    paddingBottom: '5%',
     backgroundColor: '#e6e6e6',
-    marginBottom: 5,
+  },
+  headerText: {
+    textAlign: 'center',
+    fontFamily: 'sans-serif-medium',
+    fontWeight: '600',
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 50
+  },
+  actionText: {
+    textAlign: 'center',
+    fontFamily: 'sans-serif-medium',
+    fontWeight: '600',
+    marginRight: '3%',
+    marginLeft: '3%',
+  },
+  closeBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 17,
+  },
+  closeText: {
+    fontFamily: 'sans-serif-medium',
+    fontWeight: '600',
+    marginRight: '3%',
+    marginLeft: '3%',
   }
 });
 

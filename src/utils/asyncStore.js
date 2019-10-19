@@ -32,7 +32,7 @@ export const getData = async (name) => {
  * @returns {*} returns the stored value
  */
 export const storeData = async (name, value) => {
-  let dataValue =  JSON.stringify(value)
+  let dataValue = JSON.stringify(value);
   try {
     await AsyncStorage.setItem(name, dataValue);
     return await getData(name);
@@ -50,7 +50,7 @@ export const storeData = async (name, value) => {
 export const updateData = async (name, value) => {
   try {
     const dataValue = await getData(name);
-    if(dataValue){
+    if (dataValue) {
       await deleteData(name);
       const updatedData = await storeData(name, value);
       return updatedData;

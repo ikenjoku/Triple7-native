@@ -4,7 +4,6 @@ import {
   FETCH_MENU_FAILURE,
 } from '../actionTypes';
 import API from '../axiosConfig';
-import { toastSuccess, toastError } from './notifications';
 
 export const fetch_menu = () => ({
   type: FETCH_MENU,

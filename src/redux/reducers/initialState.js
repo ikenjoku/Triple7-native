@@ -5,7 +5,6 @@ export default {
       pri500: '#00b25c',
       pri700: '#009145',
       pri800: '#007f39',
-      pri900: '#006025',
       sec700: '#be2f79',
       sec900: '#802764',
     },
@@ -26,5 +25,12 @@ export default {
     isOrdering: false,
     isFetching: false,
     orders: [],
+    isReserving: false,
+    reservationError: null
+  },
+  highlightReducer: {
+    isLoading: false,
+    highlights: [],
+    error: null,
   }
 };

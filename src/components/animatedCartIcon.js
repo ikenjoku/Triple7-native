@@ -31,5 +31,5 @@ class AnimatedCartIcon extends Component {
 const mapStateToProps = ({ cartReducer }) => ({
   cart: cartReducer.cart
 });
-
+//flex 1 width 100%
 export default connect(mapStateToProps, {})(AnimatedCartIcon);
