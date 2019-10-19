@@ -1,7 +1,6 @@
-import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
-import OnboardingScreen from '../Screens/OnboardingScreen';
+import OnboardingScreen from '../screens/OnboardingScreen';
 
 const OnboardingStack = createStackNavigator(
   {
@@ -10,4 +9,4 @@ const OnboardingStack = createStackNavigator(
     headerMode: 'none',
   });
 
-  export default OnboardingStack;
+export default OnboardingStack;

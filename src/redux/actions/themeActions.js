@@ -1,6 +1,7 @@
 import {
   CHANGE_THEME
 } from '../actionTypes';
+import { storeData } from '../../utils/asyncStore';
 
 const themeOptions = {
   '#2fbe74': {
@@ -44,5 +45,11 @@ export const change_theme = (themeColor) => ({
 
 
 export const changeTheme = (color) => (dispatch) => {
-  return dispatch(change_theme(color));
+  storeData('@triple7-theme', color)
+    .then(() => {
+      dispatch(change_theme(color));
+    })
+    .catch(() => {
+      // Error saving theme selection
+    });
 };
