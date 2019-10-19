@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
-import { Card, Badge, Icon, Button } from 'react-native-elements';
+import { Card, Icon, Button } from 'react-native-elements';
 
 import { fetchHighlights } from '../../redux/actions/highlightActions';
 import AnimatedLoader from '../../components/animatedLoader';
@@ -25,9 +25,9 @@ class HighlightsScreen extends Component {
     header: null,
   }
 
-  // componentDidMount() {
-  //   this.props.fetchHighlights();
-  // }
+  componentDidMount() {
+    this.props.fetchHighlights();
+  }
 
   renderRightHeaderIcon = (navigation) => {
     return <Icon
@@ -39,43 +39,34 @@ class HighlightsScreen extends Component {
     />;
   }
 
-  renderHighlight = (highlight) => {
-    const { theme } = this.props;
-
-    return (
-      <Animatable.View key={highlight._id} animation="fadeInRightBig" duration={400}>
-        <Card
-          image={{ uri: highlight.imgurl }}
-          imageStyle={{
-            height: 200,
-          }}
-          containerStyle={{
-            borderRadius: 5,
-            marginBottom: '3%',
-            marginTop: '3%'
-          }}
-          imageWrapperStyle={{
-            width: '100%',
-          }}
-          PlaceholderContent={<ActivityIndicator />}
-        >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ marginBottom: 10, fontWeight: '700', fontFamily: 'sans-serif-medium' }}>
-              {highlight.title}
-            </Text>
-            <Badge
-              activeOpacity={0.9}
-              value="+ Add to Cart"
-              badgeStyle={{ backgroundColor: theme.sec700, padding: 5 }}
-            />
-          </View>
-          <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
-            {highlight.details}
+  renderHighlight = (highlight) => (
+    <Animatable.View key={highlight._id} animation="fadeInRightBig" duration={400}>
+      <Card
+        image={{ uri: highlight.imgurl }}
+        imageStyle={{
+          height: 200,
+        }}
+        containerStyle={{
+          borderRadius: 5,
+          marginBottom: '3%',
+          marginTop: '3%'
+        }}
+        imageWrapperStyle={{
+          width: '100%',
+        }}
+        PlaceholderContent={<ActivityIndicator />}
+      >
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ marginBottom: 10, fontWeight: '700', fontFamily: 'sans-serif-medium' }}>
+            {highlight.title}
           </Text>
-        </Card>
-      </Animatable.View>
-    );
-  }
+        </View>
+        <Text style={{ marginBottom: 10, fontFamily: 'sans-serif-condensed' }}>
+          {highlight.details}
+        </Text>
+      </Card>
+    </Animatable.View>
+  );
 
   renderNoHighlights = () => {
     const { theme } = this.props;
