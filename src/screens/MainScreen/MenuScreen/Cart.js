@@ -43,9 +43,14 @@ class Cart extends Component {
   }
 
   handleConfirmOrder = () => {
-    // add homeDelivery and address field to order
-    const { cart, homeDelivery } = this.props;
-    this.props.makeAnOrder({ meals: cart });
+    const { homeDelivery, address } = this.state;
+    const { cart } = this.props;
+    if (homeDelivery) {
+      this.props.makeAnOrder({ meals: cart, address });
+    } else {
+      this.props.makeAnOrder({ meals: cart });
+    }
+    this.setState({ address: '' });
   }
 
   renderCartItem = (cartItem) => {
