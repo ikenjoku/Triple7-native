@@ -45,6 +45,28 @@ class OrdersScreen extends Component {
       completed: '#00b25c'
     };
     const statusColor = colors[order.status];
+    if (order.seats) {
+      return (
+        <View key={order._id} style={styles.orderContainer}>
+          <View style={styles.containItem}>
+            <View>
+              <Text>{formattedDate.format('DD MMM YY')}</Text>
+            </View>
+            <View>
+              <View style={{ flexDirection: 'column' }}>
+                <Text>{moment(order.datetime).format('MMMM Do YYYY, h:mm a')}</Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.orderText}>{order.seats}</Text>
+            </View>
+            <View>
+              <Text style={[{ color: statusColor }, styles.orderText]}>{order.status}</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
     return (
       <View key={order._id} style={styles.orderContainer}>
         <View style={styles.containItem}>
@@ -52,10 +74,10 @@ class OrdersScreen extends Component {
             <Text>{formattedDate.format('DD MMM YY')}</Text>
           </View>
           <View>
-            <View style={{flexDirection: 'column'}}>
+            <View style={{ flexDirection: 'column' }}>
               {order.meals.map(meal => (
-                <View key={meal.name} style={{flexDirection:'row'}}>
-                  <Text style={[styles.orderText, {paddingRight: 5}]}>{meal.qty}</Text>
+                <View key={meal.name} style={{ flexDirection: 'row' }}>
+                  <Text style={[styles.orderText, { paddingRight: 5 }]}>{meal.qty}</Text>
                   <Text >{meal.name}</Text>
                 </View>
               ))}
@@ -124,14 +146,14 @@ class OrdersScreen extends Component {
                   <Fragment>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: '1%' }}>
                       <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Date</Text></View>
-                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Order</Text></View>
+                      <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Meals/Reservation</Text></View>
                       <View>
-                        <Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Amount (&#8358;)</Text>
+                        <Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Amount(&#8358;)/Seats</Text>
                       </View>
                       <View><Text style={[{ color: theme.sec700 }, styles.titleStyle]}>Status</Text></View>
                     </View>
                     <View>
-                      {orders.map(this.renderOrderItem)}
+                      {orders.map((order) => this.renderOrderItem(order))}
                     </View>
                   </Fragment>
                 ) : this.renderNoOrders()
