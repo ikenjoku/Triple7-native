@@ -3,7 +3,7 @@ import {
 } from '../actionTypes';
 import { storeData } from '../../utils/asyncStore';
 
-const themeOptions = {
+export const themeOptions = {
   '#2fbe74': {
     pri50: '#e4f6eb',
     pri500: '#00b25c',
