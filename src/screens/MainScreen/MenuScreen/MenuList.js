@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { Card, Button, Badge, Icon } from 'react-native-elements';
+import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 
 import { fetchMenu } from '../../../redux/actions/mealActions';
 import { addToCart } from '../../../redux/actions/cartActions';
@@ -60,7 +61,7 @@ class MenuList extends Component {
 
     if (meal.category !== 'Drinks') {
       return (
-        <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
+        <Animatable.View key={meal._id} animation="fadeInRightBig" duration={200}>
           <Card
             image={{ uri: meal.imgurl }}
             imageStyle={{
@@ -111,7 +112,7 @@ class MenuList extends Component {
       );
     }
     return (
-      <Animatable.View key={meal._id} animation="fadeInRightBig" duration={400}>
+      <Animatable.View key={meal._id} animation="fadeInRightBig" duration={200}>
         <Card
           containerStyle={{
             borderRadius: 5,
@@ -160,32 +161,92 @@ class MenuList extends Component {
   }
 
   renderPage = () => {
-    const { error, menu } = this.props;
+    const { error, menu, theme } = this.props;
+    const tabStyle = {
+      backgroundColor: theme.pri500,
+      borderColor: theme.pri700,
+      elevation:6,
+    };
+    const activeTabStyle = {
+      backgroundColor: theme.pri700,
+      borderColor: theme.pri700,
+    };
+
+    const afrikaans = [];
+    const intercontinental = [];
+    const combo = [];
+    menu.forEach(meal => {
+      const { category } = meal;
+      if (category === 'Afrikaans') {
+        afrikaans.push(meal);
+      }
+      if (category === 'Intercontinental') {
+        intercontinental.push(meal);
+      }
+      if (category === 'Combo') {
+        combo.push(meal);
+      }
+    });
 
     if (error) {
       return <ErrorPage onRefresh={this.props.fetchMenu} />;
     }
     return (
-      <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
-        {
-          menu && menu.map(this.renderDish)
-        }
-      </ScrollView>
+      <Tabs
+        renderTabBar={()=> <ScrollableTab />}
+      >
+        <Tab
+          heading="Afrikaans"
+          tabStyle={tabStyle}
+          activeTabStyle={activeTabStyle}
+        >
+          <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
+            {
+              afrikaans.map(this.renderDish)
+            }
+          </ScrollView>
+        </Tab>
+        <Tab
+          heading="Intercontinental"
+          tabStyle={tabStyle}
+          activeTabStyle={activeTabStyle}
+        >
+          <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
+            {
+              intercontinental.map(this.renderDish)
+            }
+          </ScrollView>
+        </Tab>
+        <Tab
+          heading="Combo"
+          tabStyle={tabStyle}
+          activeTabStyle={activeTabStyle}
+        >
+          <ScrollView style={[{ flex: 1, paddingBottom: '30%' }, styles.container]}>
+            {
+              combo.map(this.renderDish)
+            }
+          </ScrollView>
+        </Tab>
+      </Tabs>
     );
   }
 
   render() {
     const { navigation, isLoading } = this.props;
+
     return (
-      <View style={styles.container}>
-        <CustomHeader
-          title={'Menu'}
-          navigation={navigation}
-          rightComponent={this.renderRightHeaderIcon}
-        />
-        {isLoading ? <AnimatedLoader loading={isLoading} />
-          : this.renderPage()}
-      </View>
+      <Container>
+        <View style={styles.container}>
+          <CustomHeader
+            title={'Menu'}
+            navigation={navigation}
+            rightComponent={this.renderRightHeaderIcon}
+          />
+          {isLoading ? <AnimatedLoader loading={isLoading} />
+            : this.renderPage()}
+        </View>
+      </Container>
     );
   }
 }
@@ -222,7 +283,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 15,
     zIndex: 1
-  }
+  },
 });
 
 export default connect(mapStateToProps, { fetchMenu, addToCart })(MenuList);
