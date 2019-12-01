@@ -41,16 +41,18 @@ class AboutScreen extends Component {
           <Card>
             <Text style={styles.cardTitle}>Our History</Text>
             <Text style={styles.spaceTop}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse in diam et nisl faucibus varius non non velit.
-              Nunc sodales varius vulputate. Vivamus sed vulputate est,
-              nec bibendum mauris. Pellentesque id leo at diam laoreet
-              accumsan non sed tortor. Donec quis turpis sem. Nunc rutrum
-              venenatis cursus.
+              A fast food restaurant with a difference. Highly 
+              distinguished by our cosy environment and sumptuous 
+              intercontinental cuisine and African foods with homely 
+              tastes.
+              Enjoy our excellent delivery of local cuisine in our beautiful
+              kitchen. We deliver the same value to your home for customers in 
+              and around Ajao Estate.
+              Also make table reservations when planning for special occasions 
+              and celebrations
             </Text>
-            <Text style={styles.spaceTop}>Suspendisse potenti. Aliquam erat volutpat.
-            Aliquam pharetra tempor blandit. In at neque faucibus, sagittis
-            leo ac, tincidunt nisi. Quisque congue placerat metus a gravida.</Text>
+            <Text style={styles.spaceTop}>Give yourself a treat today. Experience 
+            our services with amazing offers and gifts.</Text>
             <View>
               <Button
                 raised
