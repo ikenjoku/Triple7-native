@@ -58,11 +58,11 @@ class ContactScreen extends Component {
         <ScrollView>
           <Card>
             <Text style={styles.cardTitle}>Address</Text>
-            <Text style={styles.spaceTop}> 121, Clear Water Bay Road</Text>
-            <Text style={styles.spaceTop}> Clear Water Bay, Kowloon</Text>
-            <Text style={styles.spaceTop}> Lagos</Text>
+            <Text style={styles.spaceTop}> 4, Isolo Way,</Text>
+            <Text style={styles.spaceTop}> Ajao Estate,</Text>
+            <Text style={styles.spaceTop}> Lagos.</Text>
             <TouchableOpacity
-              onPress={() => makePhoneCall('+2348086082224')}
+              onPress={() => makePhoneCall('+2348095888777')}
             >
               <View style={styles.containPhoneNo}>
                 <RenderIcon
@@ -74,11 +74,11 @@ class ContactScreen extends Component {
                     paddingTop: 16
                   }}
                 />
-                <Text style={styles.spaceTop}>  0808 553 1234</Text>
+                <Text style={styles.spaceTop}>  0809 588 8777</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => makePhoneCall('+2348086082224')}
+              onPress={() => makePhoneCall('+2347053599777')}
             >
               <View style={styles.containPhoneNo}>
                 <RenderIcon
@@ -90,14 +90,14 @@ class ContactScreen extends Component {
                     paddingTop: 16
                   }}
                 />
-                <Text style={styles.spaceTop}>  0808 321 8888</Text>
+                <Text style={styles.spaceTop}>  0705 359 9777</Text>
               </View>
             </TouchableOpacity>
             <View>
               <Text style={styles.spaceTop}> Send us a message:</Text>
               <View style={styles.containSocialBtn}>
                 <TouchableOpacity
-                  onPress={() => whatsappMessenger('+2348086082224', 'Hello Triple 7')}
+                  onPress={() => whatsappMessenger('+2348095888777', 'Hello Triple 7')}
                 >
                   <RenderIcon
                     reverse
@@ -110,7 +110,7 @@ class ContactScreen extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => emailMessenger('ikeenjoku@gmail.com', 'Hello Ike', 'I just want to say Hi')}
+                  onPress={() => emailMessenger('777eatinghouse@gmail.com', 'Hello Triple 7', 'I have a quick question')}
                 >
                   <RenderIcon
                     reverse
