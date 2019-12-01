@@ -139,7 +139,6 @@ export const fetchMyOrder = () => (dispatch) => {
 };
 
 export const makeAReservation = (reservation) => (dispatch) => {
-  console.log(reservation, '🔥🔥🔥🔥🔥🔥')
   dispatch(make_reservation());
   return  API.post('/reservations', reservation)
     .then(() => {

@@ -55,7 +55,7 @@ class Payment extends Component {
             </View>
             <View style={{ flexDirection: 'row', justifyContent:'center',  marginBottom: '30%' }}>
               <TouchableOpacity
-                onPress={() => whatsappMessenger('+2348086082224', 'Hello Triple 7 \n I just made an order')}
+                onPress={() => whatsappMessenger('+2348095888777', 'Hello Triple 7 \n I just made an order')}
               >
                 <AnimatedWhatsAppIcon />
               </TouchableOpacity>
