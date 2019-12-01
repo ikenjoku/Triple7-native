@@ -61,7 +61,7 @@ class MenuList extends Component {
 
     if (meal.category !== 'Drinks') {
       return (
-        <Animatable.View key={meal._id} animation="fadeInRightBig" duration={200}>
+        <Animatable.View key={meal._id} animation="fadeInRightBig" duration={0}>
           <Card
             image={{ uri: meal.imgurl }}
             imageStyle={{
@@ -102,7 +102,7 @@ class MenuList extends Component {
             </Text>
             <Button
               type='outline'
-              title='View'
+              title='See More'
               buttonStyle={{ borderColor: theme.pri500, backgroundColor: '#fff', borderWidth: 1 }}
               titleStyle={{ color: theme.pri500, fontFamily: 'sans-serif-medium' }}
               onPress={() => navigation.navigate('MealDetail', { meal })}
@@ -112,7 +112,7 @@ class MenuList extends Component {
       );
     }
     return (
-      <Animatable.View key={meal._id} animation="fadeInRightBig" duration={200}>
+      <Animatable.View key={meal._id} animation="fadeInRightBig" duration={0}>
         <Card
           containerStyle={{
             borderRadius: 5,
@@ -193,7 +193,7 @@ class MenuList extends Component {
     }
     return (
       <Tabs
-        renderTabBar={()=> <ScrollableTab />}
+        renderTabBar={()=> <ScrollableTab style={{backgroundColor: theme.pri500}}/>}
       >
         <Tab
           heading="Afrikaans"
